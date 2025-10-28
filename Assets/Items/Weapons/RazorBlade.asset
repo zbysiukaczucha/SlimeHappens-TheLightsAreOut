@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RazorBlade
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: 
+  itemName: Razor Blade
   modelPrefab: {fileID: 0}
   isUnarmed: 0

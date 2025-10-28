@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!95 &77917071 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5524173022462543306, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+  m_PrefabInstance: {fileID: 1295632613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &516151619
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +586,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 5524173022462543306, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: dab2e4485c654ac41865f9aa61c82cba, type: 3}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.436783
@@ -621,6 +630,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5880158627838544023, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 77917071}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
