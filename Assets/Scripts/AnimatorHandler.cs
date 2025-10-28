@@ -104,7 +104,7 @@ namespace Slimeborne
         {
             if (playerManager.isInteracting == false)
                 return;
-
+            
             float delta = Time.deltaTime;
             playerMovement.rigidbody.drag = 0;
             Vector3 deltaPosition = anim.deltaPosition;

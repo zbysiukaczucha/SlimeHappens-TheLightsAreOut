@@ -55,7 +55,7 @@ namespace Slimeborne
         
         private void LateUpdate()
         {
-            playerMovement.inAirTimer = playerMovement.inAirTimer + Time.deltaTime;
+            playerMovement.inAirTimer += Time.deltaTime;
         }
     }
 }
