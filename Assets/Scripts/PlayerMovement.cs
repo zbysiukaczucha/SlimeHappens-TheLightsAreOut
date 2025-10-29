@@ -121,14 +121,14 @@ namespace Slimeborne
 
                 if (inputHandler.moveAmount > 0)
                 {
-                    //animatorHandler.PlayTargetAnimation("Rolling", true);
+                    animatorHandler.PlayTargetAnimation("Dodge_Forward", true);
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
                 }
                 else
                 {
-                    //ToDo: Something instead of backstep
+                    animatorHandler.PlayTargetAnimation("Dodge_Back", true);
                 }
             }
         }
