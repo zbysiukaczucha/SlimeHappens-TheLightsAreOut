@@ -90,16 +90,6 @@ namespace Slimeborne
             anim.CrossFade(targetAnim, 0.2f);
         }
         
-        public void CanRotate()
-        {
-            canRotate = true;
-        }
-        
-        public void StopRotation()
-        {
-            canRotate = false;
-        }
-        
         public void EnableCombo()
         {
             anim.SetBool("canDoCombo", true);

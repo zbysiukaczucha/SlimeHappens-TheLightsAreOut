@@ -36,12 +36,16 @@ namespace Slimeborne
         
         public void HandleLightAttack(WeaponItem weaponItem)
         {
+            if (animatorHandler.anim.GetBool("isInteracting"))
+                return;
             animatorHandler.PlayTargetAnimation(weaponItem.LightAttack1, true);
             lastAttack = weaponItem.LightAttack1;
         }
         
         public void HandleHeavyAttack(WeaponItem weaponItem)
         {
+            if (animatorHandler.anim.GetBool("isInteracting"))
+                return;
             animatorHandler.PlayTargetAnimation(weaponItem.HeavyAttack, true);
             lastAttack = weaponItem.HeavyAttack;
         }

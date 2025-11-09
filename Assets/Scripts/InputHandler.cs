@@ -16,6 +16,12 @@ namespace Slimeborne
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool d_Pad_Up;
+        public bool d_Pad_Down;
+        public bool d_Pad_Left;
+        public bool d_Pad_Right;
+        
+        public bool enableMovementInput = true;
         
         public bool rollFlag;
         public bool sprintFlag;
@@ -26,7 +32,6 @@ namespace Slimeborne
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
-        
         
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -54,16 +59,20 @@ namespace Slimeborne
             inputActions.Disable();
         }
         
+        // ReSharper disable Unity.PerformanceAnalysis
         public void TickInput(float delta)
         {
             HandleMovementInput(delta);
             HandleMouseInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleQuickSlotsInput(delta);
         }
         
         private void HandleMovementInput(float delta)
         {
+            if (!enableMovementInput)
+                return;
             horizontal = movementInput.x;
             vertical = movementInput.y;
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
@@ -119,6 +128,23 @@ namespace Slimeborne
             if (rt_Input)
             {
                 playerAttacker.HandleHeavyAttack(playerInventory.headWeapon);
+            }
+        }
+        
+        private void HandleQuickSlotsInput(float delta)
+        {
+            inputActions.QuickSlots.Right.performed += i => d_Pad_Right = true;
+            inputActions.QuickSlots.Left.performed += i => d_Pad_Left = true;
+            inputActions.QuickSlots.Up.performed += i => d_Pad_Up = true;
+            inputActions.QuickSlots.Down.performed += i => d_Pad_Down = true;
+            
+            if(d_Pad_Right)
+            {
+                playerInventory.ChangeHeadWeapon();
+            }
+            else if(d_Pad_Left)
+            {
+                playerInventory.ChangeTailWeapon();
             }
         }
     }

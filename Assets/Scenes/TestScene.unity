@@ -1314,6 +1314,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: headWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: tailWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: unarmedWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: currentHeadWeaponIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: currentTailWeaponIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: weaponsInHeadSlots.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: weaponsInHeadSlots.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e530ad3e1a653647a21382da357d0af, type: 2}
+    - target: {fileID: -8686872951727893220, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: weaponsInTailSlots.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 92d2cd6c33cd5af448019c583d851a72, type: 2}
     - target: {fileID: 73468597588859267, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -89.98021
