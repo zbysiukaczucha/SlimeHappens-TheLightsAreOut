@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4609947f9b3fd9f4cb53b816c38ea1ea, type: 3}
-  m_Name: RazorBlade
+  m_Name: Unarmed
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
-  itemName: Razor Blade
-  modelPrefab: {fileID: 4122361327550517506, guid: 09a7d8b27861ac34a99db22d60fcba89, type: 3}
-  isUnarmed: 0
-  LightAttack1: Light_Attack_1
-  LightAttack2: Light_Attack_2
-  LightAttack3: Light_Attack_3_alt
-  HeavyAttack: Light_Attack_3_alt
+  itemName: 
+  modelPrefab: {fileID: 1564539073454838685, guid: f6307f127380eae4dba12fa4cfd6b678, type: 3}
+  isUnarmed: 1
+  LightAttack1: 
+  LightAttack2: 
+  LightAttack3: 
+  HeavyAttack: 

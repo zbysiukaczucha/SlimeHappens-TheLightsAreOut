@@ -15,13 +15,12 @@ namespace Slimeborne
         [Header("Player Flags")]
         public bool isInteracting;
         public bool isSprinting;
-        public bool isInAir;
-        public bool isGrounded;
+        public bool canDoCombo;
 
         // Start is called before the first frame update
         void Start()
         {
-            cameraHandler = CameraHandler.singleton;
+            cameraHandler = FindObjectOfType<CameraHandler>();
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerMovement = GetComponent<PlayerMovement>();
@@ -32,14 +31,12 @@ namespace Slimeborne
         {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
-            inputHandler.rollFlag = false;
-            inputHandler.sprintFlag = false;
+            canDoCombo = anim.GetBool("canDoCombo");
             
             isSprinting = inputHandler.b_Input;
             inputHandler.TickInput(delta);
-            playerMovement.HandleMovement(delta);
             playerMovement.HandleRolling(delta);
-            playerMovement.HandleFalling(delta, playerMovement.moveDirection);
+            
         }
         
         private void FixedUpdate()
@@ -51,11 +48,21 @@ namespace Slimeborne
                 cameraHandler.FollowTarget(delta);
                 cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);
             }
+            playerMovement.HandleSurfaceDetection(delta);
+            playerMovement.HandleMovement(delta);
+            playerMovement.ApplyLocalGravity(delta);
         }
         
         private void LateUpdate()
         {
-            playerMovement.inAirTimer += Time.deltaTime;
+            inputHandler.rollFlag = false;
+            inputHandler.sprintFlag = false;
+            inputHandler.rb_Input = false;
+            inputHandler.rt_Input = false;
+            inputHandler.d_Pad_Down = false;
+            inputHandler.d_Pad_Up = false;
+            inputHandler.d_Pad_Left = false;
+            inputHandler.d_Pad_Right = false;
         }
     }
 }

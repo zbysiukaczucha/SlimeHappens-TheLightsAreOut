@@ -90,14 +90,14 @@ namespace Slimeborne
             anim.CrossFade(targetAnim, 0.2f);
         }
         
-        public void CanRotate()
+        public void EnableCombo()
         {
-            canRotate = true;
+            anim.SetBool("canDoCombo", true);
         }
         
-        public void StopRotation()
+        public void DisableCombo()
         {
-            canRotate = false;
+            anim.SetBool("canDoCombo", false);
         }
         
         private void OnAnimatorMove()
@@ -105,12 +105,22 @@ namespace Slimeborne
             if (playerManager.isInteracting == false)
                 return;
             
-            float delta = Time.deltaTime;
-            playerMovement.rigidbody.drag = 0;
+            // float delta = Time.deltaTime;
+            // playerMovement.rigidbody.drag = 0;
+            // Vector3 deltaPosition = anim.deltaPosition;
+            // deltaPosition.y = 0;
+            // Vector3 velocity = deltaPosition / delta;
+            // playerMovement.rigidbody.velocity = velocity;
+            
+            // Root motion tylko do obrotów lub drobnych korekt pozycji,
+            // ale NIE nadpisuje velocity.
             Vector3 deltaPosition = anim.deltaPosition;
-            deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta;
-            playerMovement.rigidbody.velocity = velocity;
+
+            // Projekcja na płaszczyznę powierzchni (żeby root motion działał na ścianach)
+            Vector3 projected = Vector3.ProjectOnPlane(deltaPosition, playerMovement.surfaceNormal);
+
+            // Możesz dodać delikatny ruch jeśli animacja wymaga "popychu"
+            playerMovement.rigidbody.AddForce(projected * 60f, ForceMode.Acceleration);
         }
     }
 }
