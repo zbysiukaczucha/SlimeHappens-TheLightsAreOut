@@ -18,6 +18,8 @@ namespace Slimeborne
         
         public void HandleWeaponCombo(WeaponItem weaponItem)
         {
+            if(weaponItem.isUnarmed)
+                return;
             if (inputHandler.comboFlag)
             {
                 animatorHandler.anim.SetBool("canDoCombo", false);
@@ -36,6 +38,8 @@ namespace Slimeborne
         
         public void HandleLightAttack(WeaponItem weaponItem)
         {
+            if(weaponItem.isUnarmed)
+                return;
             if (animatorHandler.anim.GetBool("isInteracting"))
                 return;
             animatorHandler.PlayTargetAnimation(weaponItem.LightAttack1, true);
@@ -44,6 +48,8 @@ namespace Slimeborne
         
         public void HandleHeavyAttack(WeaponItem weaponItem)
         {
+            if(weaponItem.isUnarmed)
+                return;
             if (animatorHandler.anim.GetBool("isInteracting"))
                 return;
             animatorHandler.PlayTargetAnimation(weaponItem.HeavyAttack, true);

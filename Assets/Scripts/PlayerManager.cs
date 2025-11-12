@@ -20,7 +20,7 @@ namespace Slimeborne
         // Start is called before the first frame update
         void Start()
         {
-            cameraHandler = FindObjectOfType<CameraHandler>();
+            cameraHandler = FindFirstObjectByType<CameraHandler>();
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerMovement = GetComponent<PlayerMovement>();
