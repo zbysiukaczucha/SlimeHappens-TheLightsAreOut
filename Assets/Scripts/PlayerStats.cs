@@ -18,6 +18,7 @@ namespace Slimeborne
         private void Awake()
         {
             animatorHandler = GetComponent<AnimatorHandler>();
+            healthBar = FindFirstObjectByType<HealthBar>();
         }
 
         private void Start()
