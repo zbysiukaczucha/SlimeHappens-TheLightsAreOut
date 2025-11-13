@@ -7,18 +7,22 @@ namespace Slimeborne
     public class PlayerAttacker : MonoBehaviour
     {
         AnimatorHandler animatorHandler;
+        PlayerStats playerStats;
         InputHandler inputHandler;
+        WeaponSlotManager weaponSlotManager;
         public string lastAttack;
         
         private void Awake()
         {
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            playerStats = GetComponent<PlayerStats>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             inputHandler = GetComponent<InputHandler>();
         }
         
         public void HandleWeaponCombo(WeaponItem weaponItem)
         {
-            if(weaponItem.isUnarmed)
+            if(weaponItem.isUnarmed || playerStats.currentStamina <= 0)
                 return;
             if (inputHandler.comboFlag)
             {
@@ -38,9 +42,11 @@ namespace Slimeborne
         
         public void HandleLightAttack(WeaponItem weaponItem)
         {
-            if(weaponItem.isUnarmed)
+            if (playerStats.currentStamina <= 0)
                 return;
-            if (animatorHandler.anim.GetBool("isInteracting"))
+            
+            weaponSlotManager.attackingWeapon = weaponItem;
+            if (weaponItem.isUnarmed || animatorHandler.anim.GetBool("isInteracting"))
                 return;
             animatorHandler.PlayTargetAnimation(weaponItem.LightAttack1, true);
             lastAttack = weaponItem.LightAttack1;
@@ -48,9 +54,11 @@ namespace Slimeborne
         
         public void HandleHeavyAttack(WeaponItem weaponItem)
         {
-            if(weaponItem.isUnarmed)
+            if (playerStats.currentStamina <= 0)
                 return;
-            if (animatorHandler.anim.GetBool("isInteracting"))
+            
+            weaponSlotManager.attackingWeapon = weaponItem;
+            if (weaponItem.isUnarmed || animatorHandler.anim.GetBool("isInteracting"))
                 return;
             animatorHandler.PlayTargetAnimation(weaponItem.HeavyAttack, true);
             lastAttack = weaponItem.HeavyAttack;

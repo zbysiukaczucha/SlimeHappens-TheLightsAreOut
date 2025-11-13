@@ -16,5 +16,10 @@ namespace Slimeborne
         public string LightAttack2;
         public string LightAttack3;
         public string HeavyAttack;
+        
+        [Header("Stamina Costs")]
+        public int baseStaminaCost;
+        public float lightAttackStaminaMultiplier = 1f;
+        public float heavyAttackStaminaMultiplier = 1.5f;
     }
 }

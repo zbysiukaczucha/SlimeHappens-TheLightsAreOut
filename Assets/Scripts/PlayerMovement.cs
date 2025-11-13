@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Slimeborne
 {
     public class PlayerMovement : MonoBehaviour
     {
         PlayerManager playerManager;
+        PlayerStats playerStats;
         Transform cameraObject;
         InputHandler inputHandler;
         public Vector3 moveDirection;
@@ -17,16 +19,6 @@ namespace Slimeborne
 
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
-
-        // [Header("Ground & Air Detection")]
-        // [SerializeField]
-        // float groundDetectionRayStartPoint = 0.5f;
-        // [SerializeField]
-        // float minimumDistanceNeededToBeginFall = 1f; 
-        // [SerializeField]
-        // float groundDirectionRayDistance = 0.2f;
-        // LayerMask ignoreForGroundCheck;
-        // public float inAirTimer;
 
         [Header("Surface Detection")] [SerializeField]
         float surfaceCheckDistance = 0.5f;
@@ -40,6 +32,12 @@ namespace Slimeborne
 
         [SerializeField] float sprintSpeed = 7.5f;
         [SerializeField] float rotationSpeed = 10;
+        
+        [Header("Stamina Costs")]
+        [SerializeField] int rollStaminaCost = 15;
+        [SerializeField] int sprintStamina = 1;
+        float sprintStaminaTimer = 0f;
+        [SerializeField] float sprintStaminaInterval = 0.2f;
 
         public Vector3 surfaceNormal = Vector3.up;
         Vector3 targetUp = Vector3.up;
@@ -51,6 +49,7 @@ namespace Slimeborne
         private void Start()
         {
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -61,41 +60,6 @@ namespace Slimeborne
             rigidbody.useGravity = false; // ślimak ma swoją grawitację
             surfaceMask = ~(1 << 8 | 1 << 11);
         }
-
-        private void Update()
-        {
-            Debug.DrawRay(myTransform.position, -myTransform.up * 1f, isAttachedToSurface ? Color.green : Color.red);
-        }
-
-        // public void HandleSurfaceDetection(float delta)
-        // {
-        //     RaycastHit hit;
-        //     Vector3 origin = myTransform.position + myTransform.up * 0.2f;
-        //
-        //     // Szukamy powierzchni pod ślimakiem (w jego lokalnym "dół")
-        //     if (Physics.Raycast(origin, -myTransform.up, out hit, surfaceCheckDistance, surfaceMask))
-        //     {
-        //         surfaceNormal = hit.normal;
-        //         targetUp = Vector3.Slerp(targetUp, surfaceNormal, delta * rotationSmooth);
-        //
-        //         // Płynne dopasowanie orientacji do powierzchni
-        //         Quaternion targetRotation = Quaternion.FromToRotation(myTransform.up, targetUp) * myTransform.rotation;
-        //         myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, delta * rotationSmooth);
-        //
-        //         // Delikatne trzymanie się powierzchni
-        //         float distance = hit.distance;
-        //         if (distance > 0.3f)
-        //         {
-        //             rigidbody.AddForce(-hit.normal * (surfaceStickForce * (distance / surfaceCheckDistance)),
-        //                 ForceMode.Acceleration);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         // Jeśli nie ma powierzchni pod nami, pozwól ślimakowi spaść (może to być np. zeskok)
-        //         rigidbody.AddForce(-myTransform.up * surfaceStickForce, ForceMode.Acceleration);
-        //     }
-        // }
         
         public void HandleSurfaceDetection(float delta)
         {
@@ -212,14 +176,21 @@ namespace Slimeborne
             Vector3 moveDir = Vector3.ProjectOnPlane(inputDir, surfaceNormal).normalized;
 
             float speed = movementSpeed;
-            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f)
+            if (inputHandler.sprintFlag)
             {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
+                sprintStaminaTimer += Time.deltaTime;
+                if (sprintStaminaTimer >= sprintStaminaInterval)
+                {
+                    playerStats.TakeStaminaDamage(sprintStamina);
+                    sprintStaminaTimer = 0f;
+                }
             }
             else
             {
                 playerManager.isSprinting = false;
+                sprintStaminaTimer = 0f;
             }
 
             Vector3 targetVelocity = moveDir * speed;
@@ -238,11 +209,13 @@ namespace Slimeborne
 
         public void HandleRolling(float delta)
         {
-            if (animatorHandler.anim.GetBool("isInteracting") || !isAttachedToSurface)
+            if (animatorHandler.anim.GetBool("isInteracting") || playerStats.currentStamina <= 0 || !isAttachedToSurface)
                 return;
 
             if (inputHandler.rollFlag)
             {
+                playerStats.TakeStaminaDamage(rollStaminaCost);
+                
                 moveDirection = cameraObject.forward * inputHandler.vertical;
                 moveDirection += cameraObject.right * inputHandler.horizontal;
                 moveDirection.Normalize();
@@ -284,15 +257,6 @@ namespace Slimeborne
         }
 
         #endregion
-
-        #region Gravity
-
-        // public void ApplyLocalGravity(float delta)
-        // {
-        //     // Przykleja ślimaka do powierzchni, symulując "grawitację" do powierzchni
-        //     Vector3 localGravity = -myTransform.up * surfaceStickForce;
-        //     rigidbody.AddForce(localGravity, ForceMode.Acceleration);
-        // }
         
         public void ApplyLocalGravity(float delta)
         {
@@ -304,7 +268,5 @@ namespace Slimeborne
             rigidbody.AddForce(localGravity, ForceMode.Acceleration);
         }
 
-
-        #endregion
     }
 }

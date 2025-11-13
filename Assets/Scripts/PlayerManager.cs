@@ -11,11 +11,13 @@ namespace Slimeborne
         Animator anim;
         CameraHandler cameraHandler;
         PlayerMovement playerMovement;
+        PlayerStats playerStats;
         
         [Header("Player Flags")]
         public bool isInteracting;
         public bool isSprinting;
         public bool canDoCombo;
+        public bool isInvulnerable;
 
         // Start is called before the first frame update
         void Start()
@@ -24,6 +26,7 @@ namespace Slimeborne
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerMovement = GetComponent<PlayerMovement>();
+            playerStats = GetComponent<PlayerStats>();
         }
 
         // Update is called once per frame
@@ -32,11 +35,13 @@ namespace Slimeborne
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
+            isInvulnerable = anim.GetBool("isInvulnerable");
             
             isSprinting = inputHandler.b_Input;
             inputHandler.TickInput(delta);
             playerMovement.HandleRolling(delta);
             
+            playerStats.RegenerateStamina();
         }
         
         private void FixedUpdate()
@@ -51,12 +56,14 @@ namespace Slimeborne
             playerMovement.HandleSurfaceDetection(delta);
             playerMovement.HandleMovement(delta);
             playerMovement.ApplyLocalGravity(delta);
+            inputHandler.sprintFlag = false;
+            
+            
         }
         
         private void LateUpdate()
         {
             inputHandler.rollFlag = false;
-            inputHandler.sprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.d_Pad_Down = false;
