@@ -7,7 +7,8 @@ namespace Slimeborne
 {
     public class DamageCollider : MonoBehaviour
     {
-        Collider damageCollider;
+        public Collider damageCollider;
+        public String damageTag = "Enemy";
         
         public int currentWaeaponDamage = 25;
         
@@ -38,6 +39,16 @@ namespace Slimeborne
                 if (enemyStats != null)
                 {
                     enemyStats.TakeDamage(currentWaeaponDamage);
+                }
+            }
+
+            if (collision.tag == "Player" && damageTag == "Player")
+            {
+                PlayerStats playerStats = collision.GetComponentInParent<PlayerStats>();
+
+                if (playerStats != null)
+                {
+                    playerStats.TakeDamage(currentWaeaponDamage);
                 }
             }
         }
