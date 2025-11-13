@@ -32,11 +32,11 @@ namespace Slimeborne
 
         private void OnTriggerEnter(Collider collision)
         {
-            //Debug.Log($"[DamageCollider] {gameObject.name} hit {collision.name} | Tag: {collision.tag} | DamageTag: {damageTag}", this);
+            Debug.Log($"[DamageCollider] {gameObject.name} hit {collision.name} | Tag: {collision.tag} | DamageTag: {damageTag}", this);
             
             if (collision.CompareTag("Enemy"))
             {
-                EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
+                EnemyStats enemyStats = collision.GetComponentInParent<EnemyStats>();
 
                 if (enemyStats != null)
                 {
