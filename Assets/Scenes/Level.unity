@@ -1569,6 +1569,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 707766350590211878, guid: ea1db7609abb4b849ac198939350e972, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1027015894930285153, guid: ea1db7609abb4b849ac198939350e972, type: 3}
       propertyPath: m_Name
       value: FrogBoss
@@ -1653,9 +1657,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3123275767722282738, guid: ea1db7609abb4b849ac198939350e972, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3943139253909465170, guid: ea1db7609abb4b849ac198939350e972, type: 3}
       propertyPath: level
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7690995676743104840, guid: ea1db7609abb4b849ac198939350e972, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8151507229594459960, guid: ea1db7609abb4b849ac198939350e972, type: 3}
       propertyPath: m_TargetGraphic

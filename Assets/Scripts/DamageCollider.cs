@@ -32,7 +32,9 @@ namespace Slimeborne
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (collision.tag == "Enemy")
+            //Debug.Log($"[DamageCollider] {gameObject.name} hit {collision.name} | Tag: {collision.tag} | DamageTag: {damageTag}", this);
+            
+            if (collision.CompareTag("Enemy"))
             {
                 EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
 
@@ -42,10 +44,11 @@ namespace Slimeborne
                 }
             }
 
-            if (collision.tag == "Player" && damageTag == "Player")
+            if (collision.CompareTag("Player") && damageTag == "Player")
             {
                 PlayerStats playerStats = collision.GetComponentInParent<PlayerStats>();
 
+                
                 if (playerStats != null)
                 {
                     playerStats.TakeDamage(currentWaeaponDamage);

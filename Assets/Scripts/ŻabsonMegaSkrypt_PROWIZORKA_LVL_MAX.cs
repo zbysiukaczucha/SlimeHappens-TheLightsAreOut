@@ -23,6 +23,9 @@ public class ŻabsonMegaSkrypt_PROWIZORKA_LVL_MAX : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        DisableTongue();
+        DisableHand();
+        DisableBody();
     }
 
     // Update is called once per frame
