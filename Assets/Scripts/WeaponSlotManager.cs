@@ -11,8 +11,14 @@ namespace Slimeborne
         
         DamageCollider headDamageCollider;
         DamageCollider tailDamageCollider;
+        
+        public WeaponItem attackingWeapon;
+        
+        PlayerStats playerStats;
         private void Awake()
         {
+            playerStats = GetComponentInParent<PlayerStats>();
+            
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
 
             foreach (WeaponHolderSlot weaponHolderSlot in weaponHolderSlots)
@@ -41,7 +47,8 @@ namespace Slimeborne
                 tailDamageCollider = tailSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             }
         }
-        
+
+        #region Handle Damage Colliders
         public void OpenHeadDamageCollider()
         {
             headDamageCollider.EnableDamageCollider();
@@ -61,6 +68,16 @@ namespace Slimeborne
         {
             tailDamageCollider.DisableDamageCollider();
         }
+        #endregion
         
+        public void DrainStaminaLightAttack()
+        {
+            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStaminaCost * attackingWeapon.lightAttackStaminaMultiplier));
+        }
+        
+        public void DrainStaminaHeavyAttack()
+        {
+            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStaminaCost * attackingWeapon.heavyAttackStaminaMultiplier));
+        }
     }
 }

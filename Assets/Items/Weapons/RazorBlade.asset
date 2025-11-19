@@ -20,3 +20,6 @@ MonoBehaviour:
   LightAttack2: Light_Attack_2
   LightAttack3: Light_Attack_3_alt
   HeavyAttack: Light_Attack_3_alt
+  baseStaminaCost: 20
+  lightAttackStaminaMultiplier: 1
+  heavyAttackStaminaMultiplier: 1.5

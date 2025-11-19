@@ -24,12 +24,12 @@ namespace Slimeborne
         
         private void Start()
         {
-            headWeapon = unarmedWeapon;
-            tailWeapon = unarmedWeapon;
-            // headWeapon = weaponsInHeadSlots[currentHeadWeaponIndex];
-            // tailWeapon = weaponsInTailSlots[currentTailWeaponIndex];
-            // weaponSlotManager.LoadWeaponOnSlot(headWeapon, true);
-            // weaponSlotManager.LoadWeaponOnSlot(tailWeapon, false);
+            // headWeapon = unarmedWeapon;
+            // tailWeapon = unarmedWeapon;
+            headWeapon = weaponsInHeadSlots[currentHeadWeaponIndex];
+            tailWeapon = weaponsInTailSlots[currentTailWeaponIndex];
+            weaponSlotManager.LoadWeaponOnSlot(headWeapon, true);
+            weaponSlotManager.LoadWeaponOnSlot(tailWeapon, false);
         }
         
         private WeaponItem GetNextWeapon(WeaponItem[] slots, ref int currentIndex)

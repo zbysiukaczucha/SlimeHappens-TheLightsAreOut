@@ -16,3 +16,10 @@ MonoBehaviour:
   itemName: Nail
   modelPrefab: {fileID: 5021680488091687808, guid: e4709db7c9d79af46a6a9a7ebaccbdf5, type: 3}
   isUnarmed: 0
+  LightAttack1: 
+  LightAttack2: 
+  LightAttack3: 
+  HeavyAttack: 
+  baseStaminaCost: 30
+  lightAttackStaminaMultiplier: 1
+  heavyAttackStaminaMultiplier: 1.5

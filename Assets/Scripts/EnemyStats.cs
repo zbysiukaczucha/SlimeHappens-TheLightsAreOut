@@ -43,6 +43,12 @@ namespace Slimeborne
                 print("Enemy has died.");
             }
             
+            //quick scuffed stuff
+            if(GetComponentInParent<HealthBar>() != null)
+            {
+                var bar = GetComponentInParent<HealthBar>();
+                bar.SetCurrentHealth(currentHealth);
+            }
         }
 
         public void Heal(int amount)
