@@ -5,7 +5,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 namespace Slimeborne
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
         InputHandler inputHandler;
         Animator anim;
