@@ -60,7 +60,7 @@ namespace Slimeborne
             // Play damaged animation
             //animatorHandler.PlayTargetAnimation("Damaged", true);
             
-            if (currentHealth < 0)
+            if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 // Handle player death here

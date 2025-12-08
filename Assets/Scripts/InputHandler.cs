@@ -20,12 +20,14 @@ namespace Slimeborne
         public bool d_Pad_Down;
         public bool d_Pad_Left;
         public bool d_Pad_Right;
+        public bool lockOn_Input;
         
         public bool enableMovementInput = true;
         
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
+        public bool lockOnFlag;
         public float rollInputTimer;
         
         PlayerControls inputActions;
@@ -33,6 +35,7 @@ namespace Slimeborne
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         PlayerStats playerStats;
+        CameraHandler cameraHandler;
         
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -43,6 +46,7 @@ namespace Slimeborne
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
+            cameraHandler = FindFirstObjectByType<CameraHandler>();
         }
 
         public void OnEnable()
@@ -56,6 +60,7 @@ namespace Slimeborne
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
+                inputActions.PlayerActions.LockOn.performed += i => lockOn_Input = true;
             }
             inputActions.Enable();
         }
@@ -73,6 +78,7 @@ namespace Slimeborne
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotsInput(delta);
+            HandleLockOnInput();
         }
         
         private void HandleMovementInput(float delta)
@@ -158,6 +164,30 @@ namespace Slimeborne
             {
                 playerInventory.ChangeTailWeapon();
             }
+        }
+
+        private void HandleLockOnInput()
+        {
+            if (lockOn_Input)
+            {
+                cameraHandler.ClearLockOnTargets();
+                if (lockOnFlag == false)
+                {
+                    cameraHandler.HandleLockOn();
+                    Debug.Log(cameraHandler.nearestLockOnTarget);
+                    if (cameraHandler.nearestLockOnTarget != null)
+                    {
+                        cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                        lockOnFlag = true;
+                    }
+                }
+                else
+                {
+                    lockOnFlag = false;
+                }
+            }
+
+            lockOn_Input = false;
         }
     }
 }
