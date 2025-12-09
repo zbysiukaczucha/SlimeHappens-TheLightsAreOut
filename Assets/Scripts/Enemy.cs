@@ -244,7 +244,7 @@ public class Enemy : MonoBehaviour
             if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
                 player.GetComponent<PlayerCombat>().powerPoints += 1;
             
-            
+            player.GetComponent<PlayerCombat>().UpdateUltimateBar();
             anim.enabled = false;
             IKControls.SetActive(false);
             enemyRigid.linearVelocity = Vector2.zero;

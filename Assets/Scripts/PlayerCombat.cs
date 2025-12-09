@@ -14,6 +14,10 @@ public class PlayerCombat : MonoBehaviour
     private LayerMask enemyLayer;
     private GameManager gameManager;
     private Image healthBarFill;
+    private Image ultimateFill1;
+    private Image ultimateFill2;
+    private Image ultimateBorder1;
+    private Image ultimateBorder2;
     private Image healthBarBorder;
     private float targetHealthBarFill;
     private float healthBarFillSpeed = 20f;
@@ -82,6 +86,10 @@ public class PlayerCombat : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         healthBarFill = GameObject.Find("HealthBar/HealthBar Fill").GetComponent<Image>();
         healthBarBorder = GameObject.Find("HealthBar/HealthBar Border").GetComponent<Image>();
+        ultimateFill1 = GameObject.Find("UltimateBar/Ultimate Fill").GetComponent<Image>();
+        ultimateFill2 = GameObject.Find("UltimateBar2/Ultimate Fill").GetComponent<Image>();
+        ultimateBorder1 = GameObject.Find("UltimateBar/Ultimate Border").GetComponent<Image>();
+        ultimateBorder2 = GameObject.Find("UltimateBar2/Ultimate Border").GetComponent<Image>();
         player = GameObject.Find("Player");
         playerMovement = GetComponent<PlayerMovementLO>();
         anim = player.GetComponent<Animator>();
@@ -91,6 +99,11 @@ public class PlayerCombat : MonoBehaviour
         maxPlayerLight = 0.7f;
         minPlayerLight = 0.1f;
         playerLight.intensity = maxPlayerLight;
+        ultimateFill1.fillAmount = 0f;
+        ultimateFill2.fillAmount = 0f;
+        ultimateBorder1.color = new Color32(0, 102, 128, 255);
+        ultimateBorder2.color = new Color32(102, 0, 128, 255);
+        
         
 
         // RAGDOLL
@@ -374,6 +387,7 @@ public class PlayerCombat : MonoBehaviour
                 boss.GetComponent<Boss>().Knockback();
             }
         }
+        UpdateUltimateBar();
     }
     
 
@@ -381,19 +395,19 @@ public class PlayerCombat : MonoBehaviour
     {
         float healthPercent = Mathf.Clamp01((float)currentHealth / maxHealth);
         targetHealthBarFill = healthPercent;
-
+        
         playerLight.intensity = Mathf.Lerp(minPlayerLight, maxPlayerLight, healthPercent);
         passFilter.cutoffFrequency = Mathf.SmoothStep(500, 5000, healthPercent);
-
+        
         heartbeat.Stop();
-
+        
         // YELLOW HEALTH BAR
         if(healthPercent < 0.6f && healthPercent > 0.3f)
         {
             healthBarFill.color = new Color32(224, 193, 22, 255);
             healthBarBorder.color = new Color32(224, 193, 22, 255);
         }
-
+        
         // RED HEALTH BAR
         else if(healthPercent < 0.3f)
         {
@@ -410,7 +424,46 @@ public class PlayerCombat : MonoBehaviour
         }
     }
     
+    public void UpdateUltimateBar()
+    {
+        float ultimatePercent1 = 0f, ultimatePercent2 = 0f;
+        if(powerPoints < 5)
+        {
+            ultimatePercent1 = Mathf.Clamp01((float)powerPoints / 5);
+            ultimatePercent2 = 0f;
+        }
+        else
+        {
+            ultimatePercent1 = 1f;
+            ultimatePercent2 = Mathf.Clamp01(((float)powerPoints - 5) / 5);
+        }
+        
+        ultimateFill1.fillAmount = ultimatePercent1;
+        ultimateFill2.fillAmount = ultimatePercent2;
     
+        // KOLORY DLA PASKA 1 (Atak Specjalny)
+        ultimateFill1.color = new Color32(0, 204, 255, 255); // Jasny Cyjan
+        ultimateBorder1.color = new Color32(0, 102, 128, 255); // Ciemny Cyjan
+        
+
+        // KOLORY DLA PASKA 2 (Super Atak)
+        ultimateFill2.color = new Color32(204, 0, 255, 255); // Intensywny Fiolet
+        ultimateBorder2.color = new Color32(102, 0, 128, 255); // Ciemny Fiolet
+        
+        // Sygnalizacja gotowości (Opcjonalnie: zmiana koloru ramki na jaskrawy, gdy pasek jest pełny)
+        if (ultimatePercent1 >= 1f)
+        {
+            // Pasek 1 pełny: ramka może jaśnieć lub pulsować
+            ultimateBorder1.color = new Color32(255, 255, 255, 255); 
+        }
+        
+        if (ultimatePercent2 >= 1f)
+        {
+            // Pasek 2 pełny: ramka może stać się jaskrawoczerwona/złota dla maksymalnego efektu
+            ultimateBorder2.color = new Color32(255, 255, 255, 255); 
+        }
+
+    }
     
     // ENUMERATORS
 
