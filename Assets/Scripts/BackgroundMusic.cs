@@ -103,11 +103,11 @@ public class BackgroundMusic : MonoBehaviour
 
     IEnumerator AmbientSound()
     {
-        int cooldown = Random.Range(5, 21);
+        int cooldown = Random.Range(5, 16);
 
         yield return new WaitForSeconds(cooldown);
 
-        ambientSounds[Random.Range(0,ambientSounds.Length)].Play();
+        ambientSounds[Random.Range(0, ambientSounds.Length)].Play();
         StartCoroutine(AmbientSound());
     }
     
