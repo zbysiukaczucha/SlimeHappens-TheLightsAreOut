@@ -39,7 +39,10 @@ public class SpawnEnemy : MonoBehaviour
     private float waveTimer = 0f;
 
     private bool waitingForNextWave = false;
-    
+
+    private PlayerCombat playerCombat;
+
+
     void Awake()
     {
         var playerActionMap = inputActions.FindActionMap("Player");
@@ -58,6 +61,7 @@ public class SpawnEnemy : MonoBehaviour
         enemiesToSpawn = Random.Range(8, 12);
 
         waveController = GameObject.Find("WaveNumber").GetComponent<WaveNumberController>();
+        playerCombat = GameObject.Find("Player").GetComponent<PlayerCombat>();
         
         Debug.Log("Wave " + waveNumber + " started");
         StartCoroutine(gameManager.Lightning());
@@ -177,5 +181,7 @@ public class SpawnEnemy : MonoBehaviour
         audioSource[Random.Range(0, audioSource.Length)].Play();
         // To spawn just one boss
         // this.enabled = false;
+
+        playerCombat.ChangeEyesIntensity();
     }
 }

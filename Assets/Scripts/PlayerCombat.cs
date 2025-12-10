@@ -32,6 +32,9 @@ public class PlayerCombat : MonoBehaviour
     private float maxPlayerLight;
     private float minPlayerLight;
 
+    private Light2D[] enemyEyes;
+    private TrailRenderer[] enemyEyeTrails;
+
     [Header("##  RAGDOLL  ##")]
     private GameObject playerEye;
     private GameObject IKControls;
@@ -72,9 +75,10 @@ public class PlayerCombat : MonoBehaviour
     public InputActionAsset inputActions;
     private InputAction attackAction;
     private InputAction powerAction;
-    
-    public long powerPoints;
 
+    public long powerPoints;
+    
+    private float healthPercent = 1;
 
 
 
@@ -96,8 +100,8 @@ public class PlayerCombat : MonoBehaviour
         powerPoints = 0;
         globalLight = GameObject.Find("GlobalLight2D").GetComponent<Light2D>();
         playerLight = transform.Find("Light2D").gameObject.GetComponent<Light2D>();
-        maxPlayerLight = 0.7f;
-        minPlayerLight = 0.1f;
+        maxPlayerLight = 0.6f;
+        minPlayerLight = 0.01f;
         playerLight.intensity = maxPlayerLight;
 
         ultimateFill1.fillAmount = 0f;
@@ -311,7 +315,7 @@ public class PlayerCombat : MonoBehaviour
     public void HealPlayer(int heal)
     {
         currentHealth += heal;
-
+        
         if(currentHealth > maxHealth)
             currentHealth = maxHealth;
 
@@ -390,14 +394,18 @@ public class PlayerCombat : MonoBehaviour
         }
         UpdateUltimateBar();
     }
-    
+
 
     private void UpdateHealthBar()
     {
-        float healthPercent = Mathf.Clamp01((float)currentHealth / maxHealth);
+        healthPercent = Mathf.Clamp01((float)currentHealth / maxHealth);
         targetHealthBarFill = healthPercent;
-        
+
         playerLight.intensity = Mathf.Lerp(minPlayerLight, maxPlayerLight, healthPercent);
+
+        // Change enemy eye lights based on player health
+        ChangeEyesIntensity();
+
         // LOW PASS FILTER
         foreach (var filter in passFilters)
             filter.cutoffFrequency = Mathf.SmoothStep(400, filter.cutoffFrequency, healthPercent);
@@ -426,6 +434,29 @@ public class PlayerCombat : MonoBehaviour
             healthBarBorder.color = new Color32(30, 152, 18, 255);
         }
     }
+    
+    
+    public void ChangeEyesIntensity()
+    {
+        enemyEyes = GameObject.Find("Enemy Spawner").GetComponentsInChildren<Light2D>();
+        enemyEyeTrails = GameObject.Find("Enemy Spawner").GetComponentsInChildren<TrailRenderer>();
+        foreach (var eye in enemyEyes)
+            eye.intensity = Mathf.Lerp(0.2f, 3, healthPercent);
+        foreach (var trail in enemyEyeTrails)
+        {
+            Gradient gradient = trail.colorGradient;
+            
+            GradientAlphaKey[] newAlphas = new GradientAlphaKey[] {
+                new GradientAlphaKey(1 - (1 - healthPercent) * 1.3f, 0.0f), // Alpha at Start of trail
+                new GradientAlphaKey(1 - (1 - healthPercent) * 1.3f, 1.0f)  // Alpha at End of trail
+            };
+
+            gradient.SetKeys(gradient.colorKeys, newAlphas);
+            trail.colorGradient = gradient;
+        }
+    }
+    
+
     
     public void UpdateUltimateBar()
     {
