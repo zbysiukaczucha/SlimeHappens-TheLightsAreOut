@@ -23,7 +23,7 @@ public class PlayerCombat : MonoBehaviour
     private float healthBarFillSpeed = 20f;
     private GameObject killCounter;
     private GameObject waveNumber;
-    private AudioLowPassFilter passFilter;
+    private AudioLowPassFilter[] passFilters;
     private GameObject player;
     private PlayerMovementLO playerMovement; 
     private Rigidbody2D playerRigid;
@@ -99,6 +99,7 @@ public class PlayerCombat : MonoBehaviour
         maxPlayerLight = 0.7f;
         minPlayerLight = 0.1f;
         playerLight.intensity = maxPlayerLight;
+
         ultimateFill1.fillAmount = 0f;
         ultimateFill2.fillAmount = 0f;
         ultimateBorder1.color = new Color32(0, 102, 128, 255);
@@ -132,7 +133,7 @@ public class PlayerCombat : MonoBehaviour
         
 
         bgMusic = GameObject.Find("Audio Source").GetComponent<BackgroundMusic>();
-        passFilter = GameObject.Find("Audio Source").GetComponent<AudioLowPassFilter>();
+        passFilters = GameObject.Find("Audio Source").GetComponentsInChildren<AudioLowPassFilter>();
         playerRigid = GetComponent<Rigidbody2D>();
         attackPoint = transform.Find("AttackPoint");
         
@@ -397,25 +398,27 @@ public class PlayerCombat : MonoBehaviour
         targetHealthBarFill = healthPercent;
         
         playerLight.intensity = Mathf.Lerp(minPlayerLight, maxPlayerLight, healthPercent);
-        passFilter.cutoffFrequency = Mathf.SmoothStep(500, 5000, healthPercent);
-        
+        // LOW PASS FILTER
+        foreach (var filter in passFilters)
+            filter.cutoffFrequency = Mathf.SmoothStep(400, filter.cutoffFrequency, healthPercent);
+
         heartbeat.Stop();
-        
+
         // YELLOW HEALTH BAR
-        if(healthPercent < 0.6f && healthPercent > 0.3f)
+        if (healthPercent < 0.6f && healthPercent > 0.3f)
         {
             healthBarFill.color = new Color32(224, 193, 22, 255);
             healthBarBorder.color = new Color32(224, 193, 22, 255);
         }
-        
+
         // RED HEALTH BAR
-        else if(healthPercent < 0.3f)
+        else if (healthPercent < 0.3f)
         {
             healthBarFill.color = new Color32(132, 36, 36, 255);
             healthBarBorder.color = new Color32(132, 36, 36, 255);
             heartbeat.Play();
         }
-        
+
         // GREEN HEAELTH BAR
         else
         {
@@ -472,7 +475,7 @@ public class PlayerCombat : MonoBehaviour
         globalLight.intensity = 0.13f;
         
         yield return new WaitForSeconds(0.1f);
-
+        
         globalLight.intensity = 0;
     }
     
