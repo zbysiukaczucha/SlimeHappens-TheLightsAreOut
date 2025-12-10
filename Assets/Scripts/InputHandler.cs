@@ -47,6 +47,7 @@ namespace Slimeborne
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
             cameraHandler = FindFirstObjectByType<CameraHandler>();
+            Cursor.visible = false;
         }
 
         public void OnEnable()
