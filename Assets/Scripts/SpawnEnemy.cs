@@ -59,6 +59,8 @@ public class SpawnEnemy : MonoBehaviour
 
         waveController = GameObject.Find("WaveNumber").GetComponent<WaveNumberController>();
         
+        Debug.Log("Wave " + waveNumber + " started");
+        StartCoroutine(gameManager.Lightning());
     }
     
 
@@ -77,6 +79,8 @@ public class SpawnEnemy : MonoBehaviour
                 waitingForNextWave = false;
                 waveTimer = 0f;
                 StartWave();
+                Debug.Log("Wave " + waveNumber + " started");
+                StartCoroutine(gameManager.Lightning());
             }
             return;
         }

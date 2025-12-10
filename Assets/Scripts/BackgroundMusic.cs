@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
@@ -21,7 +23,7 @@ public class BackgroundMusic : MonoBehaviour
     private GameObject mainMenuMusic;
     private AudioSource mainMenuMusicSource;
     
-
+    private GameManager gameManager;
 
     
     void Start()
@@ -43,8 +45,11 @@ public class BackgroundMusic : MonoBehaviour
         bossDeathSounds = GameObject.Find("BossDeath").GetComponentsInChildren<AudioSource>();
         dashSound = GameObject.Find("DashSound").GetComponent<AudioSource>();
         StartCoroutine(AmbientSound());
+        StartCoroutine(Thunder());
         selectedAudio = Random.Range(0, backgroundMusics.Length);
         previousAudio = selectedAudio;
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             
         // Allow start from game
         if(mainMenuMusicSource != null)    
@@ -105,6 +110,18 @@ public class BackgroundMusic : MonoBehaviour
         ambientSounds[Random.Range(0,ambientSounds.Length)].Play();
         StartCoroutine(AmbientSound());
     }
+    
+    IEnumerator Thunder()
+    {
+        int cooldown = Random.Range(10, 21);
+        
+        yield return new WaitForSeconds(cooldown);
+        
+        StartCoroutine(gameManager.Lightning());
+
+        StartCoroutine(Thunder());
+    }
+    
 
     IEnumerator StopMainMenuMusic(){
         yield return new WaitForSeconds(0.3f);
