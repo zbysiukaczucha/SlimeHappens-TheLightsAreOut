@@ -14,6 +14,7 @@ public class BackgroundMusic : MonoBehaviour
     [ShowOnly] public AudioSource[] enemyDeathSounds;
     [ShowOnly] public AudioSource[] bossDeathSounds;
     [ShowOnly] public AudioSource playerDeathSound;
+    [ShowOnly] public AudioSource dashSound;
     private int selectedAudio;
     private int previousAudio;
     private bool isPlaying;
@@ -40,6 +41,7 @@ public class BackgroundMusic : MonoBehaviour
         playerDeathSound = GameObject.Find("PlayerDeath").GetComponent<AudioSource>();
         enemyDeathSounds = GameObject.Find("EnemyDeath").GetComponentsInChildren<AudioSource>();
         bossDeathSounds = GameObject.Find("BossDeath").GetComponentsInChildren<AudioSource>();
+        dashSound = GameObject.Find("DashSound").GetComponent<AudioSource>();
         StartCoroutine(AmbientSound());
         selectedAudio = Random.Range(0, backgroundMusics.Length);
         previousAudio = selectedAudio;

@@ -10,6 +10,7 @@ public class PlayerMovementLO : MonoBehaviour
     private LayerMask groundLayer;
     private LayerMask edgeLayer;
     private GameManager gameManager;
+    private BackgroundMusic bgMusic;
     
     private bool lookingRight = true;
     private bool isIdle;
@@ -49,6 +50,7 @@ public class PlayerMovementLO : MonoBehaviour
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
         edgeLayer = 1 << LayerMask.NameToLayer("Edge");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        bgMusic = GameObject.Find("Audio Source").GetComponent<BackgroundMusic>();
 
         speed = baseSpeed;
 
@@ -189,12 +191,13 @@ public class PlayerMovementLO : MonoBehaviour
         anim.SetBool("Finished_Falling_Touchdown", true);
         canMove = true;
     }
-
+    
     private IEnumerator Dash()
     {
         if (anim.GetBool("Finished_Falling_Touchdown"))
         {
             anim.SetTrigger("Dash");
+            bgMusic.dashSound.Play();
 
             canDash = false;
             isDashing = true;
