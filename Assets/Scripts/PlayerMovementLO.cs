@@ -220,5 +220,7 @@ public class PlayerMovementLO : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(0.3f);
         canMove = true;
+        yield return new WaitForSeconds(0.05f);
+        inputActions.Enable();
     }
 }

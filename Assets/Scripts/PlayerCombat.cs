@@ -166,6 +166,7 @@ public class PlayerCombat : MonoBehaviour
             && attackAction.WasPerformedThisFrame())
         {
             Attack();
+            inputActions.Disable();
             nextAttackTime = Time.time + 1 / attackRate;
         }
 
@@ -243,7 +244,7 @@ public class PlayerCombat : MonoBehaviour
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage, false);
             enemy.GetComponent<Enemy>().Knockback();
         }
-        
+
         // BOSS HIT
         foreach (Collider2D boss in bossesHit)
         {
@@ -252,7 +253,6 @@ public class PlayerCombat : MonoBehaviour
             boss.GetComponent<Boss>().TakeDamage(attackDamage);
             boss.GetComponent<Boss>().Knockback();
         }
-
         
         // SCREEN LIGHT UP
         if (enemiesHit.Length > 0 || bossesHit.Length > 0)
@@ -472,7 +472,7 @@ public class PlayerCombat : MonoBehaviour
         globalLight.intensity = 0.13f;
         
         yield return new WaitForSeconds(0.1f);
-        
+
         globalLight.intensity = 0;
     }
     
