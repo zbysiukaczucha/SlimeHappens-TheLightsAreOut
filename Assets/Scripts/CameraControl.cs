@@ -20,17 +20,20 @@ public class CameraControl : MonoBehaviour
     
     void Update()
     {
-        if(anim.GetBool("Finished_Falling_Touchdown"))
+        if (anim.GetBool("Finished_Falling_Touchdown"))
             targetPosition = new Vector3(
                 playerTransform.position.x,
                 playerTransform.position.y + offset.y / 2,
                 offset.z);
         else
+        {
             targetPosition = new Vector3(
                 playerTransform.position.x,
-                offset.y,
+                offset.y-1,
                 offset.z);
-
+            centerDelay = 0.8f;
+        }
+        
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, centerDelay);
     }
 
