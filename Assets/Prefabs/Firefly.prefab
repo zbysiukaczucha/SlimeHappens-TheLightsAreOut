@@ -192,6 +192,7 @@ MonoBehaviour:
   moveSpeed: 5
   detectionRange: 6
   direction: {x: -1, y: 0}
+  explosionPrefab: {fileID: 0}
 --- !u!58 &993343308188159008
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ CircleCollider2D:
     m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2176
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
