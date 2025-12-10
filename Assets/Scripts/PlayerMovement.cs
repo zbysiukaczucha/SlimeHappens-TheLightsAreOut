@@ -153,14 +153,38 @@ namespace Slimeborne
 
         private void HandleRotation(float delta)
         {
-            Vector3 inputDir = (cameraObject.forward * inputHandler.vertical +
-                                cameraObject.right * inputHandler.horizontal);
-            inputDir = Vector3.ProjectOnPlane(inputDir, surfaceNormal);
+            if (inputHandler.lockOnFlag && inputHandler.sprintFlag == false)
+            {
+                if (inputHandler.sprintFlag || inputHandler.rollFlag)
+                {
+                    Vector3 targetDir = cameraObject.forward * inputHandler.vertical;
+                    targetDir += cameraObject.right * inputHandler.horizontal;
+                    targetDir.Normalize();
+                    targetDir = Vector3.ProjectOnPlane(targetDir, surfaceNormal);
+                    if (targetDir.sqrMagnitude < 0.01f) targetDir = myTransform.forward;
+                    Quaternion targetRot = Quaternion.LookRotation(targetDir, myTransform.up);
+                    myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRot, delta * rotationSpeed);
+                }
+                else
+                {
+                    Vector3 rotationDir = cameraObject.position - myTransform.position;
+                    rotationDir.y = 0;
+                    rotationDir.Normalize();
+                    Quaternion targetRot = Quaternion.LookRotation(-rotationDir, myTransform.up);
+                    myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRot, delta * rotationSpeed);
+                }
+            }
+            else
+            {
+                Vector3 inputDir = (cameraObject.forward * inputHandler.vertical +
+                                    cameraObject.right * inputHandler.horizontal);
+                inputDir = Vector3.ProjectOnPlane(inputDir, surfaceNormal);
 
-            if (inputDir.sqrMagnitude < 0.01f) return;
+                if (inputDir.sqrMagnitude < 0.01f) return;
 
-            Quaternion targetRot = Quaternion.LookRotation(inputDir.normalized, myTransform.up);
-            myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRot, delta * rotationSpeed);
+                Quaternion targetRot = Quaternion.LookRotation(inputDir.normalized, myTransform.up);
+                myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRot, delta * rotationSpeed);
+            }
         }
 
         public void HandleMovement(float delta)
@@ -199,8 +223,16 @@ namespace Slimeborne
             Vector3 currentVelocity = Vector3.ProjectOnPlane(rigidbody.linearVelocity, surfaceNormal);
             Vector3 velocityChange = targetVelocity - currentVelocity;
             rigidbody.AddForce(velocityChange * 30f, ForceMode.Force);
-
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
+            
+            if (inputHandler.lockOnFlag && inputHandler.sprintFlag == false)
+            {
+                animatorHandler.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
+            }
+            else
+            {
+                animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
+            }
+            
             if (animatorHandler.canRotate)
             {
                 HandleRotation(delta);

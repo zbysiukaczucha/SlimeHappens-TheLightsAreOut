@@ -185,6 +185,7 @@ namespace Slimeborne
                 {
                     lockOnFlag = false;
                 }
+                cameraHandler.SetCameraHeight();
             }
 
             lockOn_Input = false;

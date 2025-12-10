@@ -7,6 +7,7 @@ namespace Slimeborne
     public class CameraHandler : MonoBehaviour
     {
         InputHandler inputHandler;
+        PlayerManager playerManager;
         
         public Transform targetTransform;
         public Transform cameraTransform;
@@ -32,6 +33,8 @@ namespace Slimeborne
         public float cameraSphereRadius = 0.2f;
         public float cameraCollisionOffset = 0.2f;
         public float minimumCollisionOffset = 0.2f;
+        public float lockedPivotPosition = 2.25f;
+        public float unlockedPivotPosition = 1.65f;
         
         public Transform currentLockOnTarget;
         
@@ -45,7 +48,8 @@ namespace Slimeborne
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
-            targetTransform = FindFirstObjectByType<PlayerManager>().transform;
+            playerManager = FindFirstObjectByType<PlayerManager>();
+            targetTransform = playerManager.transform;
             inputHandler = FindFirstObjectByType<InputHandler>();
         }
         
@@ -144,6 +148,13 @@ namespace Slimeborne
                     
                     if (distanceFromTarget <= maximumLockOnDistance)
                     {
+                        RaycastHit hit;
+                        if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit))
+                        {
+                            Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
+                            if (hit.transform.gameObject.layer == 6 || hit.transform.gameObject.layer == 9 || hit.transform.gameObject.layer == 10)
+                                continue;
+                        }
                         availableTargets.Add(character);
                     }
                 }
@@ -158,7 +169,6 @@ namespace Slimeborne
                 {
                     shortestDistance = distanceFromTarget;
                     nearestLockOnTarget = availableTargets[k].lockOnTransform;
-                    Debug.Log(nearestLockOnTarget);
                 }
             }
         }
@@ -168,6 +178,35 @@ namespace Slimeborne
             availableTargets.Clear();
             nearestLockOnTarget = null;
             currentLockOnTarget = null;
+        }
+        
+        public void SetCameraHeight()
+        {
+            Vector3 velocity = Vector3.zero;
+            Vector3 newLockedPosition = new Vector3(0, lockedPivotPosition);
+            Vector3 newUnlockedPosition = new Vector3(0, unlockedPivotPosition);
+            if (currentLockOnTarget != null)
+            {
+                // start coroutine for smooth transition
+                StartCoroutine(SmoothCameraHeightTransition(newLockedPosition));
+            }
+            else
+            {
+                // start coroutine for smooth transition
+                StartCoroutine(SmoothCameraHeightTransition(newUnlockedPosition));
+            }
+        }
+        
+        // coroutine for smooth camera height transition
+        private IEnumerator SmoothCameraHeightTransition(Vector3 targetPosition)
+        {
+            Vector3 velocity = Vector3.zero;
+            while (Vector3.Distance(cameraPivotTransform.localPosition, targetPosition) > 0.01f)
+            {
+                cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, targetPosition, ref velocity, Time.deltaTime);
+                yield return null;
+            }
+            cameraPivotTransform.localPosition = targetPosition;
         }
     }
 }

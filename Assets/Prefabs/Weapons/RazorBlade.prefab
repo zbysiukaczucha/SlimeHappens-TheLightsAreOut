@@ -189,6 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199ac6148fcda1f4ca5873ef32bd271f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageCollider: {fileID: 0}
-  damageTag: Enemy
-  currentWaeaponDamage: 25
+  damageColliders:
+  - {fileID: 248444381864706322}
+  currentWeaponDamage: 25
+  layerEnemy: 7
+  layerPlayer: 9
+  layerBoss: 11
+  layerEnemyParts: 12
+  layerPlayerHitbox: 13
