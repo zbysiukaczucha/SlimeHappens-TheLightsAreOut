@@ -1386,6 +1386,9 @@ MonoBehaviour:
   cameraSphereRadius: 0.2
   cameraCollisionOffset: 0.2
   minimumCollisionOffset: 0.2
+  currentLockOnTarget: {fileID: 0}
+  nearestLockOnTarget: {fileID: 0}
+  maximumLockOnDistance: 30
 --- !u!4 &1104574270
 Transform:
   m_ObjectHideFlags: 0
@@ -1532,6 +1535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   lockOnTransform: {fileID: 694266408}
+  isDead: 0
 --- !u!1 &1221727888
 GameObject:
   m_ObjectHideFlags: 0
