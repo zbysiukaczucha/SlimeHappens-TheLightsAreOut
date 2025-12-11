@@ -77,8 +77,10 @@ public class PlayerCombat : MonoBehaviour
     private InputAction powerAction;
 
     public long powerPoints;
-    
+
     private float healthPercent = 1;
+    
+    public Sprite ultimateSprite;
 
 
 
@@ -336,64 +338,149 @@ public class PlayerCombat : MonoBehaviour
         rigidR_thigh.simulated = true;
         rigidR_leg.simulated = true;
     }
-    
+
 
     public void UsePower()
     {
-        if (powerPoints <= 4)
-            return;
-        else if (powerPoints <= 9)
+        if (powerPoints <= 4) return;
+
+        Vector2 hitCenter;
+        Vector2 hitSize;
+        int damageMultiplier;
+        int cost;
+        Color color;
+        float duration;
+
+        // 1 Tier Attack
+        if (powerPoints <= 9)
         {
-            // USE BETTER ATTACK
-            powerPoints -= 5;
-            Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(3f, 0.8f), 0, enemyLayer);
-            Collider2D[] bossesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(3f, 0.8f), 0, bossLayer);
-            
-            // ENEMY HIT
-            foreach (Collider2D enemy in enemiesHit)
-            {
-                if (enemy is CapsuleCollider2D) continue;
-                enemy.GetComponent<Enemy>().onHitBleed.Play();
-                enemy.GetComponent<Enemy>().TakeDamage(attackDamage * 2, true);
-                enemy.GetComponent<Enemy>().Knockback();
-            }
-            
-            // BOSS HIT
-            foreach (Collider2D boss in bossesHit)
-            {
-                if (boss is CapsuleCollider2D) continue;
-                boss.GetComponent<Boss>().onHitBleed.Play();
-                boss.GetComponent<Boss>().TakeDamage(attackDamage * 2);
-                boss.GetComponent<Boss>().Knockback();
-            }
+            cost = 5;
+            damageMultiplier = 2;
+            hitCenter = attackPoint.position;            
+            hitSize = new Vector2(3f, 0.8f);
+            color = new Color32(0, 204, 255, 150); // Jasny Cyjan
+            duration = 0.5f;
         }
+        // 2 Tier Attack
         else
         {
-            // USE SUPER ATTACK
-            powerPoints -= 10;
-            Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(player.transform.position, new Vector2(5f, 0.8f), 0, enemyLayer);
-            Collider2D[] bossesHit = Physics2D.OverlapBoxAll(player.transform.position, new Vector2(5f, 0.8f), 0, bossLayer);
-
-            // ENEMY HIT
-            foreach (Collider2D enemy in enemiesHit)
-            {
-                if (enemy is CapsuleCollider2D) continue;
-                enemy.GetComponent<Enemy>().onHitBleed.Play();
-                enemy.GetComponent<Enemy>().TakeDamage(attackDamage * 3, true);
-                enemy.GetComponent<Enemy>().Knockback();
-            }
-            
-            // BOSS HIT
-            foreach (Collider2D boss in bossesHit)
-            {
-                if (boss is CapsuleCollider2D) continue;
-                boss.GetComponent<Boss>().onHitBleed.Play();
-                boss.GetComponent<Boss>().TakeDamage(attackDamage * 3);
-                boss.GetComponent<Boss>().Knockback();
-            }
+            cost = 10;
+            damageMultiplier = 3;
+            hitCenter = player.transform.position;
+            hitSize = new Vector2(5f, 0.8f);
+            color = new Color32(204, 0, 255, 150); // Intensywny Fiolet
+            duration = 1.2f;
         }
+
+        powerPoints -= cost;
+
+        // VISUAL EFFECT
+        if (powerPoints <= 9)
+        {
+            if (playerMovement.lookingRight )
+                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x + 5f, hitCenter.y), hitSize, color, duration));
+            else
+                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x - 5f, hitCenter.y), hitSize, color, duration));
+        }
+        else
+            StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration));
+
+        Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, enemyLayer);
+        Collider2D[] bossesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, bossLayer);
+
+        // ENEMY HIT
+        foreach (Collider2D enemy in enemiesHit)
+        {
+            if (enemy is CapsuleCollider2D) continue;
+            enemy.GetComponent<Enemy>().onHitBleed.Play();
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage * damageMultiplier, true);
+            enemy.GetComponent<Enemy>().Knockback();
+        }
+
+        // BOSS HIT
+        foreach (Collider2D boss in bossesHit)
+        {
+            if (boss is CapsuleCollider2D) continue;
+            boss.GetComponent<Boss>().onHitBleed.Play();
+            boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier);
+            boss.GetComponent<Boss>().Knockback();
+        }
+
         UpdateUltimateBar();
     }
+    
+
+    
+    private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration)
+    {
+        // Create a temporary GameObject
+        GameObject waveObj = new GameObject("UltimateWave");
+        waveObj.transform.position = new Vector3(center.x, center.y, -1f);
+        
+        // Add a SpriteRenderer and set it to a simple white square
+        SpriteRenderer sr = waveObj.AddComponent<SpriteRenderer>();
+        
+        sr.sprite = ultimateSprite;
+
+        // Scale it to match your Hitbox
+        waveObj.transform.localScale = new Vector3(size.x, size.y, 1);
+        
+        sr.sortingOrder = 10; // Ensure it's rendered above other objects
+        
+        sr.color = color;
+        
+        // 2. DEFINE ANIMATION PARAMETERS
+        float timer = 0f;
+
+        // Start Scale: Very thin vertically, almost zero horizontally right in the center
+        Vector3 startScale = new Vector3(0.5f, size.y * 2, 1f);
+
+        // End Scale: We multiply by 1.2f to make the visual wave slightly BIGGER 
+        // than the actual hitbox for extra impact.
+        Vector3 endScale = new Vector3(size.x * 4, size.y * 3, 1f);
+        
+        // Initialize size
+        waveObj.transform.localScale = startScale;
+
+        Light2D light = null;
+        if (UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline != null)
+        {
+             light = waveObj.AddComponent<Light2D>();
+             light.lightType = Light2D.LightType.Sprite;
+             light.intensity = 4f; // Make it bright
+             light.color = color;
+        }
+        
+
+        // 3. THE ANIMATION LOOP
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            // 't' is a value from 0 to 1 representing animation progress
+            float t = timer / duration;
+
+            // A. Animate Scale (Expand outwards)
+            // We use an "EaseOut" curve (Mathf.Sin) so it bursts fast and slows down at the end
+            float scaleProgress = Mathf.Sin(t * Mathf.PI * 0.5f); 
+            waveObj.transform.localScale = Vector3.Lerp(startScale, endScale, scaleProgress);
+            
+            // B. Animate Opacity (Fade out at the end)
+            // We square 't' (t*t) so it stays bright for a while, then fades rapidly at the end
+            float alphaProgress = t * t;
+            float currentAlpha = Mathf.Lerp(color.a, 0f, alphaProgress);
+            sr.color = new Color(color.r, color.g, color.b, currentAlpha);
+
+            // OPTIONAL: Fade URP Light intensity if using it
+            if (light != null) light.intensity = Mathf.Lerp(2f, 0f, alphaProgress);
+           
+
+            yield return null;
+        }
+
+        // Cleanup
+        Destroy(waveObj);
+    }
+
 
 
     private void UpdateHealthBar()

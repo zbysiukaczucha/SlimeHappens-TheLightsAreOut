@@ -12,9 +12,9 @@ public class PlayerMovementLO : MonoBehaviour
     private GameManager gameManager;
     private BackgroundMusic bgMusic;
     
-    private bool lookingRight = true;
+    public bool lookingRight = true;
     private bool isIdle;
-
+    
     [Header("##  DASH  ##")]
     private bool canDash = true;
     private float dashTime = 10;
