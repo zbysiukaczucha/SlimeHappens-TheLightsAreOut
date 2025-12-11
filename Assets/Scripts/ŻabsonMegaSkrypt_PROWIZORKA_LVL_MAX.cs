@@ -19,7 +19,7 @@ namespace Slimeborne
         public String Charge;
         public String ArmSmash;
 
-        public DamageCollider[] TongueColliders;
+        public DamageCollider TongueCollider;
         public DamageCollider ArmCollider;
         public DamageCollider BodyCollider;
 
@@ -41,19 +41,12 @@ namespace Slimeborne
 
         public void EnableTongue()
         {
-            foreach (var collider in TongueColliders)
-            {
-                collider.EnableDamageCollider();
-            }
+            TongueCollider.EnableDamageCollider();
         }
 
         public void DisableTongue()
         {
-            foreach (var collider in TongueColliders)
-            {
-                collider.DisableDamageCollider();
-            }
-
+            TongueCollider.DisableDamageCollider();
         }
 
         public void EnableHand()

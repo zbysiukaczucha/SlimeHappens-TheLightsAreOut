@@ -9,7 +9,8 @@ namespace Slimeborne
         public int level = 1;
         public int maxHealth;
         public int currentHealth;
-        
+
+        public UIEnemyHealthBar enemyHealthBar;
         
         //AnimatorHandler animatorHandler;
         
@@ -22,6 +23,11 @@ namespace Slimeborne
         {
             SetMaxHealthFromLevel();
             currentHealth = maxHealth;
+            if(enemyHealthBar != null)
+            {
+                enemyHealthBar.SetMaxHealth(maxHealth);
+                enemyHealthBar.SetHealth(currentHealth);
+            }
         }
 
         private void SetMaxHealthFromLevel()
@@ -32,22 +38,16 @@ namespace Slimeborne
         public void TakeDamage(int damage)
         {
             currentHealth -= damage;
+            enemyHealthBar.SetHealth(currentHealth);
             // Play damaged animation
             //animatorHandler.PlayTargetAnimation("Damaged", true);
             print("Enemy took " + damage + " damage.");
-            if (currentHealth < 0)
+            if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 // Handle player death here
                 // animatorHandler.PlayTargetAnimation("Death", true);
                 print("Enemy has died.");
-            }
-            
-            //quick scuffed stuff
-            if(GetComponentInParent<HealthBar>() != null)
-            {
-                var bar = GetComponentInParent<HealthBar>();
-                bar.SetCurrentHealth(currentHealth);
             }
         }
 
