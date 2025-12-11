@@ -130,7 +130,7 @@ namespace Slimeborne
             Vector3 projected = Vector3.ProjectOnPlane(deltaPosition, playerMovement.surfaceNormal);
 
             // Możesz dodać delikatny ruch jeśli animacja wymaga "popychu"
-            playerMovement.rigidbody.AddForce(projected * 60f, ForceMode.Acceleration);
+            playerMovement.GetComponent<Rigidbody>().AddForce(projected * 60f, ForceMode.Acceleration);
         }
     }
 }

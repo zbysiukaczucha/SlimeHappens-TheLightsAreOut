@@ -12,7 +12,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
+  - Enemy
+  - Edge
+  - Player
+  - PowerUP
+  - Boss
+  - EnemyParts
+  - PlayerHitbox
+
   - 
   - 
   - 

@@ -212,7 +212,7 @@
                     "name": "Up",
                     "type": "Button",
                     "id": "36f13179-63bd-4b10-8906-a3c4b116a5f6",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
