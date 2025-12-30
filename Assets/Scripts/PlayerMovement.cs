@@ -58,7 +58,7 @@ namespace Slimeborne
             animatorHandler.Initialize();
 
             rigidbody.useGravity = false; // ślimak ma swoją grawitację
-            surfaceMask = ~(1 << 8 | 1 << 11);
+            surfaceMask = (1 << 6);
         }
         
         public void HandleSurfaceDetection(float delta)

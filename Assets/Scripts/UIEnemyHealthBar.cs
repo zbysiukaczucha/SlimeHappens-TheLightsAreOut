@@ -7,11 +7,15 @@ namespace Slimeborne
     public class UIEnemyHealthBar : MonoBehaviour
     {
         private Slider slider;
-        float timeUntilHide = 0f;
 
         private void Awake()
         {
             slider = GetComponentInChildren<Slider>();
+        }
+
+        private void Start()
+        {
+            SetActive(false);
         }
 
         public void SetHealth(int health)
@@ -19,7 +23,6 @@ namespace Slimeborne
             if (slider == null)
                 return;
             slider.value = health;
-            timeUntilHide = 3f;
         }
         
         public void SetMaxHealth(int maxHealth)
@@ -31,24 +34,19 @@ namespace Slimeborne
             slider.value = maxHealth;
         }
         
-        private void Update()
+        public void SetActive(bool isActive)
         {
             if (slider == null)
                 return;
-            
-            timeUntilHide -= Time.deltaTime;
 
-            if (timeUntilHide <= 0f)
-            {
-                timeUntilHide = 0f;
-                slider.gameObject.SetActive(false);
-            }
-            else if(slider.gameObject.activeInHierarchy == false)
-                slider.gameObject.SetActive(true);
-            
+            slider.gameObject.SetActive(isActive);
+        }
+        
+        private void Update()
+        {
             if (slider.value <= 0)
             {
-                Destroy(slider.gameObject);
+                SetActive(false);
             }
         }
     }
