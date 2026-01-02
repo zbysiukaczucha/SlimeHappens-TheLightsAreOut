@@ -64,6 +64,8 @@ public class PlayerMovementLO : MonoBehaviour
 
     void Update()
     {
+
+
         if (isDashing || gameManager.gameOver)
             return;
         

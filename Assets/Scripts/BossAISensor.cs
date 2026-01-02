@@ -8,6 +8,7 @@ public class BossAISensor : MonoBehaviour
     private BlackboardReference m_Blackboard;
     [SerializeField] private uint m_UpdateInterval = 10;
     private uint m_timer = 10;
+    public bool isNice = true;
 
     void Start()
     {
@@ -30,9 +31,27 @@ public class BossAISensor : MonoBehaviour
         }
     }
 
+    public void ToggleFrogAttack(bool enable)
+    {
+        // Jest na odwrót - jak IsAttacking=false to ¿aba atakuje, pewnie bug
+        if (enable)
+        {
+            m_Blackboard.SetVariableValue("IsAttacking", false);
+            print("Activating attacks");
+        }
+        else
+        {
+            m_Blackboard.SetVariableValue("IsAttacking", true);
+            print("Deactivating attacks");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        m_Blackboard.GetVariableValue("IsAttacking", out bool value);
+        if (value) return;
+
         if (m_timer == m_UpdateInterval)
         {
             m_timer = 0;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Slimeborne
 {
@@ -190,6 +191,14 @@ namespace Slimeborne
             }
 
             lockOn_Input = false;
+        }
+
+        public void LockPlayer(bool value)
+        {
+            enableMovementInput = !value;
+            cameraHandler.ToggleCameraLock(value);
+            playerAttacker.lockPlayer = value;
+            if (value) moveAmount = 0;
         }
     }
 }
