@@ -11,8 +11,6 @@ public class BossAISensor : MonoBehaviour
 
     void Start()
     {
-        //disable self until triggered
-        SetActive(false);
         BehaviorGraphAgent agent = GetComponent<BehaviorGraphAgent>();
         if (agent != null)
         {
@@ -85,10 +83,5 @@ public class BossAISensor : MonoBehaviour
         Vector3 correctedPlayerPosition = player.transform.position;
         correctedPlayerPosition.y = transform.position.y;
         return Vector3.SignedAngle(correctedPlayerPosition - transform.position, transform.forward, transform.forward);
-    }
-
-    public void SetActive(bool b)
-    {
-        gameObject.SetActive(b);
     }
 }

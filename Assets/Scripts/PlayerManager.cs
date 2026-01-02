@@ -12,6 +12,9 @@ namespace Slimeborne
         CameraHandler cameraHandler;
         PlayerMovement playerMovement;
         PlayerStats playerStats;
+        InteractableUI interactableUI;
+        public GameObject interactableUIGameObject;
+        public GameObject itemInteractableGameObject;
         
         [Header("Player Flags")]
         public bool isInteracting;
@@ -27,6 +30,7 @@ namespace Slimeborne
             anim = GetComponentInChildren<Animator>();
             playerMovement = GetComponent<PlayerMovement>();
             playerStats = GetComponent<PlayerStats>();
+            interactableUI = FindFirstObjectByType<InteractableUI>();
         }
 
         // Update is called once per frame
@@ -42,6 +46,7 @@ namespace Slimeborne
             playerMovement.HandleRolling(delta);
             
             playerStats.RegenerateStamina();
+            CheckForInteractableObject();
         }
         
         private void FixedUpdate()
@@ -70,6 +75,53 @@ namespace Slimeborne
             inputHandler.d_Pad_Up = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.d_Pad_Right = false;
+            inputHandler.interact_Input = false;
         }
+        
+        public void CheckForInteractableObject()
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position - transform.forward * 4f, 2f, transform.forward, out hit, 4f, inputHandler.interactableLayer))
+            {
+                Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+                if (interactableObject != null)
+                {
+                    string interactionText = interactableObject.interactionPrompt;
+                    interactableUI.interactionText.text = interactionText;
+                    interactableUIGameObject.SetActive(true);
+                    if (inputHandler.interact_Input)
+                    {
+                        interactableObject.Interact();
+                    }
+                }
+            }
+            else
+            {
+                if(interactableUIGameObject != null)
+                    interactableUIGameObject.SetActive(false);
+            }
+        }
+        // private void OnDrawGizmos()
+        // {
+        //     float radius = 2f;
+        //     float maxDistance = 4f;
+        //     RaycastHit hit;
+        //     Vector3 pos = transform.position - transform.forward * maxDistance;
+        //     if (Physics.SphereCast(pos, radius, transform.forward * maxDistance, out hit, maxDistance, inputHandler.interactableLayer))
+        //     {
+        //         Gizmos.color = Color.green;
+        //         Vector3 sphereCastMidpoint = pos + (transform.forward * hit.distance);
+        //         Gizmos.DrawWireSphere(sphereCastMidpoint, radius);
+        //         Gizmos.DrawSphere(hit.point, 0.1f);
+        //         Debug.DrawLine(pos, sphereCastMidpoint, Color.green);
+        //     }
+        //     else
+        //     {
+        //         Gizmos.color = Color.red;
+        //         Vector3 sphereCastMidpoint = pos + (transform.forward * (maxDistance-radius));
+        //         Gizmos.DrawWireSphere(sphereCastMidpoint, radius);
+        //         Debug.DrawLine(pos, sphereCastMidpoint, Color.red);
+        //     }
+        // }
     }
 }
