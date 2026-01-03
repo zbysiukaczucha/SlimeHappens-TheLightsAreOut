@@ -1,3 +1,4 @@
+using Slimeborne;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ namespace ShineHappens
     {
         [SerializeField]
         GameObject container, greenArea, yellowArea, redAreaBottom, redAreaTop, orangeArea;
+
+        [SerializeField]
+        TimingMinigameUI timingMinigameUI;
 
         Limits yLimits;
         Limits greenLimits;
@@ -34,7 +38,10 @@ namespace ShineHappens
 
         int triesCounter = 0;
 
-        GemAnimationScript gemAnimation;
+        public GemAnimationScript gemAnimationScript;
+        AudioManager audioManager;
+
+        PlayerInventory playerInventory;
 
         void Start()
         {
@@ -52,7 +59,14 @@ namespace ShineHappens
             orangeLimits.max = transform.position.y + orangeHeight / 2;
             orangeLimits.min = transform.position.y - orangeHeight / 2;
 
-            gemAnimation = GameManager.Instance.currentGem.GetComponent<GemAnimationScript>();
+            playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
+            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        }
+
+
+        public void connectToActiveGem()
+        {
+            gemAnimationScript = playerInventory.activeGem.GetComponentInChildren<GemAnimationScript>();
         }
 
         void Update()
@@ -66,6 +80,7 @@ namespace ShineHappens
                 }
                 else
                 {
+                    connectToActiveGem();
                     triesCounter++;
                     Color color = Color.white;
                     stop = true;
@@ -78,8 +93,7 @@ namespace ShineHappens
                         color = Color.green;
 
                         //print("<color=lime>GREAT :D</color>");
-                        gemAnimation.switchAnimation(GemStabilityLevel.Stable);
-                        //GameManager.Instance.gemParticles.PlayGemSuddenStable();
+                        gemAnimationScript.switchAnimation(GemStabilityLevel.Stable);
                     }
                     else if (transform.position.y < yellowLimits.max && transform.position.y > yellowLimits.min)
                     {
@@ -89,12 +103,12 @@ namespace ShineHappens
                         color = new Color(255, 242, 0);
 
                         //print("<color=#FFF200>Good :)</color>");
-                        gemAnimation.switchAnimation(GemStabilityLevel.Wavering);
+                        gemAnimationScript.switchAnimation(GemStabilityLevel.Wavering);
                     }
                     else if (transform.position.y < orangeLimits.max && transform.position.y > orangeLimits.min)
                     {
                         //print("<color=orange>Well... Could be worse</color>");
-                        gemAnimation.switchAnimation(GemStabilityLevel.Disrupted);
+                        gemAnimationScript.switchAnimation(GemStabilityLevel.Disrupted);
                     }
                     else
                     {
@@ -102,20 +116,21 @@ namespace ShineHappens
                             multiplier -= multiplier / 2;
 
                         //print("<color=red>Ouch :(</color>");
-                        gemAnimation.switchAnimation(GemStabilityLevel.Unstable);
-                        //GameManager.Instance.gemParticles.PlayGemSuddenStable();
+                        gemAnimationScript.switchAnimation(GemStabilityLevel.Unstable);
                     }
 
                     if (newPoints != 0)
                     {
-                        GameManager.Instance.timingMinigameUI.setAddedPointsText(newPoints, color);
-                        GameManager.Instance.timingMinigameUI.setScoreText(points);
+                        timingMinigameUI.setAddedPointsText(newPoints, color);
+                        timingMinigameUI.setScoreText(points);
                     }
                     if (triesCounter == 4)
                     {
-                        GameManager.Instance.timingMinigameUI.HideTimingPanel();
+                        timingMinigameUI.HideTimingPanel();
                         print($"<color=lime>You scored {points}/30</color>");
+                        playerInventory.activeGem.GetComponent<Gem>().powerLevel = points;
                         resetMinigame();
+                        audioManager.PlayFinishedEnchantingClip();
                     }
                 }
 

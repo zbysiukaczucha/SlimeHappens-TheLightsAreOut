@@ -6,13 +6,24 @@ namespace ShineHappens
 {
     public class GemAnimationScript : MonoBehaviour
     {
-        private Animator animator;
+        [SerializeField]
+        public GemParticles gemParticles;
+
+        public Animator animator;
         private GemStabilityLevel currentLevel;
+
+        AudioSource audioSource;
+        AudioManager audioManager;
+        float pitch = 1;
+
+        float comboPitchChange = 0.08f;
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
             currentLevel = GemStabilityLevel.Stable;
+            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         }
 
         public void switchAnimation(GemStabilityLevel level)
@@ -34,26 +45,51 @@ namespace ShineHappens
             }
 
             playParticles(currentLevel, level);
+            GemStabilityLevel clipLevel = GemStabilityLevel.Stable;
 
             switch (level)
             {
                 case GemStabilityLevel.Stable:
                     animator.SetBool("isStable", true);
+                    if (currentLevel == GemStabilityLevel.Stable || currentLevel == GemStabilityLevel.Wavering)
+                        pitch += comboPitchChange;
+                    else 
+                        pitch = 1f;
                     currentLevel = GemStabilityLevel.Stable;
+                    clipLevel = currentLevel;
                     break;
                 case GemStabilityLevel.Wavering:
                     animator.SetBool("isWavering", true);
+                    if (currentLevel == GemStabilityLevel.Stable || currentLevel == GemStabilityLevel.Wavering)
+                        pitch += comboPitchChange;
+                    else
+                        pitch = 1f;
                     currentLevel = GemStabilityLevel.Wavering;
+                    clipLevel = currentLevel;
                     break;
                 case GemStabilityLevel.Disrupted:
+                    if (currentLevel == GemStabilityLevel.Unstable)
+                    {
+                        pitch = 1f;
+                        clipLevel = GemStabilityLevel.Stable;
+                    }
+                    else
+                    {
+                        pitch = Random.Range(0.9f, 1.2f);
+                        clipLevel = GemStabilityLevel.Disrupted;
+                    }
                     animator.SetBool("isDisrupted", true);
                     currentLevel = GemStabilityLevel.Disrupted;
                     break;
                 case GemStabilityLevel.Unstable:
                     animator.SetBool("isUnstable", true);
                     currentLevel = GemStabilityLevel.Unstable;
+                    clipLevel = currentLevel;
+                    pitch = Random.Range(0.9f, 1.2f);
                     break;
             }
+            audioManager.PlayGemEnchantingClip(audioSource, clipLevel, pitch);
+            //audioSource.Play();
         }
 
         void playParticles(GemStabilityLevel previousState, GemStabilityLevel newState)
@@ -64,25 +100,25 @@ namespace ShineHappens
                 case GemStabilityLevel.Wavering:
                     if (previousState == GemStabilityLevel.Unstable)
                     {
-                        GameManager.Instance.gemParticles.PlayGemSuddenStable();
+                        gemParticles.PlayGemSuddenStable();
                     }
                     else
                     {
-                        GameManager.Instance.gemParticles.PlayGemSlowStable();
+                        gemParticles.PlayGemSlowStable();
                     }
                     break;
                 case GemStabilityLevel.Disrupted:
                     if (previousState == GemStabilityLevel.Unstable)
                     {
-                        GameManager.Instance.gemParticles.PlayGemSlowStable();
+                        gemParticles.PlayGemSlowStable();
                     }
                     else
                     {
-                        GameManager.Instance.gemParticles.PlayGemDisrupted();
+                        gemParticles.PlayGemDisrupted();
                     }
                     break;
                 case GemStabilityLevel.Unstable:
-                    GameManager.Instance.gemParticles.PlayGemUnstable();
+                    gemParticles.PlayGemUnstable();
                     break;
             }
         }

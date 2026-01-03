@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class StoneGenerator : MonoBehaviour
 {
+    [SerializeField]
+    Material boulderMaterial;
+
     [Header("Stone Settings")]
     public int resolution = 3;          // how many times to subdivide
     public float noiseStrength = 1f;  // how rough the rock is
@@ -31,6 +34,7 @@ public class StoneGenerator : MonoBehaviour
     {
         // Create a new GameObject to hold the mesh
         GameObject stone = new GameObject("Stone");
+        stone.tag = "Gem";
 
         // Add required components
         MeshFilter mf = stone.AddComponent<MeshFilter>();
@@ -40,7 +44,7 @@ public class StoneGenerator : MonoBehaviour
         mf.mesh = GenerateStone();
 
         // Assign a material (important!)
-        mr.material = new Material(Shader.Find("Standard"));
+        mr.material = boulderMaterial;
         mr.material.color = Color.Lerp(Color.gray, Color.black, Random.value);
 
         // Position it

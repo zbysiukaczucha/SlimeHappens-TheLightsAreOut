@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Enemy
   - Gemini
+  - KnobPanel
+  - StonecuttingStation
+  - Knob
+  - RunicTool
+  - Client
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
