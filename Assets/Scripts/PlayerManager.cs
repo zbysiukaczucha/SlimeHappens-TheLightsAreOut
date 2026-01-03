@@ -21,6 +21,7 @@ namespace Slimeborne
         public bool isSprinting;
         public bool canDoCombo;
         public bool isInvulnerable;
+        public bool isUltimateAttacking;
 
         // Start is called before the first frame update
         void Start()

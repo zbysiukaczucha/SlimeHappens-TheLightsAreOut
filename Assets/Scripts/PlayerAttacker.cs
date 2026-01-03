@@ -10,6 +10,8 @@ namespace Slimeborne
         PlayerStats playerStats;
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
+        PlayerManager playerManager;
+        PlayerMovement playerMovement;
         public string lastAttack;
         
         private void Awake()
@@ -18,6 +20,8 @@ namespace Slimeborne
             playerStats = GetComponent<PlayerStats>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             inputHandler = GetComponent<InputHandler>();
+            playerManager = GetComponent<PlayerManager>();
+            playerMovement = GetComponent<PlayerMovement>();
         }
         
         public void HandleWeaponCombo(WeaponItem weaponItem)
@@ -52,16 +56,18 @@ namespace Slimeborne
             lastAttack = weaponItem.LightAttack1;
         }
         
-        public void HandleHeavyAttack(WeaponItem weaponItem)
+        public void HandleUltimateAttack()
         {
-            if (playerStats.currentStamina <= 0)
+            // Add checking for enough ultimate energy here later
+            if (animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false)
                 return;
             
-            weaponSlotManager.attackingWeapon = weaponItem;
-            if (weaponItem.isUnarmed || animatorHandler.anim.GetBool("isInteracting"))
-                return;
-            animatorHandler.PlayTargetAnimation(weaponItem.HeavyAttack, true);
-            lastAttack = weaponItem.HeavyAttack;
+            playerManager.isUltimateAttacking = true;
+            weaponSlotManager.HideWeapons();
+            playerMovement.rigidbody.linearVelocity = Vector3.zero;
+            playerMovement.rigidbody.angularVelocity = Vector3.zero;
+            animatorHandler.PlayTargetAnimation("Ult", true);
+            lastAttack = null;
         }
     }
 }

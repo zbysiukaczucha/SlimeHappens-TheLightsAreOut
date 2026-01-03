@@ -152,7 +152,7 @@ namespace Slimeborne
 
             if (rt_Input)
             {
-                playerAttacker.HandleHeavyAttack(playerInventory.headWeapon);
+                playerAttacker.HandleUltimateAttack();
             }
         }
         

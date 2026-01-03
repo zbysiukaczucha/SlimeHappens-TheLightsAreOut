@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Slimeborne
@@ -13,6 +14,7 @@ namespace Slimeborne
         int vertical;
         int horizontal;
         public bool canRotate;
+        public GameObject impactEffect;
 
         public void Initialize()
         {
@@ -108,6 +110,16 @@ namespace Slimeborne
         public void DisableIsInvulnerable()
         {
             anim.SetBool("isInvulnerable", false);
+        }
+        
+        public void DisableIsUltimateAttacking()
+        {
+            playerManager.isUltimateAttacking = false;
+        }
+        
+        public void EnableImpactEffect()
+        {
+            Instantiate(impactEffect, playerManager.transform.position, Quaternion.identity);
         }
         
         private void OnAnimatorMove()
