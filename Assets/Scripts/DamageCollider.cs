@@ -25,11 +25,13 @@ namespace Slimeborne
         [Tooltip("Layer index for PlayerHitbox (colliders that belong to player).")]
         public int layerPlayerHitbox = 13;
 
+        PlayerManager playerManager;
         // Tracks which root objects we've already damaged during the current activation
         private HashSet<int> damagedRoots = new HashSet<int>();
 
         private void Awake()
         {
+            playerManager = GetComponentInParent<PlayerManager>();
             // If nothing assigned in inspector, try to gather colliders from this object and children
             if (damageColliders == null || damageColliders.Length == 0)
             {
@@ -132,12 +134,18 @@ namespace Slimeborne
             // Apply damage (only once per root per activation)
             if (isEnemyHit)
             {
+                if (playerManager != null)
+                {
+                    playerManager.playerStats.ultimateMeter++;
+                    playerManager.playerStats.ultimateBar.SetCurrentUltMeter(playerManager.playerStats.ultimateMeter);
+                    playerManager.lightManager.TemporaryIncreaseIntensity(45f, 0.5f);
+                }
                 EnemyStats enemyStats = collision.GetComponentInParent<EnemyStats>();
                 if (enemyStats != null)
                 {
-                    enemyStats.TakeDamage(currentWeaponDamage);
+                    enemyStats.TakeDamage((int)(currentWeaponDamage * playerManager.playerStats.damageMultiplier));
                     damagedRoots.Add(rootId);
-                    Debug.Log($"[DamageCollider] {gameObject.name} damaged ENEMY {root.name} for {currentWeaponDamage}", this);
+                    Debug.Log($"[DamageCollider] {gameObject.name} damaged ENEMY {root.name} for {(int)(currentWeaponDamage * playerManager.playerStats.damageMultiplier)}", this);
                 }
                 else
                 {

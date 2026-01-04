@@ -21,6 +21,7 @@ namespace Slimeborne
         public bool d_Pad_Left;
         public bool d_Pad_Right;
         public bool lockOn_Input;
+        public bool interact_Input;
         
         public bool enableMovementInput = true;
         
@@ -40,6 +41,8 @@ namespace Slimeborne
         Vector2 movementInput;
         Vector2 cameraInput;
         
+        public LayerMask interactableLayer;
+        
         private void Awake()
         {
             playerAttacker = GetComponent<PlayerAttacker>();
@@ -48,6 +51,8 @@ namespace Slimeborne
             playerStats = GetComponent<PlayerStats>();
             cameraHandler = FindFirstObjectByType<CameraHandler>();
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            interactableLayer = LayerMask.GetMask("Interactable");
         }
 
         public void OnEnable()
@@ -80,6 +85,7 @@ namespace Slimeborne
             HandleAttackInput(delta);
             HandleQuickSlotsInput(delta);
             HandleLockOnInput();
+            HandleInteractInput();
         }
         
         private void HandleMovementInput(float delta)
@@ -146,7 +152,7 @@ namespace Slimeborne
 
             if (rt_Input)
             {
-                playerAttacker.HandleHeavyAttack(playerInventory.headWeapon);
+                playerAttacker.HandleUltimateAttack();
             }
         }
         
@@ -190,6 +196,11 @@ namespace Slimeborne
             }
 
             lockOn_Input = false;
+        }
+        
+        private void HandleInteractInput()
+        {
+            inputActions.PlayerActions.Interact.performed += i => interact_Input = true;
         }
     }
 }

@@ -79,5 +79,17 @@ namespace Slimeborne
         {
             playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStaminaCost * attackingWeapon.heavyAttackStaminaMultiplier));
         }
+        
+        public void HideWeapons()
+        {
+            headSlot.currentWeaponModel.SetActive(false);
+            tailSlot.currentWeaponModel.SetActive(false);
+        }
+        
+        public void UnhideWeapons()
+        {
+            headSlot.currentWeaponModel.SetActive(true);
+            tailSlot.currentWeaponModel.SetActive(true);
+        }
     }
 }

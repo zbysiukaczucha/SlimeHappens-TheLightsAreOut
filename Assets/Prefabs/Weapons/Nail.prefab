@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageColliders:
   - {fileID: 588986845429289164}
-  currentWeaponDamage: 25
+  currentWeaponDamage: 30
   layerEnemy: 7
   layerPlayer: 9
   layerBoss: 11
