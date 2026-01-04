@@ -15,8 +15,14 @@ namespace Slimeborne
         public float currentStamina;
         public float staminaRegenRate = 5;
         
+        public int ultimateMeter = 0;
+        public const int maxUltimateMeter = 10;
+        
+        public float damageMultiplier = 1f;
+        
         public HealthBar healthBar;
         public StaminaBar staminaBar;
+        public UltimateBar ultimateBar;
         
         AnimatorHandler animatorHandler;
         PlayerManager playerManager;
@@ -27,6 +33,9 @@ namespace Slimeborne
             playerManager = GetComponent<PlayerManager>();
             healthBar = FindFirstObjectByType<HealthBar>();
             staminaBar = FindFirstObjectByType<StaminaBar>();
+            ultimateBar = FindFirstObjectByType<UltimateBar>();
+            //PlayerPrefs.SetInt("LastScore", 45); // For testing purposes
+            damageMultiplier = PlayerPrefs.GetInt("LastScore", 30) / 30f;
         }
 
         private void Start()
@@ -38,6 +47,9 @@ namespace Slimeborne
             SetMaxStaminaFromLevel();
             currentStamina = maxStamina;
             staminaBar.SetMaxStamina(Mathf.RoundToInt(maxStamina));
+            
+            ultimateBar.SetMaxUltMeter(maxUltimateMeter);
+            ultimateBar.SetCurrentUltMeter(ultimateMeter);
         }
 
         private void SetMaxHealthFromLevel()

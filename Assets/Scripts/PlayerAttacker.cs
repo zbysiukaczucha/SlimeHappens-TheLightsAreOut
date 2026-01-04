@@ -59,7 +59,7 @@ namespace Slimeborne
         public void HandleUltimateAttack()
         {
             // Add checking for enough ultimate energy here later
-            if (animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false)
+            if (playerStats.ultimateMeter < PlayerStats.maxUltimateMeter || animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false)
                 return;
             
             playerManager.isUltimateAttacking = true;
@@ -68,6 +68,8 @@ namespace Slimeborne
             playerMovement.rigidbody.angularVelocity = Vector3.zero;
             animatorHandler.PlayTargetAnimation("Ult", true);
             lastAttack = null;
+            playerStats.ultimateMeter = 0;
+            playerStats.ultimateBar.SetCurrentUltMeter(playerStats.ultimateMeter);
         }
     }
 }

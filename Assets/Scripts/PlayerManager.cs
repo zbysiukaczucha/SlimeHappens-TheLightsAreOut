@@ -11,10 +11,12 @@ namespace Slimeborne
         Animator anim;
         CameraHandler cameraHandler;
         PlayerMovement playerMovement;
-        PlayerStats playerStats;
+        public PlayerStats playerStats;
         InteractableUI interactableUI;
         public GameObject interactableUIGameObject;
         public GameObject itemInteractableGameObject;
+        
+        public LightManager lightManager;
         
         [Header("Player Flags")]
         public bool isInteracting;
