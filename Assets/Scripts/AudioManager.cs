@@ -1,6 +1,7 @@
 using ShineHappens;
 using UnityEngine;
 using UnityEngine.Audio;
+using System;
 
 public enum SoundType
 {
@@ -18,34 +19,16 @@ public enum SoundType
     SnailLightAttack1,
     SnailLightAttack2,
     SnailLightAttack3alt,
-    SnailDodgeBack
+    SnailDodgeBack,
+    SnailMove,
 }
 
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
-    /*[SerializeField]
-    AudioClip enchantingFinishedClip;
-    [SerializeField]
-    AudioClip gemUnstableClip;
-    [SerializeField]
-    AudioClip gemDisruptedClip;
-    [SerializeField]
-    AudioClip gemWaveringClip;
-    [SerializeField]
-    AudioClip gemStableClip;
 
     [SerializeField]
-    AudioClip frogThumpAttackClip;
-    [SerializeField]
-    AudioClip frogTongueAttackClip;
-    [SerializeField]
-    AudioClip frogFlipAttackClip;*/
-
-
-
-    [SerializeField]
-    private AudioClip[] soundList;
+    private SoundList[] soundList;
 
     private static AudioManager instance;
     AudioSource audioSource;
@@ -63,25 +46,33 @@ public class AudioManager : MonoBehaviour
     public static void PlaySound(SoundType sound, float pitch = 1, float volume = 1)
     {
         instance.audioSource.pitch= pitch;
-        instance.audioSource.PlayOneShot(instance.soundList[(int)sound], volume);
-        //instance.audioSource.pitch = 1;
+        //instance.audioSource.PlayOneShot(instance.soundList[(int)sound], volume);
+        AudioClip[] clips = instance.soundList[(int)sound].Sounds;
+        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        instance.audioSource.PlayOneShot(randomClip, volume);
     }
 
-    public static void PlayConstant(SoundType sound, float pitch = 1, float volume = 1)
+
+#if UNITY_EDITOR
+    private void OnEnable()
     {
-        instance.audioSource.clip = instance.soundList[(int)sound];
-        instance.audioSource.pitch = pitch;
-        instance.audioSource.volume = volume;
-        instance.audioSource.loop = true;
-        instance.audioSource.Play();
+        string[] names = Enum.GetNames(typeof(SoundType));
+        Array.Resize(ref soundList, names.Length);
+        for(int i =0; i < soundList.Length; i++)
+        {
+            soundList[i].name = names[i];
+        }
     }
-
-    public static void StopConstant()
-    {
-        instance.audioSource.Stop();
-        instance.audioSource.clip = null;
-        instance.audioSource.loop = false;
-    }
-
-
+#endif
 }
+
+[Serializable]
+public struct SoundList
+{
+    public AudioClip[] Sounds { get => sounds; }
+    [HideInInspector]
+    public string name;
+    [SerializeField] 
+    private AudioClip[] sounds;
+}
+

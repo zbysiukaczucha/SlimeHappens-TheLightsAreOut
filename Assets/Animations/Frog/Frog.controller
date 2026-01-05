@@ -58,7 +58,6 @@ AnimatorState:
   - {fileID: -7622205312301947109}
   m_StateMachineBehaviours:
   - {fileID: -6382113952663412427}
-  - {fileID: -4790949495697767729}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -86,7 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 11
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!114 &-4790949495697767729
@@ -114,7 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 6
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!114 &-3350477450683141260
@@ -130,7 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 10
-  playConstant: 1
   randomizePitch: 0
   volume: 1
 --- !u!114 &-2438772895299306223
@@ -146,7 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 7
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!1101 &-2391079407260887442
@@ -512,7 +507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   sound: 4
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!1102 &4216928626892476981
@@ -582,7 +576,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 9
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!114 &8788451810658268515
@@ -598,7 +591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaySoundEnter
   sound: 8
-  playConstant: 0
   randomizePitch: 0
   volume: 1
 --- !u!114 &9049323592153934048
@@ -632,7 +624,7 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 5599871095008294255, guid: 7ec095a968ba6114d98065603b317c23, type: 3}
+    m_Motion: {fileID: 7400000, guid: c20c6f042e257974eb940f2348c3e12b, type: 2}
     m_Threshold: 5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
