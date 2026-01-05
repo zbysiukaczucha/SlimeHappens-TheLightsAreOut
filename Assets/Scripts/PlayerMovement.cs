@@ -192,7 +192,7 @@ namespace Slimeborne
 
         public void HandleMovement(float delta)
         {
-            if (inputHandler.rollFlag || !isAttachedToSurface || playerManager.isUltimateAttacking) return;
+            if (inputHandler.rollFlag || !isAttachedToSurface || playerManager.isUltimateAttacking || !inputHandler.enableMovementInput) return;
 
 
             Vector3 inputDir = (cameraObject.forward * inputHandler.vertical +

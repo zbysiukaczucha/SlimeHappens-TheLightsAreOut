@@ -144,5 +144,8 @@ namespace Slimeborne
             // Możesz dodać delikatny ruch jeśli animacja wymaga "popychu"
             playerMovement.GetComponent<Rigidbody>().AddForce(projected * 60f, ForceMode.Acceleration);
         }
+
+
     }
+
 }

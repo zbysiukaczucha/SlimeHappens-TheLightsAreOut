@@ -13,6 +13,8 @@ namespace Slimeborne
         PlayerManager playerManager;
         PlayerMovement playerMovement;
         public string lastAttack;
+
+        public bool lockPlayer;
         
         private void Awake()
         {
@@ -26,7 +28,7 @@ namespace Slimeborne
         
         public void HandleWeaponCombo(WeaponItem weaponItem)
         {
-            if(weaponItem.isUnarmed || playerStats.currentStamina <= 0)
+            if(weaponItem.isUnarmed || playerStats.currentStamina <= 0 || lockPlayer)
                 return;
             if (inputHandler.comboFlag)
             {
@@ -46,7 +48,7 @@ namespace Slimeborne
         
         public void HandleLightAttack(WeaponItem weaponItem)
         {
-            if (playerStats.currentStamina <= 0)
+            if (playerStats.currentStamina <= 0 || lockPlayer)
                 return;
             
             weaponSlotManager.attackingWeapon = weaponItem;
@@ -59,7 +61,7 @@ namespace Slimeborne
         public void HandleUltimateAttack()
         {
             // Add checking for enough ultimate energy here later
-            if (playerStats.ultimateMeter < PlayerStats.maxUltimateMeter || animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false)
+            if (playerStats.ultimateMeter < PlayerStats.maxUltimateMeter || animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false || lockPlayer)
                 return;
             
             playerManager.isUltimateAttacking = true;

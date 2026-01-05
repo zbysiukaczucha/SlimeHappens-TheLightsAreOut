@@ -251,6 +251,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 92d2cd6c33cd5af448019c583d851a72, type: 2}
   currentHeadWeaponIndex: 0
   currentTailWeaponIndex: 0
+  gems: []
+  activeGem: {fileID: 0}
 --- !u!114 &1326547291266265503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastAttack: 
+  lockPlayer: 0
 --- !u!114 &5022983238187075160
 MonoBehaviour:
   m_ObjectHideFlags: 0

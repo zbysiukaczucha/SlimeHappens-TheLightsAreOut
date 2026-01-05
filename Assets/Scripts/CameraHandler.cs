@@ -43,7 +43,9 @@ namespace Slimeborne
         List<CharacterManager> availableTargets = new List<CharacterManager>();
         public Transform nearestLockOnTarget;
         public float maximumLockOnDistance = 30f;
-        
+
+        private bool lockCam = false;
+
         private void Awake()
         {
             singleton = this;
@@ -67,6 +69,10 @@ namespace Slimeborne
         
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
+            if (lockCam)
+            {
+                return;
+            }
             if (currentLockOnTarget == null)
             {
                 inputHandler.lockOnFlag = false;
@@ -229,6 +235,22 @@ namespace Slimeborne
                 yield return null;
             }
             cameraPivotTransform.localPosition = targetPosition;
+        }
+
+        public void ToggleCameraLock(bool lockCamera)
+        {
+            if (lockCamera)
+            {
+                lockCam = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                lockCam = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 }
