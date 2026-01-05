@@ -234,7 +234,7 @@ public class Boss : MonoBehaviour
             
 
             // DROP POWERUP
-            Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y), Quaternion.identity);
+            Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
             
             
             anim.enabled = false;

@@ -35,6 +35,9 @@ public class SpawnEnemy : MonoBehaviour
     private int enemiesToSpawn;
     private int enemiesSpawned = 0;
     private int enemiesAlive = 0;
+    
+    [Range(0f, 100f)]
+    public float bossSpawnChance = 10f;
 
     [SerializeField] private float timeBetweenWaves = 5f;
     private float waveTimer = 0f;
@@ -98,22 +101,21 @@ public class SpawnEnemy : MonoBehaviour
                 timer += Time.deltaTime;
             else
             {
+                float rollout = Random.Range(0f, 100f);
+
+                if (rollout < bossSpawnChance)
+                {
+                    SpawnBossInstance();
+                }
+                else
+                {
+                    SpawnEnemyInstance();
+                }
+                
                 spawnInterval = Random.Range(spawnIntervalInit - spawnIntervalOffset, spawnIntervalInit + spawnIntervalOffset);
-                SpawnEnemyInstance();
                 enemiesSpawned++;
                 enemiesAlive++;
                 timer = 0f;
-            }
-
-            // SPAWN BOSS EVERY 5 WAVES
-            if (waveNumber % 5 == 0 && waveNumber != 0 && enemiesSpawned == enemiesToSpawn)
-            {
-                for (int i = 0; i < waveNumber / 5; i++)
-                {
-                    SpawnBossInstance();
-                    enemiesSpawned++;
-                }
-
             }
         }
 

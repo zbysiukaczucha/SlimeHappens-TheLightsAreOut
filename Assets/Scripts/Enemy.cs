@@ -236,11 +236,11 @@ public class Enemy : MonoBehaviour
             killCount.text = (int.Parse(killCount.text) + 1).ToString();
             enemyRigid.linearVelocity = Vector2.zero;
 
-
+            
             // DROP HEALUP CHANCE
             if (Random.Range(1, 101) <= gameManager.healUpChance)
-                Instantiate(healthPackPrefab, new Vector3(transform.position.x, transform.position.y), Quaternion.identity);
-
+                Instantiate(healthPackPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+            
             // GRANT POWER POINTS
             if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
                 player.GetComponent<PlayerCombat>().powerPoints += 1;
