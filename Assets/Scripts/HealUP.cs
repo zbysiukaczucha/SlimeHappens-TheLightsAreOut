@@ -11,11 +11,12 @@ public class HealUP : MonoBehaviour
     private LayerMask playerLayer;
     private Rigidbody2D rigid;
     
-    [Header("##  GROW ANIMATION  ##")]   
+    [Header("##  GROW ANIMATION + ROTATION  ##")]   
     private float amplitude = 0.33f;
     private float frequency = 1;
     private Vector2 startingScale;
     private Vector2 tempScale;
+    private Vector3 rotationSpeed = new Vector3(0, 100, 0);
     
     // [Header("##  GLOW ANIMATION  ##")]
     // [SerializeField] private float glowAmplitude;
@@ -25,7 +26,7 @@ public class HealUP : MonoBehaviour
     private Light2D glow;
     private float tempFalloff;
     
-
+    
 
 
 
@@ -59,6 +60,7 @@ public class HealUP : MonoBehaviour
 
     void Update()
     {
+        transform.Rotate(rotationSpeed * Time.deltaTime);
         if(PlayerTouch() && playerCombat.currentHealth < playerCombat.maxHealth)
         {
             playerCombat.HealPlayer(gameManager.healAmount);

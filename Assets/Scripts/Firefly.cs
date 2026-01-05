@@ -9,6 +9,7 @@ public class Firefly : MonoBehaviour
     private bool chasing = false;
     private Transform player;
     private PlayerCombat playerCombat;
+    private PlayerMovementLO playerMovement;
     [SerializeField] private ParticleSystem explosionPrefab;
     
     void Start()
@@ -16,6 +17,7 @@ public class Firefly : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerCombat = player.GetComponent<PlayerCombat>();
         direction = transform.position.x > 0 ? Vector2.left : Vector2.right;
+        playerMovement = player.GetComponent<PlayerMovementLO>();
     }
 
     void Update()
@@ -49,7 +51,8 @@ public class Firefly : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            playerCombat.TakeDamage(50);
+            if(!playerMovement.isDashing)
+                playerCombat.TakeDamage(50);
             
             SpawnExplosion();
             Destroy(gameObject);

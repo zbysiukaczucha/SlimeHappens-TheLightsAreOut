@@ -108,11 +108,12 @@ public class Enemy : MonoBehaviour
         // KILLCOUNT TEXT
         killCount = GameObject.Find("Counter").GetComponent<TMP_Text>();
         
-        // HEALTH AND DAMAGE DEPENDING ON SCORE
-            // CHANGE = KILLCOUNT / SCORE INTERVAL * HOW MUCH
-        maxHealth = 80 + int.Parse(killCount.text) / 5 * 10;
+        // HEALTH AND DAMAGE DEPENDING ON WAVE NUMBER
+        // maxHealth = 80 + int.Parse(killCount.text) / 5 * 10;
+        maxHealth = 80 + (GameObject.Find("Enemy Spawner").GetComponent<SpawnEnemy>().waveNumber - 1) * 10;
         currentHealth = maxHealth;
-        damage = 50 + int.Parse(killCount.text) / 10 * 5;
+        // damage = 50 + int.Parse(killCount.text) / 10 * 5;
+        damage = 50 + (GameObject.Find("Enemy Spawner").GetComponent<SpawnEnemy>().waveNumber - 1) * 5;
         bgMusic = GameObject.Find("Audio Source").GetComponent<BackgroundMusic>();
         
         // INITIALIZATIONS
@@ -235,11 +236,11 @@ public class Enemy : MonoBehaviour
             killCount.text = (int.Parse(killCount.text) + 1).ToString();
             enemyRigid.linearVelocity = Vector2.zero;
 
-
+            
             // DROP HEALUP CHANCE
             if (Random.Range(1, 101) <= gameManager.healUpChance)
-                Instantiate(healthPackPrefab, new Vector3(transform.position.x, transform.position.y), Quaternion.identity);
-
+                Instantiate(healthPackPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+            
             // GRANT POWER POINTS
             if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
                 player.GetComponent<PlayerCombat>().powerPoints += 1;
