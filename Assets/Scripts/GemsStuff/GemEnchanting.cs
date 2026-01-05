@@ -12,18 +12,18 @@ namespace ShineHappens
         public Animator animator;
         private GemStabilityLevel currentLevel;
 
-        AudioSource audioSource;
-        AudioManager audioManager;
+        //AudioSource audioSource;
+        //AudioManager audioManager;
         float pitch = 1;
 
         float comboPitchChange = 0.08f;
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            //audioSource = GetComponent<AudioSource>();
             animator = GetComponent<Animator>();
             currentLevel = GemStabilityLevel.Stable;
-            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+            //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         }
 
         public void switchAnimation(GemStabilityLevel level)
@@ -45,7 +45,8 @@ namespace ShineHappens
             }
 
             playParticles(currentLevel, level);
-            GemStabilityLevel clipLevel = GemStabilityLevel.Stable;
+            //GemStabilityLevel clipLevel = GemStabilityLevel.Stable;
+            SoundType soundToPlay = SoundType.GemPowerUp;
 
             switch (level)
             {
@@ -56,7 +57,7 @@ namespace ShineHappens
                     else 
                         pitch = 1f;
                     currentLevel = GemStabilityLevel.Stable;
-                    clipLevel = currentLevel;
+                    soundToPlay = SoundType.GemPowerUp;
                     break;
                 case GemStabilityLevel.Wavering:
                     animator.SetBool("isWavering", true);
@@ -65,18 +66,18 @@ namespace ShineHappens
                     else
                         pitch = 1f;
                     currentLevel = GemStabilityLevel.Wavering;
-                    clipLevel = currentLevel;
+                    soundToPlay = SoundType.GemPowerUp;
                     break;
                 case GemStabilityLevel.Disrupted:
                     if (currentLevel == GemStabilityLevel.Unstable)
                     {
                         pitch = 1f;
-                        clipLevel = GemStabilityLevel.Stable;
+                        soundToPlay = SoundType.GemPowerUp;
                     }
                     else
                     {
                         pitch = Random.Range(0.9f, 1.2f);
-                        clipLevel = GemStabilityLevel.Disrupted;
+                        soundToPlay = SoundType.GemDisrupted;
                     }
                     animator.SetBool("isDisrupted", true);
                     currentLevel = GemStabilityLevel.Disrupted;
@@ -84,11 +85,12 @@ namespace ShineHappens
                 case GemStabilityLevel.Unstable:
                     animator.SetBool("isUnstable", true);
                     currentLevel = GemStabilityLevel.Unstable;
-                    clipLevel = currentLevel;
+                    soundToPlay = SoundType.GemPoof;
                     pitch = Random.Range(0.9f, 1.2f);
                     break;
             }
-            audioManager.PlayGemEnchantingClip(audioSource, clipLevel, pitch);
+            AudioManager.PlaySound(soundToPlay, pitch);
+            //audioManager.PlayGemEnchantingClip(audioSource, clipLevel, pitch);
             //audioSource.Play();
         }
 

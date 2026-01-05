@@ -39,7 +39,7 @@ namespace ShineHappens
         int triesCounter = 0;
 
         public GemAnimationScript gemAnimationScript;
-        AudioManager audioManager;
+        //AudioManager audioManager;
 
         PlayerInventory playerInventory;
 
@@ -60,7 +60,7 @@ namespace ShineHappens
             orangeLimits.min = transform.position.y - orangeHeight / 2;
 
             playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
-            audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+            //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         }
 
 
@@ -130,7 +130,8 @@ namespace ShineHappens
                         print($"<color=lime>You scored {points}/30</color>");
                         playerInventory.activeGem.GetComponent<Gem>().powerLevel = points;
                         resetMinigame();
-                        audioManager.PlayFinishedEnchantingClip();
+                        AudioManager.PlaySound(SoundType.EnchantingFinished);
+                        //audioManager.PlayFinishedEnchantingClip();
                     }
                 }
 
