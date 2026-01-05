@@ -79,8 +79,8 @@ public class PlayerCombat : MonoBehaviour
     private InputAction attack2Action;
     private InputAction attack3Action;
     private InputAction powerAction;
-
-    public long powerPoints;
+    
+    public int powerPoints;
 
     private float healthPercent = 1;
     
@@ -364,13 +364,14 @@ public class PlayerCombat : MonoBehaviour
     public void UsePower()
     {
         if (powerPoints <= 4) return;
-
+        
         Vector2 hitCenter;
         Vector2 hitSize;
         int damageMultiplier;
         int cost;
         Color color;
         float duration;
+        int tier;
 
         // 1 Tier Attack
         if (powerPoints <= 9)
@@ -378,9 +379,10 @@ public class PlayerCombat : MonoBehaviour
             cost = 5;
             damageMultiplier = 2;
             hitCenter = attackPoint.position;            
-            hitSize = new Vector2(3f, 0.8f);
-            color = new Color32(0, 204, 255, 150); // Jasny Cyjan
+            hitSize = new Vector2(5f, 0.8f);
+            color = new Color32(0, 204, 255, 50); // Jasny Cyjan
             duration = 0.5f;
+            tier = 1;
         }
         // 2 Tier Attack
         else
@@ -388,24 +390,17 @@ public class PlayerCombat : MonoBehaviour
             cost = 10;
             damageMultiplier = 3;
             hitCenter = player.transform.position;
-            hitSize = new Vector2(5f, 0.8f);
-            color = new Color32(204, 0, 255, 150); // Intensywny Fiolet
-            duration = 1.2f;
+            hitSize = new Vector2(8f, 0.8f);
+            color = new Color32(204, 0, 255, 50); // Intensywny Fiolet
+            duration = 0.7f;
+            tier = 2;
         }
 
         powerPoints -= cost;
 
         // VISUAL EFFECT
-        if (powerPoints <= 9)
-        {
-            if (playerMovement.lookingRight )
-                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x + 5f, hitCenter.y), hitSize, color, duration));
-            else
-                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x - 5f, hitCenter.y), hitSize, color, duration));
-        }
-        else
-            StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration));
-
+        StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration, tier));
+        
         Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, enemyLayer);
         Collider2D[] bossesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, bossLayer);
 
@@ -432,12 +427,22 @@ public class PlayerCombat : MonoBehaviour
     
 
     
-    private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration)
+    private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration, int tier)
     {
         // Create a temporary GameObject
         GameObject waveObj = new GameObject("UltimateWave");
-        waveObj.transform.position = new Vector3(center.x, center.y, -1f);
         
+        Vector2 startPosition = center;
+        Vector2 endPosition = center;
+        if (tier == 1)
+        {
+            float distance = 5f;
+            endPosition = center + (playerMovement.lookingRight ? Vector2.right : Vector2.left) * distance;
+        }
+        
+        waveObj.transform.position = new Vector3(startPosition.x, startPosition.y, -1f);
+        
+
         // Add a SpriteRenderer and set it to a simple white square
         SpriteRenderer sr = waveObj.AddComponent<SpriteRenderer>();
         
@@ -453,16 +458,13 @@ public class PlayerCombat : MonoBehaviour
         // 2. DEFINE ANIMATION PARAMETERS
         float timer = 0f;
 
-        // Start Scale: Very thin vertically, almost zero horizontally right in the center
-        Vector3 startScale = new Vector3(0.5f, size.y * 2, 1f);
-
-        // End Scale: We multiply by 1.2f to make the visual wave slightly BIGGER 
-        // than the actual hitbox for extra impact.
-        Vector3 endScale = new Vector3(size.x * 4, size.y * 3, 1f);
+        Vector3 startScale = new Vector3(0.5f, size.y * 2f, 1f);
+        
+        Vector3 endScale = new Vector3(size.x * 2f, tier == 1 ? size.y * 4f : size.y * 6f, 1f);
         
         // Initialize size
         waveObj.transform.localScale = startScale;
-
+        
         Light2D light = null;
         if (UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline != null)
         {
@@ -480,6 +482,10 @@ public class PlayerCombat : MonoBehaviour
             // 't' is a value from 0 to 1 representing animation progress
             float t = timer / duration;
 
+            // Animate Position
+            waveObj.transform.position = Vector2.Lerp(startPosition, endPosition, t);
+            
+
             // A. Animate Scale (Expand outwards)
             // We use an "EaseOut" curve (Mathf.Sin) so it bursts fast and slows down at the end
             float scaleProgress = Mathf.Sin(t * Mathf.PI * 0.5f); 
@@ -487,12 +493,12 @@ public class PlayerCombat : MonoBehaviour
             
             // B. Animate Opacity (Fade out at the end)
             // We square 't' (t*t) so it stays bright for a while, then fades rapidly at the end
-            float alphaProgress = t * t;
+            float alphaProgress = t * t * t;
             float currentAlpha = Mathf.Lerp(color.a, 0f, alphaProgress);
             sr.color = new Color(color.r, color.g, color.b, currentAlpha);
 
             // OPTIONAL: Fade URP Light intensity if using it
-            if (light != null) light.intensity = Mathf.Lerp(2f, 0f, alphaProgress);
+            if (light != null) light.intensity = Mathf.Lerp(3f, 0f, alphaProgress);
            
 
             yield return null;
