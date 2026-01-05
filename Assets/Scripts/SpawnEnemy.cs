@@ -31,7 +31,7 @@ public class SpawnEnemy : MonoBehaviour
     public InputActionAsset inputActions;
     private InputAction nextWaveAction;
 
-    private int waveNumber = 1;
+    public int waveNumber = 1;
     private int enemiesToSpawn;
     private int enemiesSpawned = 0;
     private int enemiesAlive = 0;
