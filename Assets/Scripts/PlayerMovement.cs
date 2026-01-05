@@ -63,6 +63,9 @@ namespace Slimeborne
         
         public void HandleSurfaceDetection(float delta)
         {
+            if(playerManager.isUltimateAttacking)
+                return;
+            
             RaycastHit hit;
             Vector3 origin = myTransform.position + myTransform.up * 0.2f;
 
@@ -189,7 +192,7 @@ namespace Slimeborne
 
         public void HandleMovement(float delta)
         {
-            if (inputHandler.rollFlag || !isAttachedToSurface || !inputHandler.enableMovementInput) return;
+            if (inputHandler.rollFlag || !isAttachedToSurface || playerManager.isUltimateAttacking || !inputHandler.enableMovementInput) return;
 
 
             Vector3 inputDir = (cameraObject.forward * inputHandler.vertical +
@@ -292,7 +295,7 @@ namespace Slimeborne
         
         public void ApplyLocalGravity(float delta)
         {
-            if (!isAttachedToSurface)
+            if (!isAttachedToSurface || playerManager.isUltimateAttacking)
                 return; 
 
             // Lokalna grawitacja w stronę powierzchni

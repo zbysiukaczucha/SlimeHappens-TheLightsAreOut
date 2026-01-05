@@ -16,7 +16,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - Ground
@@ -27,7 +27,7 @@ TagManager:
   - Boss
   - EnemyParts
   - PlayerHitbox
-  - 
+  - Camera
   - 
   - 
   - 
