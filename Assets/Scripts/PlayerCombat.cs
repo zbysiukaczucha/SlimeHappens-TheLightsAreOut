@@ -61,9 +61,11 @@ public class PlayerCombat : MonoBehaviour
     
     [Header("##  COMBAT  ##")]
     private Transform attackPoint;
-    private float nextAttackTime = 0;
+    private float nextAttack1Time = 0;
+    private float nextAttack2Time = 0;
+    private float nextAttack3Time = 0;
     private int baseAttackDamage = 50;
-    private int chosenAttack;
+    private bool isAttacking = false;
     
     [Header("##  PUBLIC VARIABLES  ##")]
     [ShowOnly] public int currentHealth;
@@ -73,7 +75,9 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("## MOVEMENT ##")]
     public InputActionAsset inputActions;
-    private InputAction attackAction;
+    private InputAction attack1Action;
+    private InputAction attack2Action;
+    private InputAction attack3Action;
     private InputAction powerAction;
 
     public long powerPoints;
@@ -148,7 +152,7 @@ public class PlayerCombat : MonoBehaviour
         attackDamage = baseAttackDamage;
         maxHealth = 250;
         currentHealth = maxHealth;
-        attackRate = 1.3f;
+        attackRate = 1.1f;
         
         healthBarFill.fillAmount = Mathf.Clamp01((float)currentHealth / maxHealth);
         targetHealthBarFill = healthBarFill.fillAmount;
@@ -157,9 +161,13 @@ public class PlayerCombat : MonoBehaviour
         
         // Input System
         var playerActionMap = inputActions.FindActionMap("Player");
-        attackAction = playerActionMap.FindAction("Attack");
+        attack1Action = playerActionMap.FindAction("Attack1");
+        attack2Action = playerActionMap.FindAction("Attack2");
+        attack3Action = playerActionMap.FindAction("Attack3");
         powerAction = playerActionMap.FindAction("Power");
-        attackAction.Enable();
+        attack1Action.Enable();
+        attack2Action.Enable();
+        attack3Action.Enable();
         powerAction.Enable();
     }
     
@@ -169,13 +177,24 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (anim.GetBool("Finished_Falling_Touchdown") && Time.time >= nextAttackTime
-            && attackAction.WasPerformedThisFrame())
-        {
-            Attack();
-            inputActions.Disable();
-            nextAttackTime = Time.time + 1 / attackRate;
+        if (anim.GetBool("Finished_Falling_Touchdown") && !isAttacking) {
+            if (attack1Action.WasPerformedThisFrame() && Time.time >= nextAttack1Time)
+            {
+                Attack();
+                nextAttack1Time = Time.time + 1 / attackRate;
+            }
+            else if (attack2Action.WasPerformedThisFrame() && Time.time >= nextAttack2Time)
+            {
+                Attack();
+                nextAttack2Time = Time.time + 1 / attackRate;
+            }
+            else if (attack3Action.WasPerformedThisFrame() && Time.time >= nextAttack3Time)
+            {
+                Attack();
+                nextAttack3Time = Time.time + 1 / attackRate;
+            }
         }
+        
 
         if (anim.GetBool("Finished_Falling_Touchdown") && powerAction.WasPerformedThisFrame())
         {
@@ -188,31 +207,27 @@ public class PlayerCombat : MonoBehaviour
             healthBarFill.fillAmount = Mathf.SmoothStep(healthBarFill.fillAmount, targetHealthBarFill, Time.deltaTime * healthBarFillSpeed);
         }
     }
-    
+
 
 
 
 
     void Attack()
     {
+
         // ATTACK ANIMATION
-        chosenAttack = Random.Range(1, 4);
-        switch (chosenAttack)
-        {
-            case 1: 
-                anim.SetTrigger("Attack1");
-                break;
-            case 2: 
-                anim.SetTrigger("Attack2");
-                break;
-            case 3: 
-                anim.SetTrigger("Attack3");
-                break;
-            default:
-                Debug.Log("Bruh");
-                break;
-        }
-        
+        if (attack1Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack1");
+        else if (attack2Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack2");
+        else if (attack3Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack3");
+        else
+            Debug.Log("Bruh");
+
+        isAttacking = true;
+
+
 
         // CHARGE
         {
@@ -222,27 +237,27 @@ public class PlayerCombat : MonoBehaviour
             playerMovement.DisableMovement();
             playerMovement.velocityX = 0f;
         }
-        
-        
+
+
         // SQUARE COLLIDER
         Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(2.2f, 0.5f), 0, enemyLayer);
         Collider2D[] bossesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(2.2f, 0.5f), 0, bossLayer);
 
-        
+
         // SOUNDS
-        if(enemiesHit.Length == 0 && bossesHit.Length == 0)
+        if (enemiesHit.Length == 0 && bossesHit.Length == 0)
             bgMusic.noHitPunch.Play();
 
-        else if(enemiesHit.Length == 1 && bossesHit.Length == 0)
+        else if (enemiesHit.Length == 1 && bossesHit.Length == 0)
             bgMusic.enemyHitPunches[Random.Range(0, bgMusic.enemyHitPunches.Length)].Play();
-        
-        else if(enemiesHit.Length == 0 && bossesHit.Length == 1)
+
+        else if (enemiesHit.Length == 0 && bossesHit.Length == 1)
             bgMusic.bossHitPunches[Random.Range(0, bgMusic.bossHitPunches.Length)].Play();
-        
+
         else
             bgMusic.multiHitPunch.Play();
-        
-        
+
+
         // ENEMY HIT
         foreach (Collider2D enemy in enemiesHit)
         {
@@ -260,13 +275,19 @@ public class PlayerCombat : MonoBehaviour
             boss.GetComponent<Boss>().TakeDamage(attackDamage);
             boss.GetComponent<Boss>().Knockback();
         }
-        
+
         // SCREEN LIGHT UP
         if (enemiesHit.Length > 0 || bossesHit.Length > 0)
             StartCoroutine(ScreenLightUp());
     }
     
-
+    
+    public void OnAttackFinish()
+    {
+        isAttacking = false;
+    }
+    
+    
     // DRAW HIT SQUARE
     private void OnDrawGizmosSelected()
 {
