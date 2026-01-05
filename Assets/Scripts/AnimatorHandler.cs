@@ -133,25 +133,6 @@ namespace Slimeborne
             playerMovement.GetComponent<Rigidbody>().AddForce(projected * 60f, ForceMode.Acceleration);
         }
 
-        float lastStepTime = 0f;
-
-        void Update()
-        {
-            var state = anim.GetCurrentAnimatorStateInfo(0);
-            //print("State: " + );
-
-            if (state.IsName("Movement"))
-            {
-                float normalized = state.normalizedTime % 1f;
-
-                if (normalized > 0.5f && lastStepTime <= 0.5f)
-                {
-                    AudioManager.PlaySound(SoundType.SnailMove);
-                }
-
-                lastStepTime = normalized;
-            }
-        }
 
     }
 
