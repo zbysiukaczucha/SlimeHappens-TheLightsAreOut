@@ -301,6 +301,8 @@ public class PlayerCombat : MonoBehaviour
     
     public void TakeDamage(int damage)
     {
+        anim.SetTrigger("Knockbacked");
+
         currentHealth -= damage;
         if(currentHealth > 0)
             bgMusic.PlayPlayerHurtSound();
