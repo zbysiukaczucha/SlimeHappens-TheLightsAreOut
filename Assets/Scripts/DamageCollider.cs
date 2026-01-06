@@ -138,7 +138,7 @@ namespace Slimeborne
                 {
                     playerManager.playerStats.ultimateMeter++;
                     playerManager.playerStats.ultimateBar.SetCurrentUltMeter(playerManager.playerStats.ultimateMeter);
-                    playerManager.lightManager.TemporaryIncreaseIntensity(45f, 0.5f);
+                    playerManager.lightManager.TemporaryIncreaseIntensity(30f, 0.5f);
                 }
                 EnemyStats enemyStats = collision.GetComponentInParent<EnemyStats>();
                 if (enemyStats != null)
