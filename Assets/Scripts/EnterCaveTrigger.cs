@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnterCaveTrigger : MonoBehaviour
@@ -31,5 +32,7 @@ public class EnterCaveTrigger : MonoBehaviour
                 break;
             }
         }
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Level");
     }
 }
