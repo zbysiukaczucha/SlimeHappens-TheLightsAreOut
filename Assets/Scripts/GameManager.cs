@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.9f);
         Debug.Log("przejście do realnego świata");
-        // SceneManager.LoadScene("X");
+        SceneManager.LoadScene("Level");
     }
     
     public IEnumerator Lightning()
