@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
     [ShowOnly] public bool gameOver = false;
     private CanvasGroup gameOverCanvas;
     private bool gameOverFadeIn = false;
-    private Button restartButton;
-    private Button mainMenuButton;
+    private Button continueButton;
     private TextMeshProUGUI yourScore;
     private TextMeshProUGUI highScore;
     private TMP_Text killCount;
@@ -42,8 +41,7 @@ public class GameManager : MonoBehaviour
         gameOverScreen = GameObject.Find("GameOverScreen");
         gameOverScreen.SetActive(false);
         gameOverCanvas = gameOverScreen.GetComponent<CanvasGroup>();
-        restartButton = gameOverScreen.GetComponentsInChildren<Button>()[0];
-        mainMenuButton = gameOverScreen.GetComponentsInChildren<Button>()[1];
+        continueButton = gameOverScreen.GetComponentsInChildren<Button>()[0];
         
         thunderSounds = GameObject.Find("Thunders").GetComponentsInChildren<AudioSource>();
         globalLight = GameObject.Find("GlobalLight2D").GetComponent<Light2D>();
@@ -51,8 +49,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        restartButton.enabled = false;
-        mainMenuButton.enabled = false;
+        continueButton.enabled = false;
     }
 
     void Update()
@@ -64,8 +61,7 @@ public class GameManager : MonoBehaviour
             
             if (gameOverCanvas.alpha >= 0.3f)
             {
-                restartButton.enabled = true;
-                mainMenuButton.enabled = true;
+                continueButton.enabled = true;
             }
             if (gameOverCanvas.alpha >= 1)
                 gameOverFadeIn = false;
@@ -89,15 +85,9 @@ public class GameManager : MonoBehaviour
         // spawner.SetActive(false);
     }
 
-    public void Restart()
+    public void ExitNightmare()
     {
-        StartCoroutine(RestartGame());
-        fadeAnim.SetTrigger("In");
-    }
-    
-    public void MainMenu()
-    {
-        StartCoroutine(TransitionToMainMenu());
+        StartCoroutine(Continue());
         fadeAnim.SetTrigger("In");
     }
     
@@ -107,16 +97,11 @@ public class GameManager : MonoBehaviour
         gameOverFadeIn = true;
     }
     
-    IEnumerator TransitionToMainMenu()
-    {   
-        yield return new WaitForSeconds(0.9f);
-        SceneManager.LoadScene("Main");
-    }
-
-    IEnumerator RestartGame()
+    IEnumerator Continue()
     {
         yield return new WaitForSeconds(0.9f);
-        SceneManager.LoadScene("Game");
+        Debug.Log("przejście do realnego świata");
+        // SceneManager.LoadScene("X");
     }
     
     public IEnumerator Lightning()
