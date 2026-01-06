@@ -69,11 +69,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GemTriggerBox
   crystalMaterials:
-  - {fileID: 2100000, guid: 26c60b9407bda6749b23be637a113c36, type: 2}
-  - {fileID: 2100000, guid: 37e0208176c228048bc5b12a68c5f59b, type: 2}
-  - {fileID: 2100000, guid: 3227346840d315f48957692d312d8151, type: 2}
-  - {fileID: 2100000, guid: ad5f172935baaf94aa87fe6cd6549382, type: 2}
-  - {fileID: 2100000, guid: 897d4e07724cc9c4e88295477a8f0089, type: 2}
+  - {fileID: 2100000, guid: dcfe3a5820a38d041a7036f020e1c4cb, type: 2}
+  - {fileID: 2100000, guid: b52021ab50ce7194e90b137ab407e432, type: 2}
+  - {fileID: 2100000, guid: b7c5ccdc034fc8249ac6118ee9688bd5, type: 2}
+  - {fileID: 2100000, guid: 437c7f18b86bfc94e8917b461055aca4, type: 2}
+  - {fileID: 2100000, guid: a6f9b009f406eeb47bea7cbbc66e33c1, type: 2}
   stoneLevel: 0
   magicLevel: 0
   isEnchanted: 0
