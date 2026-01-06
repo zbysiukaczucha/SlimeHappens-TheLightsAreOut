@@ -63,7 +63,7 @@ namespace Slimeborne
                 bossAISensor.ToggleStopFrog(true);
                 bossAISensor.ToggleFrogAttack(false);
                 behaviorGraphAgent.enabled = false;
-                StartCoroutine(DeactivateAfterDelay(2f));
+                StartCoroutine(DeactivateAfterDelay(3f));
                 print("Enemy has died.");
             }
         }

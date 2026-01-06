@@ -1373,6 +1373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 2174571196452902628, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2647773454456108948, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -26.389603
@@ -20501,6 +20505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Slimeborne.WorldEventManager
   fogWalls:
   - {fileID: 1729218979}
+  - {fileID: 1951466998}
   bossHealthBar: {fileID: 0}
   boss: {fileID: 0}
   bossFightActive: 0
