@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Behavior;
 using UnityEngine;
 
 namespace Slimeborne
@@ -11,12 +12,18 @@ namespace Slimeborne
         public int currentHealth;
 
         public UIEnemyHealthBar enemyHealthBar;
-        
-        //AnimatorHandler animatorHandler;
+
+        private EnemyManager enemyManager;
+        private Animator anim;
+        private BossAISensor bossAISensor;
+        private BehaviorGraphAgent behaviorGraphAgent;
         
         private void Awake()
         {
-            //animatorHandler = GetComponent<AnimatorHandler>();
+            enemyManager = GetComponent<EnemyManager>();
+            anim = GetComponent<Animator>();
+            bossAISensor = GetComponent<BossAISensor>();
+            behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
         }
 
         private void Start()
@@ -37,6 +44,8 @@ namespace Slimeborne
         
         public void TakeDamage(int damage)
         {
+            if (enemyManager.isDead)
+                return;
             currentHealth -= damage;
             enemyHealthBar.SetHealth(currentHealth);
             // Play damaged animation
@@ -46,7 +55,12 @@ namespace Slimeborne
             {
                 currentHealth = 0;
                 // Handle player death here
-                // animatorHandler.PlayTargetAnimation("Death", true);
+                enemyManager.isDead = true;
+                anim.applyRootMotion = true;
+                anim.Play("Death");
+                bossAISensor.ToggleStopFrog(true);
+                bossAISensor.ToggleFrogAttack(false);
+                behaviorGraphAgent.enabled = false;
                 print("Enemy has died.");
             }
         }
