@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Slimeborne
@@ -46,13 +47,12 @@ namespace Slimeborne
         {
             if (Input.anyKeyDown)
             {
-                // If the pressed key is one of the numbers, show the resective gem
+                // If the pressed key is one of the numbers, show the respective gem
                 if (lastKeyPressed > 47 && lastKeyPressed < 58)
                 {
                     print("Pressed " + (KeyCode)lastKeyPressed);
                     int slot = Math.Abs(48 - lastKeyPressed);
                     if (gems.Count > slot) {
-                        //gems[slot].SetActive(true);
                         print(gems[slot].name);
                         if(activeGem != null)
                         {

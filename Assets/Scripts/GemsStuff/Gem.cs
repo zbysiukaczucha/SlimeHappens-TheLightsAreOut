@@ -50,6 +50,19 @@ public class Gem : MonoBehaviour
         }
     }
 
+    public void finishEnchanting(int points)
+    {
+        print("finishing enchanting");
+        magicLevel = points;
+        if(stoneLevel == StoneLevel.Strong)
+        {
+            print("adding point light");
+            //Light pointLight = gameObject.AddComponent<Light>();
+            Light pointLight = GetComponent<Light>();
+            pointLight.intensity = points;
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -60,6 +73,7 @@ public class Gem : MonoBehaviour
 
             //Set random level of the stone
             stoneLevel = (StoneLevel)Random.Range(0, 5);
+            //stoneLevel = StoneLevel.Strong;
             print("Stone level: " + stoneLevel);
 
             //Add gem to players inventory
