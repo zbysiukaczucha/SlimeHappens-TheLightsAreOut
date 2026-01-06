@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttack2Time = 0;
     private float nextAttack3Time = 0;
     private int baseAttackDamage = 50;
-    private bool isAttacking = false;
+    [ShowOnly] public bool isAttacking = false;
     
     [Header("##  PUBLIC VARIABLES  ##")]
     [ShowOnly] public int currentHealth;
