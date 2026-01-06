@@ -272,7 +272,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (boss is CapsuleCollider2D) continue;
             boss.GetComponent<Boss>().onHitBleed.Play();
-            boss.GetComponent<Boss>().TakeDamage(attackDamage);
+            boss.GetComponent<Boss>().TakeDamage(attackDamage, false);
             boss.GetComponent<Boss>().Knockback();
         }
 
@@ -452,7 +452,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (boss is CapsuleCollider2D) continue;
             boss.GetComponent<Boss>().onHitBleed.Play();
-            boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier);
+            boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier, true);
             boss.GetComponent<Boss>().Knockback();
         }
     }

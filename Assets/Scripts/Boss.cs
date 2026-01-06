@@ -108,9 +108,14 @@ public class Boss : MonoBehaviour
 
         // HEALTH AND DAMAGE DEPENDING ON SCORE
             // CHANGE = KILLCOUNT / SCORE INTERVAL * HOW MUCH
-        maxHealth = 300 + int.Parse(killCount.text) / 10 * 25;
+        // maxHealth = 300 + int.Parse(killCount.text) / 10 * 25;
+        // currentHealth = maxHealth;
+        // damage = 125 + int.Parse(killCount.text) / 10 * 10;
+
+        maxHealth = 160 + (GameObject.Find("Enemy Spawner").GetComponent<SpawnEnemy>().waveNumber - 1) * 20;
         currentHealth = maxHealth;
-        damage = 125 + int.Parse(killCount.text) / 10 * 10;
+        // damage = 75 + int.Parse(killCount.text) / 10 * 5;
+        damage = 75 + (GameObject.Find("Enemy Spawner").GetComponent<SpawnEnemy>().waveNumber - 1) * 5;
 
         // INITIALIZATIONS
         anim = GetComponent<Animator>();
@@ -216,26 +221,27 @@ public class Boss : MonoBehaviour
 
     // COMBAT 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool powerUsed)
     {
         currentHealth -= damage;
         
         // DEAD
         if(currentHealth <= 0)
         {
-            scoreAnim.ResetTrigger("+10");
-            scoreAnim.SetTrigger("+10");
+            scoreAnim.ResetTrigger("+3");
+            scoreAnim.SetTrigger("+3");
             bgMusic.PlayBossDeathSound();
             onDeathBleed.Play();
             boxCollider.enabled = false;
 
-            killCount.text = (int.Parse(killCount.text) + 10).ToString();
+            killCount.text = (int.Parse(killCount.text) + 3).ToString();
             bossRigid.linearVelocity = Vector2.zero;
             
 
-            // DROP POWERUP
-            Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
-            
+            // DROP POWERUP - MOVED TO FROG BOSS
+            // Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+            if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
+                player.GetComponent<PlayerCombat>().powerPoints += 1;
             
             anim.enabled = false;
             IKControls.SetActive(false);
