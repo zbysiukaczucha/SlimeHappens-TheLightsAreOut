@@ -1,10 +1,13 @@
 using EzySlice;
+using Slimeborne;
 using UnityEngine;
 
 public class Sliceable : MonoBehaviour
 {
     private Transform knife;
     public Material myMaterial;
+    PlayerInventory playerInventory;
+
     void Start()
     {
         GameObject knifeObject = null;
@@ -16,10 +19,16 @@ public class Sliceable : MonoBehaviour
         {
             knife = knifeObject.transform;
         }
-        if (myMaterial == null)
+        playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
+        if (playerInventory != null)
+        {
+            Gem gemScript = playerInventory.activeGem.GetComponent<Gem>();
+            myMaterial = gemScript.crystalMaterials[(int)gemScript.stoneLevel];
+        }
+        /*if (myMaterial == null)
         {
             myMaterial = Resources.Load<Material>("Materials/CrystalBlue");
-        }
+        }*/
     }
     void Update()
     {

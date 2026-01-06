@@ -12,6 +12,7 @@ TagManager:
   - RunicTool
   - Client
   - FxTemporaire
+  - Gem
   layers:
   - Default
   - TransparentFX

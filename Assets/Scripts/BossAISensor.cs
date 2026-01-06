@@ -8,7 +8,7 @@ public class BossAISensor : MonoBehaviour
     private BlackboardReference m_Blackboard;
     [SerializeField] private uint m_UpdateInterval = 10;
     private uint m_timer = 10;
-    public bool isNice = true;
+    public float bossDistance;
 
     void Start()
     {
@@ -59,6 +59,7 @@ public class BossAISensor : MonoBehaviour
             //Update blackboard values
             bool success = true;
             float distanceFromPlayer = CalculateDistanceFromPlayer();
+            bossDistance = distanceFromPlayer;
             float angleFromPlayer = CalculateAngleFromPlayer();
             
             success = m_Blackboard.SetVariableValue("DistanceFromPlayer", distanceFromPlayer);
