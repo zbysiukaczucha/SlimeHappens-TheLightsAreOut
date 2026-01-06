@@ -45,6 +45,9 @@ public class FrogInteraction : MonoBehaviour
 
     List<Character> predefinedCharacters = new List<Character>() {
         new Character("Goob", "angry", 3, true),
+        new Character("Moog", "scared", 1, true),
+        new Character("Root", "stern", 3, false),
+        new Character("Noot", "depressed", 2, false),
     };
 
     Character currentCharacter;
@@ -97,7 +100,7 @@ public class FrogInteraction : MonoBehaviour
         /*string botInstructions = $"You are a new client, a {currentCharacter.type} named {currentCharacter.name} visiting gem smith creating " +
             $"magical amulets in their workshop. You want the gem smith to create you an amulet that has " +
             $"{getStr(currentCharacter.wantedEffect)} as its magical property. ";*/
-        string botInstructions = $"You are a {currentCharacter.type} frog named {currentCharacter.name} guarding a precious gem.";
+        string botInstructions = $"You are a {currentCharacter.type} frog named {currentCharacter.name} guarding the cave.";
 
         // Wait for the connection attempt to end
         yield return SendChatCR(botInstructions);
@@ -108,7 +111,7 @@ public class FrogInteraction : MonoBehaviour
         if (gemini.connectionFailure)
         {
             enemyText.text = /*"<color=red><size=30>Gemini unavailable, running default dialog.</color></size>\n\n" +*/
-                $"I'm {currentCharacter.name}, I'm a(n) {currentCharacter.type} frog guarding the gem.\n" +
+                $"I'm {currentCharacter.name}, I'm a(n) {currentCharacter.type} frog guarding this cave.\n" +
                 $"You shall not pass!";
         }
 
@@ -120,7 +123,7 @@ public class FrogInteraction : MonoBehaviour
         bool end = false;
         bool startFight = false;
 
-        playerText.text = $"I really need this gem. Could you let me through?";
+        playerText.text = $"I really need to look for more gems. Could you let me through?";
 
         // If client is likely to argue on the pricing, give Gemini the instruction to do so
         if (currentCharacter.bargainingTimes > 0)
@@ -204,6 +207,12 @@ public class FrogInteraction : MonoBehaviour
                         if (gemini.connectionFailure)
                         {
                             enemyText.text = "That doesn't scare me. My answer is still no.";
+                        }
+                        if(currentCharacter.bargainingTimes == 0)
+                        {
+                            end = true;
+                            startFight = true;
+                            break;
                         }
                     }
                     break;

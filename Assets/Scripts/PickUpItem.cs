@@ -24,9 +24,19 @@ namespace Slimeborne
             // Destroy the item in the world after picking it up
             playerManager.itemInteractableGameObject.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
             playerManager.itemInteractableGameObject.SetActive(true);
+            // Disable the item's visual representation and collider
+            // add implementation to work with items with multiple mesh renderers and colliders
+            Renderer[] renderers = GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in renderers)
+            {
+                r.enabled = false;
+            }
+            Collider[] colliders = GetComponentsInChildren<Collider>();
+            foreach (Collider c in colliders)
+            {
+                c.enabled = false;
+            }
             StartCoroutine(HideItemTextAfterDelay(3.5f));
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
-            gameObject.GetComponent<Collider>().enabled = false;
         }
         
         private IEnumerator HideItemTextAfterDelay(float delay)

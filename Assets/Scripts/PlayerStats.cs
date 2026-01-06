@@ -26,11 +26,12 @@ namespace Slimeborne
         
         AnimatorHandler animatorHandler;
         PlayerManager playerManager;
-        
+        InputHandler inputHandler;
         private void Awake()
         {
-            animatorHandler = GetComponent<AnimatorHandler>();
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
             playerManager = GetComponent<PlayerManager>();
+            inputHandler = GetComponent<InputHandler>();
             healthBar = FindFirstObjectByType<HealthBar>();
             staminaBar = FindFirstObjectByType<StaminaBar>();
             ultimateBar = FindFirstObjectByType<UltimateBar>();
@@ -78,8 +79,8 @@ namespace Slimeborne
             {
                 currentHealth = 0;
                 // Handle player death here
-                // animatorHandler.PlayTargetAnimation("Death", true);
-                
+                animatorHandler.PlayTargetAnimation("Death", true);
+                inputHandler.LockPlayer(true);
                 print("Player has died.");
             }
             

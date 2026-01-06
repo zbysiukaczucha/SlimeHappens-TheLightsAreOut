@@ -9,6 +9,7 @@ public class BossAISensor : MonoBehaviour
     [SerializeField] private uint m_UpdateInterval = 10;
     private uint m_timer = 10;
     public float bossDistance;
+    private Single movementSpeed;
 
     void Start()
     {
@@ -19,6 +20,10 @@ public class BossAISensor : MonoBehaviour
             m_Blackboard = agent.BlackboardReference;
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             success = m_Blackboard.SetVariableValue("PlayerCharacter", player);
+            m_Blackboard.SetVariableValue("IsAttacking", true);
+            m_Blackboard.GetVariableValue("MovementSpeed", out movementSpeed);
+            // Stop frog at the beginning
+            ToggleStopFrog(true);
 
             if (success == false)
             {
@@ -28,6 +33,19 @@ public class BossAISensor : MonoBehaviour
         else
         {
             Debug.LogWarning(this.name + " has no BehaviorGraphAgent!");
+        }
+    }
+
+    public void ToggleStopFrog(bool stop)
+    {
+        if (stop)
+        {
+            print("Stopping the frog");
+            m_Blackboard.SetVariableValue("MovementSpeed", (Single)0);
+        }
+        else
+        {
+            m_Blackboard.SetVariableValue("MovementSpeed", movementSpeed);
         }
     }
 

@@ -128,10 +128,10 @@ namespace ShineHappens
                     {
                         timingMinigameUI.HideTimingPanel();
                         print($"<color=lime>You scored {points}/30</color>");
-                        playerInventory.activeGem.GetComponent<Gem>().magicLevel = points;
+                        playerInventory.activeGem.GetComponent<Gem>().finishEnchanting(points);
+
                         resetMinigame();
                         AudioManager.PlaySound(SoundType.EnchantingFinished, 1, 0.6f);
-                        //audioManager.PlayFinishedEnchantingClip();
                     }
                 }
 
