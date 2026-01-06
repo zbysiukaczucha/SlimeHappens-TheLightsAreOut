@@ -120,6 +120,7 @@ namespace Slimeborne
         public void EnableImpactEffect()
         {
             Instantiate(impactEffect, playerManager.transform.position, Quaternion.identity);
+            AudioManager.PlaySound(SoundType.SnailUltimate);
         }
         
         private void OnAnimatorMove()

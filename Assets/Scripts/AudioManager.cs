@@ -21,6 +21,7 @@ public enum SoundType
     SnailLightAttack3alt,
     SnailDodgeBack,
     SnailMove,
+    SnailUltimate,
 }
 
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
