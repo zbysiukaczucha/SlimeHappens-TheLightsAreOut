@@ -292,7 +292,7 @@ public class FrogInteraction : MonoBehaviour
     }
     (string reply1, string reply2, string reply3) bargainReplies = ("Ask nicely", "Threaten", "Fight");
 
-    // Do losowania czegoú randomowego z listy
+    // Do losowania czego≈õ randomowego z listy
     T GetRandom<T>(List<T> list)
     {
         return list[Random.Range(0, list.Count)];

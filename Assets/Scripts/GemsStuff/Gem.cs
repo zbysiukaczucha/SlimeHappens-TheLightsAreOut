@@ -14,7 +14,7 @@ public class Gem : MonoBehaviour
     {
         isEnchanted = false;
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
-        timingMinigameUI = GameObject.Find("Canvas").GetComponent<TimingMinigameUI>();
+        timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
     }
 
     private void Update()
