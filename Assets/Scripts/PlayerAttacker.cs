@@ -63,12 +63,11 @@ namespace Slimeborne
             // Add checking for enough ultimate energy here later
             if (playerStats.ultimateMeter < PlayerStats.maxUltimateMeter || animatorHandler.anim.GetBool("isInteracting") || playerMovement.isAttachedToSurface == false || lockPlayer)
                 return;
-            
+            animatorHandler.PlayTargetAnimation("Ult", true);
             playerManager.isUltimateAttacking = true;
             weaponSlotManager.HideWeapons();
             playerMovement.rigidbody.linearVelocity = Vector3.zero;
             playerMovement.rigidbody.angularVelocity = Vector3.zero;
-            animatorHandler.PlayTargetAnimation("Ult", true);
             lastAttack = null;
             playerStats.ultimateMeter = 0;
             playerStats.ultimateBar.SetCurrentUltMeter(playerStats.ultimateMeter);

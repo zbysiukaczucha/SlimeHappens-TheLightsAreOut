@@ -17,6 +17,7 @@ namespace Slimeborne
         private Animator anim;
         private BossAISensor bossAISensor;
         private BehaviorGraphAgent behaviorGraphAgent;
+        private WorldEventManager worldEventManager;
         
         private void Awake()
         {
@@ -24,6 +25,7 @@ namespace Slimeborne
             anim = GetComponent<Animator>();
             bossAISensor = GetComponent<BossAISensor>();
             behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
+            worldEventManager = FindFirstObjectByType<WorldEventManager>();
         }
 
         private void Start()
@@ -61,15 +63,15 @@ namespace Slimeborne
                 bossAISensor.ToggleStopFrog(true);
                 bossAISensor.ToggleFrogAttack(false);
                 behaviorGraphAgent.enabled = false;
+                StartCoroutine(DeactivateAfterDelay(2f));
                 print("Enemy has died.");
             }
         }
-
-        public void Heal(int amount)
+        
+        private IEnumerator DeactivateAfterDelay(float delay)
         {
-            currentHealth += amount;
-            if (currentHealth > maxHealth)
-                currentHealth = maxHealth;
+            yield return new WaitForSeconds(delay);
+            worldEventManager.BossDefeated();
         }
     }
 }
