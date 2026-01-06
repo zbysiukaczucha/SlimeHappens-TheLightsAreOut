@@ -89,6 +89,7 @@ namespace Slimeborne
                 Interactable interactableObject = hit.collider.GetComponent<Interactable>();
                 if (interactableObject != null)
                 {
+                    Debug.Log("Found interactable: " + interactableObject.name);
                     string interactionText = interactableObject.interactionPrompt;
                     interactableUI.interactionText.text = interactionText;
                     interactableUIGameObject.SetActive(true);
