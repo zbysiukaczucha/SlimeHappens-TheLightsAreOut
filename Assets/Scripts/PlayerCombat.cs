@@ -322,6 +322,11 @@ public class PlayerCombat : MonoBehaviour
             healthBarFill.fillAmount = 0;
             healthBarBorder.color = new Color32(132, 36, 36, 0);
 
+            ultimateFill1.fillAmount = 0;
+            ultimateFill2.fillAmount = 0;
+            ultimateBorder1.color = new Color32(0, 102, 128, 0);
+            ultimateBorder2.color = new Color32(102, 0, 128, 0);
+
             playerRigid.bodyType = RigidbodyType2D.Static;
             
             playerEye.SetActive(false);
