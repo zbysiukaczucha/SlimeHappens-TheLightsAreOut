@@ -321,7 +321,7 @@ public class PlayerCombat : MonoBehaviour
             healthBarBorder.color = new Color32(132, 36, 36, 0);
 
             playerRigid.bodyType = RigidbodyType2D.Static;
-
+            
             playerEye.SetActive(false);
             playerMovement.enabled = false;
             anim.enabled = false;
@@ -364,7 +364,7 @@ public class PlayerCombat : MonoBehaviour
     public void UsePower()
     {
         if (powerPoints <= 4) return;
-        
+
         Vector2 hitCenter;
         Vector2 hitSize;
         int damageMultiplier;
@@ -378,7 +378,7 @@ public class PlayerCombat : MonoBehaviour
         {
             cost = 5;
             damageMultiplier = 2;
-            hitCenter = attackPoint.position;            
+            hitCenter = attackPoint.position;
             hitSize = new Vector2(5f, 0.8f);
             color = new Color32(0, 204, 255, 50); // Jasny Cyjan
             duration = 0.5f;
@@ -398,8 +398,40 @@ public class PlayerCombat : MonoBehaviour
 
         powerPoints -= cost;
 
+
+        // ANIMATION
+        if (tier == 1)
+            anim.SetTrigger("Ultimate1");
+        else
+            anim.SetTrigger("Ultimate2");
+
+        // VISUALS DELAY
+        StartCoroutine(UltimateDelay(hitCenter, hitSize, color, duration, tier, damageMultiplier));
+        
+
+        UpdateUltimateBar(); 
+    }
+    
+
+
+    private IEnumerator UltimateDelay(Vector2 hitCenter, Vector2 hitSize, Color color, float duration, int tier, int damageMultiplier)
+    {
+        yield return new WaitForSeconds(tier == 1 ? 0.16f : 0.33f);
+        
         // VISUAL EFFECT
         StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration, tier));
+
+        // STOP MOVEMENT
+        {
+            if (tier == 1)
+            {
+                Vector3 pos = transform.position;
+                pos.x += player.transform.localScale.x * 5f;
+                transform.position = pos;
+            }
+            playerMovement.velocityX *= -0.8f;
+            playerMovement.DisableMovement();
+        }
         
         Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, enemyLayer);
         Collider2D[] bossesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, bossLayer);
@@ -421,11 +453,7 @@ public class PlayerCombat : MonoBehaviour
             boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier);
             boss.GetComponent<Boss>().Knockback();
         }
-
-        UpdateUltimateBar();
     }
-    
-
     
     private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration, int tier)
     {
@@ -500,7 +528,7 @@ public class PlayerCombat : MonoBehaviour
             // OPTIONAL: Fade URP Light intensity if using it
             if (light != null) light.intensity = Mathf.Lerp(3f, 0f, alphaProgress);
            
-
+            
             yield return null;
         }
 
