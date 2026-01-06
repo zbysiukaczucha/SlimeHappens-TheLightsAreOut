@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SnailControlInstructions : MonoBehaviour
+public class ControlInstructions : MonoBehaviour
 {
     [SerializeField]
     GameObject instructionsPanel;
