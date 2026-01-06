@@ -72,6 +72,7 @@ public class Upgrades : MonoBehaviour
     {
         if (!PowerUpChoiceScreen.activeSelf) return;
 
+        playerMovement.inputActions.Disable();
 
         if (Input.GetKeyDown(KeyCode.Y) && button_1.isActiveAndEnabled)
             button_1.onClick.Invoke();
@@ -286,6 +287,8 @@ public class Upgrades : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         Time.timeScale = 1;
         anim.enabled = false;
+
+        playerMovement.inputActions.Enable();
     }
 }
 
