@@ -112894,6 +112894,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 2
+    functionName: UnhideWeapons
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.1666667
     functionName: DisableIsInvulnerable
     data: 
@@ -112903,13 +112910,6 @@ AnimationClip:
     messageOptions: 0
   - time: 2.1666667
     functionName: DisableIsUltimateAttacking
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.1666667
-    functionName: UnhideWeapons
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

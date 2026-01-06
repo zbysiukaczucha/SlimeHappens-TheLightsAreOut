@@ -244,7 +244,7 @@ namespace Slimeborne
 
         public void HandleRolling(float delta)
         {
-            if (animatorHandler.anim.GetBool("isInteracting") || playerStats.currentStamina <= 0 || !isAttachedToSurface)
+            if (animatorHandler.anim.GetBool("isInteracting") || playerStats.currentStamina <= 0 || !isAttachedToSurface || playerManager.isUltimateAttacking)
                 return;
 
             if (inputHandler.rollFlag)
