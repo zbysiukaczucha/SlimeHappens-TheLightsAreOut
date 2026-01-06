@@ -1157,15 +1157,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.873
+      value: -28.743
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.197
+      value: -4.389
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.386
+      value: 202.656
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1403,7 +1403,6 @@ GameObject:
   - component: {fileID: 178840842}
   - component: {fileID: 178840841}
   - component: {fileID: 178840843}
-  - component: {fileID: 178840844}
   m_Layer: 14
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1529,23 +1528,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &178840844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 178840839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
-  m_IsGlobal: 1
-  priority: 1
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 5b4f6190bdc574c4794b4210dc21bbd1, type: 2}
 --- !u!1001 &224759307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2444,6 +2426,72 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &769035802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 769035805}
+  - component: {fileID: 769035804}
+  - component: {fileID: 769035803}
+  m_Layer: 0
+  m_Name: FrogMoveTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &769035803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769035802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20075d1df2894264194c9a38cf2702ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FrogMoveTrigger
+--- !u!65 &769035804
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769035802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 40, y: 30, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &769035805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769035802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.82, y: 7.87, z: 213.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &799728148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,7 +2931,7 @@ Transform:
   m_GameObject: {fileID: 898543869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.43085, y: -4.25232, z: 221.2}
+  m_LocalPosition: {x: -43.43085, y: -4.25232, z: 222.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3427,7 +3475,7 @@ MonoBehaviour:
   responseButton1: {fileID: 394243634}
   responseButton2: {fileID: 226908203}
   responseButton3: {fileID: 173783164}
-  fakingGeminiEnabled: 0
+  fakingGeminiEnabled: 1
   getFakeResponse: 0
 --- !u!114 &980441352
 MonoBehaviour:
@@ -3661,7 +3709,7 @@ Transform:
   m_GameObject: {fileID: 1104574268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -27.87, y: -4.192, z: 199.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10709,6 +10757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1991017999}
   - component: {fileID: 1991017998}
+  - component: {fileID: 1991018000}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -10748,6 +10797,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1991018000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991017997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 1
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 5b4f6190bdc574c4794b4210dc21bbd1, type: 2}
 --- !u!1 &2011845255
 GameObject:
   m_ObjectHideFlags: 0
@@ -11278,6 +11344,7 @@ SceneRoots:
   - {fileID: 2111699814}
   - {fileID: 1824107229}
   - {fileID: 898543872}
+  - {fileID: 769035805}
   - {fileID: 856099697}
   - {fileID: 224759307}
   - {fileID: 120041797}
