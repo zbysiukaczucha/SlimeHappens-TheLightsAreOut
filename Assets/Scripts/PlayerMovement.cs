@@ -278,7 +278,7 @@ namespace Slimeborne
         private IEnumerator PerformDodge(Vector3 direction)
         {
             float dodgeTime = 0.5f;
-            float dodgeForce = 5f;
+            float dodgeForce = 2f;
 
             float timer = 0;
             while (timer < dodgeTime)
