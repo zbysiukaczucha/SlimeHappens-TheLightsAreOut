@@ -2,10 +2,23 @@ using ShineHappens;
 using Slimeborne;
 using UnityEngine;
 
+public enum StoneLevel
+{
+    Weak,
+    Moderate,
+    Average,
+    Great,
+    Strong
+}
+
 public class Gem : MonoBehaviour
 {
+    [SerializeField]
+    public Material[] crystalMaterials;
+
+    public StoneLevel stoneLevel;  // quality of found stone material
+    public int magicLevel;  // max 30 after enchanting
     public bool isEnchanted;
-    public int powerLevel;
 
     PlayerInventory playerInventory;
     TimingMinigameUI timingMinigameUI;
@@ -14,7 +27,7 @@ public class Gem : MonoBehaviour
     {
         isEnchanted = false;
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
-        timingMinigameUI = GameObject.Find("Canvas").GetComponent<TimingMinigameUI>();
+        timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
     }
 
     private void Update()
@@ -44,6 +57,12 @@ public class Gem : MonoBehaviour
         {
             transform.parent = other.transform;
             transform.localPosition = new Vector3(0, 3f, 0);
+
+            //Set random level of the stone
+            stoneLevel = (StoneLevel)Random.Range(0, 5);
+            print("Stone level: " + stoneLevel);
+
+            //Add gem to players inventory
             other.GetComponent<PlayerInventory>().gems.Add(gameObject);
             gameObject.SetActive(false);
         }

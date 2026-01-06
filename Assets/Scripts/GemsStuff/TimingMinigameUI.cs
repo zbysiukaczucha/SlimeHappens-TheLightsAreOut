@@ -1,3 +1,4 @@
+using Slimeborne;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,12 +25,15 @@ namespace ShineHappens
         TextMeshProUGUI experienceText;
         int expPoints = 0;
 
+        PlayerInventory playerInventory;
+
         private void Start()
         {
             addedPointsObject = addedPointsText.gameObject;
             addedPointsObject.SetActive(false);
             addedPointsAnimator = addedPointsObject.GetComponent<Animator>();
             timingMinigamePanel.SetActive(false);
+            playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
         }
 
 
@@ -53,7 +57,9 @@ namespace ShineHappens
             addedPointsObject.SetActive(true);
             addedPointsText.color = color;
             addedPointsText.text = $"+" + addedPoints;
-            expPoints = expPoints + addedPoints;
+
+            // Add experience points based on enchanting score * the level of stone quality (1-5)
+            expPoints = expPoints + addedPoints * (1+(int)playerInventory.activeGem.GetComponent<Gem>().stoneLevel);
             experienceText.text = expPoints.ToString();
             //print("Playing animation");
             addedPointsAnimator.Play("Base Layer.AddedPoints");

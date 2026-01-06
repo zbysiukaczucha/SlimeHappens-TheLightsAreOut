@@ -10,6 +10,9 @@ using UnityEngine.UI;
 public class FrogInteraction : MonoBehaviour
 {
     [SerializeField]
+    UnityAndGeminiV3 gemini;
+
+    [SerializeField]
     TextMeshProUGUI playerText;
 
     [SerializeField]
@@ -26,7 +29,6 @@ public class FrogInteraction : MonoBehaviour
     TextMeshProUGUI responseButtonText2;
     TextMeshProUGUI responseButtonText3;
 
-    UnityAndGeminiV3 gemini;
     BossAISensor frogScript;
     GameObject playerCharacter;
     PlayerAttacker playerAttacker;
@@ -105,7 +107,7 @@ public class FrogInteraction : MonoBehaviour
         // If couldn't connect to Gemini
         if (gemini.connectionFailure)
         {
-            enemyText.text = "<color=red><size=30>Gemini unavailable, running default dialog.</color></size>\n\n" +
+            enemyText.text = /*"<color=red><size=30>Gemini unavailable, running default dialog.</color></size>\n\n" +*/
                 $"I'm {currentCharacter.name}, I'm a(n) {currentCharacter.type} frog guarding the gem.\n" +
                 $"You shall not pass!";
         }

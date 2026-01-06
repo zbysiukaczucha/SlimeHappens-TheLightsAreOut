@@ -211,5 +211,28 @@ namespace Slimeborne
         {
             inputActions.PlayerActions.Interact.performed += i => interact_Input = true;
         }
+
+        float stepInterval = 1.12f;
+
+        float stepTimer ;
+
+        void Update()
+        {
+            if (moveAmount == 1)
+            {
+                stepInterval = sprintFlag ? 0.75f : 1.45f;
+                stepTimer += Time.deltaTime;
+
+                if (stepTimer >= stepInterval)
+                {
+                    AudioManager.PlaySound(SoundType.SnailMove, 1, 0.15f);
+                    stepTimer = 0f;
+                }
+            }
+            else
+            {
+                stepTimer = 0f;
+            }
+        }
     }
 }

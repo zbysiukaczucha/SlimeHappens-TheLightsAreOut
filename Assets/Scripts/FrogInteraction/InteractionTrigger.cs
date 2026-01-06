@@ -13,6 +13,11 @@ public class InteractionTrigger : MonoBehaviour
     {
         wasTriggered = false;
 
+        tryGetFrogScript();
+    }
+
+    void tryGetFrogScript()
+    {
         GameObject[] enemyObj = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject obj in enemyObj)
         {
@@ -22,7 +27,7 @@ public class InteractionTrigger : MonoBehaviour
             }
         }
         // If no enemy found in the scene
-        if(frogScript == null)
+        if (frogScript == null)
         {
             gameObject.SetActive(false);
         }
@@ -38,7 +43,7 @@ public class InteractionTrigger : MonoBehaviour
         {
             return;
         }
-
+        tryGetFrogScript();
         wasTriggered = true;
         clientInteractionPanel.gameObject.SetActive(true);
         clientInteractionPanel.GetComponent<FrogInteraction>().InteractWithClient();

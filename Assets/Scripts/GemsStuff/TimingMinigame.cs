@@ -60,7 +60,7 @@ namespace ShineHappens
             orangeLimits.min = transform.position.y - orangeHeight / 2;
 
             playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
-            //audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+            timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
         }
 
 
@@ -128,9 +128,9 @@ namespace ShineHappens
                     {
                         timingMinigameUI.HideTimingPanel();
                         print($"<color=lime>You scored {points}/30</color>");
-                        playerInventory.activeGem.GetComponent<Gem>().powerLevel = points;
+                        playerInventory.activeGem.GetComponent<Gem>().magicLevel = points;
                         resetMinigame();
-                        AudioManager.PlaySound(SoundType.EnchantingFinished);
+                        AudioManager.PlaySound(SoundType.EnchantingFinished, 1, 0.6f);
                         //audioManager.PlayFinishedEnchantingClip();
                     }
                 }
