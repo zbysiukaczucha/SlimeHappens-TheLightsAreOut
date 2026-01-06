@@ -61,9 +61,11 @@ public class PlayerCombat : MonoBehaviour
     
     [Header("##  COMBAT  ##")]
     private Transform attackPoint;
-    private float nextAttackTime = 0;
+    private float nextAttack1Time = 0;
+    private float nextAttack2Time = 0;
+    private float nextAttack3Time = 0;
     private int baseAttackDamage = 50;
-    private int chosenAttack;
+    private bool isAttacking = false;
     
     [Header("##  PUBLIC VARIABLES  ##")]
     [ShowOnly] public int currentHealth;
@@ -73,10 +75,12 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("## MOVEMENT ##")]
     public InputActionAsset inputActions;
-    private InputAction attackAction;
+    private InputAction attack1Action;
+    private InputAction attack2Action;
+    private InputAction attack3Action;
     private InputAction powerAction;
-
-    public long powerPoints;
+    
+    public int powerPoints;
 
     private float healthPercent = 1;
     
@@ -148,7 +152,7 @@ public class PlayerCombat : MonoBehaviour
         attackDamage = baseAttackDamage;
         maxHealth = 250;
         currentHealth = maxHealth;
-        attackRate = 1.3f;
+        attackRate = 1.1f;
         
         healthBarFill.fillAmount = Mathf.Clamp01((float)currentHealth / maxHealth);
         targetHealthBarFill = healthBarFill.fillAmount;
@@ -157,9 +161,13 @@ public class PlayerCombat : MonoBehaviour
         
         // Input System
         var playerActionMap = inputActions.FindActionMap("Player");
-        attackAction = playerActionMap.FindAction("Attack");
+        attack1Action = playerActionMap.FindAction("Attack1");
+        attack2Action = playerActionMap.FindAction("Attack2");
+        attack3Action = playerActionMap.FindAction("Attack3");
         powerAction = playerActionMap.FindAction("Power");
-        attackAction.Enable();
+        attack1Action.Enable();
+        attack2Action.Enable();
+        attack3Action.Enable();
         powerAction.Enable();
     }
     
@@ -169,13 +177,24 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (anim.GetBool("Finished_Falling_Touchdown") && Time.time >= nextAttackTime
-            && attackAction.WasPerformedThisFrame())
-        {
-            Attack();
-            inputActions.Disable();
-            nextAttackTime = Time.time + 1 / attackRate;
+        if (anim.GetBool("Finished_Falling_Touchdown") && !isAttacking) {
+            if (attack1Action.WasPerformedThisFrame() && Time.time >= nextAttack1Time)
+            {
+                Attack();
+                nextAttack1Time = Time.time + 1 / attackRate;
+            }
+            else if (attack2Action.WasPerformedThisFrame() && Time.time >= nextAttack2Time)
+            {
+                Attack();
+                nextAttack2Time = Time.time + 1 / attackRate;
+            }
+            else if (attack3Action.WasPerformedThisFrame() && Time.time >= nextAttack3Time)
+            {
+                Attack();
+                nextAttack3Time = Time.time + 1 / attackRate;
+            }
         }
+        
 
         if (anim.GetBool("Finished_Falling_Touchdown") && powerAction.WasPerformedThisFrame())
         {
@@ -188,31 +207,27 @@ public class PlayerCombat : MonoBehaviour
             healthBarFill.fillAmount = Mathf.SmoothStep(healthBarFill.fillAmount, targetHealthBarFill, Time.deltaTime * healthBarFillSpeed);
         }
     }
-    
+
 
 
 
 
     void Attack()
     {
+
         // ATTACK ANIMATION
-        chosenAttack = Random.Range(1, 4);
-        switch (chosenAttack)
-        {
-            case 1: 
-                anim.SetTrigger("Attack1");
-                break;
-            case 2: 
-                anim.SetTrigger("Attack2");
-                break;
-            case 3: 
-                anim.SetTrigger("Attack3");
-                break;
-            default:
-                Debug.Log("Bruh");
-                break;
-        }
-        
+        if (attack1Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack1");
+        else if (attack2Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack2");
+        else if (attack3Action.WasPerformedThisFrame())
+            anim.SetTrigger("Attack3");
+        else
+            Debug.Log("Bruh");
+
+        isAttacking = true;
+
+
 
         // CHARGE
         {
@@ -222,27 +237,27 @@ public class PlayerCombat : MonoBehaviour
             playerMovement.DisableMovement();
             playerMovement.velocityX = 0f;
         }
-        
-        
+
+
         // SQUARE COLLIDER
         Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(2.2f, 0.5f), 0, enemyLayer);
         Collider2D[] bossesHit = Physics2D.OverlapBoxAll(attackPoint.position, new Vector2(2.2f, 0.5f), 0, bossLayer);
 
-        
+
         // SOUNDS
-        if(enemiesHit.Length == 0 && bossesHit.Length == 0)
+        if (enemiesHit.Length == 0 && bossesHit.Length == 0)
             bgMusic.noHitPunch.Play();
 
-        else if(enemiesHit.Length == 1 && bossesHit.Length == 0)
+        else if (enemiesHit.Length == 1 && bossesHit.Length == 0)
             bgMusic.enemyHitPunches[Random.Range(0, bgMusic.enemyHitPunches.Length)].Play();
-        
-        else if(enemiesHit.Length == 0 && bossesHit.Length == 1)
+
+        else if (enemiesHit.Length == 0 && bossesHit.Length == 1)
             bgMusic.bossHitPunches[Random.Range(0, bgMusic.bossHitPunches.Length)].Play();
-        
+
         else
             bgMusic.multiHitPunch.Play();
-        
-        
+
+
         // ENEMY HIT
         foreach (Collider2D enemy in enemiesHit)
         {
@@ -257,16 +272,22 @@ public class PlayerCombat : MonoBehaviour
         {
             if (boss is CapsuleCollider2D) continue;
             boss.GetComponent<Boss>().onHitBleed.Play();
-            boss.GetComponent<Boss>().TakeDamage(attackDamage);
+            boss.GetComponent<Boss>().TakeDamage(attackDamage, false);
             boss.GetComponent<Boss>().Knockback();
         }
-        
+
         // SCREEN LIGHT UP
         if (enemiesHit.Length > 0 || bossesHit.Length > 0)
             StartCoroutine(ScreenLightUp());
     }
     
-
+    
+    public void OnAttackFinish()
+    {
+        isAttacking = false;
+    }
+    
+    
     // DRAW HIT SQUARE
     private void OnDrawGizmosSelected()
 {
@@ -280,6 +301,8 @@ public class PlayerCombat : MonoBehaviour
     
     public void TakeDamage(int damage)
     {
+        anim.SetTrigger("Knockbacked");
+
         currentHealth -= damage;
         if(currentHealth > 0)
             bgMusic.PlayPlayerHurtSound();
@@ -300,7 +323,7 @@ public class PlayerCombat : MonoBehaviour
             healthBarBorder.color = new Color32(132, 36, 36, 0);
 
             playerRigid.bodyType = RigidbodyType2D.Static;
-
+            
             playerEye.SetActive(false);
             playerMovement.enabled = false;
             anim.enabled = false;
@@ -350,16 +373,18 @@ public class PlayerCombat : MonoBehaviour
         int cost;
         Color color;
         float duration;
+        int tier;
 
         // 1 Tier Attack
         if (powerPoints <= 9)
         {
             cost = 5;
             damageMultiplier = 2;
-            hitCenter = attackPoint.position;            
-            hitSize = new Vector2(3f, 0.8f);
-            color = new Color32(0, 204, 255, 150); // Jasny Cyjan
+            hitCenter = attackPoint.position;
+            hitSize = new Vector2(5f, 0.8f);
+            color = new Color32(0, 204, 255, 50); // Jasny Cyjan
             duration = 0.5f;
+            tier = 1;
         }
         // 2 Tier Attack
         else
@@ -367,24 +392,49 @@ public class PlayerCombat : MonoBehaviour
             cost = 10;
             damageMultiplier = 3;
             hitCenter = player.transform.position;
-            hitSize = new Vector2(5f, 0.8f);
-            color = new Color32(204, 0, 255, 150); // Intensywny Fiolet
-            duration = 1.2f;
+            hitSize = new Vector2(8f, 0.8f);
+            color = new Color32(204, 0, 255, 50); // Intensywny Fiolet
+            duration = 0.7f;
+            tier = 2;
         }
 
         powerPoints -= cost;
 
-        // VISUAL EFFECT
-        if (powerPoints <= 9)
-        {
-            if (playerMovement.lookingRight )
-                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x + 5f, hitCenter.y), hitSize, color, duration));
-            else
-                StartCoroutine(SpawnLightFlash(new Vector2(hitCenter.x - 5f, hitCenter.y), hitSize, color, duration));
-        }
-        else
-            StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration));
 
+        // ANIMATION
+        if (tier == 1)
+            anim.SetTrigger("Ultimate1");
+        else
+            anim.SetTrigger("Ultimate2");
+
+        // VISUALS DELAY
+        StartCoroutine(UltimateDelay(hitCenter, hitSize, color, duration, tier, damageMultiplier));
+        
+
+        UpdateUltimateBar(); 
+    }
+    
+
+
+    private IEnumerator UltimateDelay(Vector2 hitCenter, Vector2 hitSize, Color color, float duration, int tier, int damageMultiplier)
+    {
+        yield return new WaitForSeconds(tier == 1 ? 0.16f : 0.33f);
+        
+        // VISUAL EFFECT
+        StartCoroutine(SpawnLightFlash(hitCenter, hitSize, color, duration, tier));
+
+        // STOP MOVEMENT
+        {
+            if (tier == 1)
+            {
+                Vector3 pos = transform.position;
+                pos.x += player.transform.localScale.x * 5f;
+                transform.position = pos;
+            }
+            playerMovement.velocityX *= -0.8f;
+            playerMovement.DisableMovement();
+        }
+        
         Collider2D[] enemiesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, enemyLayer);
         Collider2D[] bossesHit = Physics2D.OverlapBoxAll(hitCenter, hitSize, 0, bossLayer);
 
@@ -402,21 +452,27 @@ public class PlayerCombat : MonoBehaviour
         {
             if (boss is CapsuleCollider2D) continue;
             boss.GetComponent<Boss>().onHitBleed.Play();
-            boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier);
+            boss.GetComponent<Boss>().TakeDamage(attackDamage * damageMultiplier, true);
             boss.GetComponent<Boss>().Knockback();
         }
-
-        UpdateUltimateBar();
     }
     
-
-    
-    private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration)
+    private IEnumerator SpawnLightFlash(Vector2 center, Vector2 size, Color color, float duration, int tier)
     {
         // Create a temporary GameObject
         GameObject waveObj = new GameObject("UltimateWave");
-        waveObj.transform.position = new Vector3(center.x, center.y, -1f);
         
+        Vector2 startPosition = center;
+        Vector2 endPosition = center;
+        if (tier == 1)
+        {
+            float distance = 5f;
+            endPosition = center + (playerMovement.lookingRight ? Vector2.right : Vector2.left) * distance;
+        }
+        
+        waveObj.transform.position = new Vector3(startPosition.x, startPosition.y, -1f);
+        
+
         // Add a SpriteRenderer and set it to a simple white square
         SpriteRenderer sr = waveObj.AddComponent<SpriteRenderer>();
         
@@ -432,16 +488,13 @@ public class PlayerCombat : MonoBehaviour
         // 2. DEFINE ANIMATION PARAMETERS
         float timer = 0f;
 
-        // Start Scale: Very thin vertically, almost zero horizontally right in the center
-        Vector3 startScale = new Vector3(0.5f, size.y * 2, 1f);
-
-        // End Scale: We multiply by 1.2f to make the visual wave slightly BIGGER 
-        // than the actual hitbox for extra impact.
-        Vector3 endScale = new Vector3(size.x * 4, size.y * 3, 1f);
+        Vector3 startScale = new Vector3(0.5f, size.y * 2f, 1f);
+        
+        Vector3 endScale = new Vector3(size.x * 2f, tier == 1 ? size.y * 4f : size.y * 6f, 1f);
         
         // Initialize size
         waveObj.transform.localScale = startScale;
-
+        
         Light2D light = null;
         if (UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline != null)
         {
@@ -459,6 +512,10 @@ public class PlayerCombat : MonoBehaviour
             // 't' is a value from 0 to 1 representing animation progress
             float t = timer / duration;
 
+            // Animate Position
+            waveObj.transform.position = Vector2.Lerp(startPosition, endPosition, t);
+            
+
             // A. Animate Scale (Expand outwards)
             // We use an "EaseOut" curve (Mathf.Sin) so it bursts fast and slows down at the end
             float scaleProgress = Mathf.Sin(t * Mathf.PI * 0.5f); 
@@ -466,14 +523,14 @@ public class PlayerCombat : MonoBehaviour
             
             // B. Animate Opacity (Fade out at the end)
             // We square 't' (t*t) so it stays bright for a while, then fades rapidly at the end
-            float alphaProgress = t * t;
+            float alphaProgress = t * t * t;
             float currentAlpha = Mathf.Lerp(color.a, 0f, alphaProgress);
             sr.color = new Color(color.r, color.g, color.b, currentAlpha);
 
             // OPTIONAL: Fade URP Light intensity if using it
-            if (light != null) light.intensity = Mathf.Lerp(2f, 0f, alphaProgress);
+            if (light != null) light.intensity = Mathf.Lerp(3f, 0f, alphaProgress);
            
-
+            
             yield return null;
         }
 

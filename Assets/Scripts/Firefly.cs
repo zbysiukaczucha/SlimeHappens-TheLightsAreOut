@@ -1,5 +1,6 @@
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Firefly : MonoBehaviour
 {
@@ -9,15 +10,18 @@ public class Firefly : MonoBehaviour
     private bool chasing = false;
     private Transform player;
     private PlayerCombat playerCombat;
-    [SerializeField] private ParticleSystem explosionPrefab;
+    private PlayerMovementLO playerMovement;
+    [SerializeField] private ParticleSystem explosionParticles;
     
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerCombat = player.GetComponent<PlayerCombat>();
         direction = transform.position.x > 0 ? Vector2.left : Vector2.right;
+        playerMovement = player.GetComponent<PlayerMovementLO>();
+        explosionParticles = transform.GetComponentInChildren<ParticleSystem>();
     }
-
+    
     void Update()
     {
         if (!chasing && player != null)
@@ -37,7 +41,6 @@ public class Firefly : MonoBehaviour
 
         if (transform.position.y < 0 || System.Math.Abs(transform.position.x) > 75)
         {
-            Destroy(gameObject);
             SpawnExplosion();
         }
             
@@ -49,20 +52,23 @@ public class Firefly : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            playerCombat.TakeDamage(50);
+            if(!playerMovement.isDashing)
+                playerCombat.TakeDamage(50);
             
             SpawnExplosion();
-            Destroy(gameObject);
         }
     }
     
     private void SpawnExplosion()
     {
-        if (explosionPrefab != null)
-        {
-            var ps = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
-        }
+        if (explosionParticles == null) return;
+
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        GetComponentInChildren<Light2D>().intensity = 0f;
+        moveSpeed = 0f;
+        explosionParticles.Play();
+        Destroy(gameObject, 1.5f);
     }
 
 }
