@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Slimeborne
 {
@@ -197,10 +198,41 @@ namespace Slimeborne
 
             lockOn_Input = false;
         }
+
+        public void LockPlayer(bool value)
+        {
+            enableMovementInput = !value;
+            cameraHandler.ToggleCameraLock(value);
+            playerAttacker.lockPlayer = value;
+            if (value) moveAmount = 0;
+        }
         
         private void HandleInteractInput()
         {
             inputActions.PlayerActions.Interact.performed += i => interact_Input = true;
+        }
+
+        float stepInterval = 1.12f;
+
+        float stepTimer ;
+
+        void Update()
+        {
+            if (moveAmount == 1)
+            {
+                stepInterval = sprintFlag ? 0.75f : 1.45f;
+                stepTimer += Time.deltaTime;
+
+                if (stepTimer >= stepInterval)
+                {
+                    AudioManager.PlaySound(SoundType.SnailMove, 1, 0.15f);
+                    stepTimer = 0f;
+                }
+            }
+            else
+            {
+                stepTimer = 0f;
+            }
         }
     }
 }

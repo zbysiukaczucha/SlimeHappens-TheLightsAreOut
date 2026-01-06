@@ -192,7 +192,7 @@ namespace Slimeborne
 
         public void HandleMovement(float delta)
         {
-            if (inputHandler.rollFlag || !isAttachedToSurface || playerManager.isUltimateAttacking) return;
+            if (inputHandler.rollFlag || !isAttachedToSurface || playerManager.isUltimateAttacking || !inputHandler.enableMovementInput) return;
 
 
             Vector3 inputDir = (cameraObject.forward * inputHandler.vertical +
@@ -278,7 +278,7 @@ namespace Slimeborne
         private IEnumerator PerformDodge(Vector3 direction)
         {
             float dodgeTime = 0.5f;
-            float dodgeForce = 5f;
+            float dodgeForce = 2f;
 
             float timer = 0;
             while (timer < dodgeTime)

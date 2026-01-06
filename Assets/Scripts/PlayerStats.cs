@@ -36,6 +36,8 @@ namespace Slimeborne
             ultimateBar = FindFirstObjectByType<UltimateBar>();
             //PlayerPrefs.SetInt("LastScore", 45); // For testing purposes
             damageMultiplier = PlayerPrefs.GetInt("LastScore", 30) / 30f;
+            if (damageMultiplier < 0.5f)
+                damageMultiplier = 0.5f;
         }
 
         private void Start()
@@ -77,6 +79,7 @@ namespace Slimeborne
                 currentHealth = 0;
                 // Handle player death here
                 // animatorHandler.PlayTargetAnimation("Death", true);
+                
                 print("Player has died.");
             }
             
@@ -99,13 +102,6 @@ namespace Slimeborne
                 if (currentStamina > maxStamina)
                     currentStamina = maxStamina;
             }
-        }
-
-        public void Heal(int amount)
-        {
-            currentHealth += amount;
-            if (currentHealth > maxHealth)
-                currentHealth = maxHealth;
         }
     }
 }

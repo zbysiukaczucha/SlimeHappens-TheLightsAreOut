@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Slimeborne
 {
     public class PlayerInventory : MonoBehaviour
     {
+        [Header("Weapons")]
         WeaponSlotManager weaponSlotManager;
         public WeaponItem headWeapon;
         public WeaponItem tailWeapon;
@@ -17,6 +20,12 @@ namespace Slimeborne
         
         public int currentHeadWeaponIndex = -1;
         public int currentTailWeaponIndex = -1;
+
+        [Header("Gems")]
+        public List<GameObject> gems;
+        public GameObject activeGem;
+        private int lastKeyPressed = 0;
+
         private void Awake()
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
@@ -31,7 +40,50 @@ namespace Slimeborne
             weaponSlotManager.LoadWeaponOnSlot(headWeapon, true);
             weaponSlotManager.LoadWeaponOnSlot(tailWeapon, false);
         }
+
+
+        private void Update()
+        {
+            if (Input.anyKeyDown)
+            {
+                // If the pressed key is one of the numbers, show the resective gem
+                if (lastKeyPressed > 47 && lastKeyPressed < 58)
+                {
+                    print("Pressed " + (KeyCode)lastKeyPressed);
+                    int slot = Math.Abs(48 - lastKeyPressed);
+                    if (gems.Count > slot) {
+                        //gems[slot].SetActive(true);
+                        print(gems[slot].name);
+                        if(activeGem != null)
+                        {
+                            activeGem.SetActive(false);
+                        }
+                        activeGem = gems[slot];
+                        activeGem.SetActive(true);
+                    }
+                }
+                // If tilde/backquote key was pressed, hide the gem
+                if(lastKeyPressed == 96)
+                {
+                    activeGem.SetActive(false);
+                    activeGem = null;
+                }
+            }
+        }
         
+        // Get the int value of the key that was just  pressed
+        void OnGUI()
+        {
+            Event e = Event.current;
+            if (e.isKey)
+            {
+                if (e.keyCode != KeyCode.None)
+                {
+                    lastKeyPressed = (int)e.keyCode;
+                }
+            }
+        }
+
         private WeaponItem GetNextWeapon(WeaponItem[] slots, ref int currentIndex)
         {
             int start = currentIndex;

@@ -14,11 +14,10 @@ public partial class AttackProwizorkaAction : Action
     [SerializeReference] public BlackboardVariable<bool> IsAttacking;
     [SerializeReference] public BlackboardVariable<List<string>> AttacksPossible;
     private Animator animator;
-
     protected override Status OnStart()
     {
         animator = Agent.Value.GetComponent<Animator>();
-        
+
         int attack = Random.Range(0, AttacksPossible.Value.Count - 1);
         animator.SetBool("IsAttacking", true);
         animator.CrossFade(AttacksPossible.Value[attack], 0.2f);

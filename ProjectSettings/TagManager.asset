@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Gemini
+  - KnobPanel
+  - StonecuttingStation
+  - Knob
+  - RunicTool
+  - Client
+  - FxTemporaire
+  - Gem
   layers:
   - Default
   - TransparentFX
