@@ -2175,7 +2175,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.68333334
-    functionName: finishedFallingTouchdown
+    functionName: FinishedFallingTouchdown
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
