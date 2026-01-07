@@ -6540,6 +6540,7 @@ GameObject:
   - component: {fileID: 908645954}
   - component: {fileID: 908645953}
   - component: {fileID: 908645955}
+  - component: {fileID: 908645956}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6599,6 +6600,19 @@ MonoBehaviour:
   maximumHealthImage: {fileID: 21300000, guid: 8308a900d58ce5144909bdc4d0ffc856, type: 3}
   healAmountImage: {fileID: 21300000, guid: 4dc8547a8bbc19a4589f0a34c2241350, type: 3}
   HealUpImage: {fileID: 21300000, guid: 30079e0f20e3dc44e9c3049f416e4d51, type: 3}
+--- !u!114 &908645956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908645952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3183ed5ee736b48a7f8d26f38b934b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LampSpawner
+  lampPrefab: {fileID: 7465532881285895707, guid: e4905e80dfd190e4da9d3963f51bd70f, type: 3}
 --- !u!1 &909153854
 GameObject:
   m_ObjectHideFlags: 0
