@@ -7,8 +7,7 @@ public class UltimateGameManager : MonoBehaviour
 {
     static UltimateGameManager instance;
     public static int defaultScore = 30;
-    public int score;
-    public int dayCount = 1;
+    public int score = defaultScore;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

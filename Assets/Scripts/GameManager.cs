@@ -103,14 +103,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.9f);
         Debug.Log("przejście do realnego świata");
-        if (ultimateGameManager.dayCount != 1)
-        {
-            SceneManager.LoadScene("Level");
-        }
-        else
-        {
-            SceneManager.LoadScene("StartingScene");
-        }
+        SceneManager.LoadScene("Level");
         
     }
     
