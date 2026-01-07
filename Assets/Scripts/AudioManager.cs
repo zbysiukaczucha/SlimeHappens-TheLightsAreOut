@@ -23,6 +23,7 @@ public enum SoundType
     SnailMove,
     SnailUltimate,
     YouDied,
+    Yay,
 }
 
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
