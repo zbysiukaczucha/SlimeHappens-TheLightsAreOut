@@ -17,9 +17,10 @@ namespace Slimeborne
         private void Awake()
         {
             bossHealthBar = FindFirstObjectByType<UIEnemyHealthBar>();
+            boss = FindFirstObjectByType<EnemyManager>();
         }
 
-        public void ActivateBossFight(EnemyManager bossToActivate)
+        public void ActivateBossFight()
         {
             bossFightActive = true;
             bossHealthBar.SetActive(true);

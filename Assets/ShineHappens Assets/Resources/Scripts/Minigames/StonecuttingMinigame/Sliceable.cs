@@ -22,8 +22,8 @@ public class Sliceable : MonoBehaviour
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
         if (playerInventory != null)
         {
-            Gem gemScript = playerInventory.activeGem.GetComponent<Gem>();
-            myMaterial = gemScript.crystalMaterials[(int)gemScript.stoneLevel];
+            //Gem gemScript = playerInventory.activeGem.GetComponent<Gem>();
+            //myMaterial = gemScript.crystalMaterials[(int)gemScript.stoneLevel];
         }
         /*if (myMaterial == null)
         {

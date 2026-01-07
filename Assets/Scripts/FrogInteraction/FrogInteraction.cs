@@ -34,6 +34,7 @@ public class FrogInteraction : MonoBehaviour
     PlayerAttacker playerAttacker;
     InputHandler inputHandler;
     CameraHandler camScript;
+    WorldEventManager worldEventManager;
 
     public bool fakingGeminiEnabled = true;
     public bool getFakeResponse = true;
@@ -60,6 +61,7 @@ public class FrogInteraction : MonoBehaviour
         playerCharacter = GameObject.Find("PlayerCharacter");
         playerAttacker = playerCharacter.GetComponent<PlayerAttacker>();
         inputHandler = playerCharacter.GetComponent<InputHandler>();
+        worldEventManager = GameObject.Find("WorldEventManager").GetComponent<WorldEventManager>();
         responseButtonText1 = responseButton1.transform.GetComponentInChildren<TextMeshProUGUI>();
         responseButtonText2 = responseButton2.transform.GetComponentInChildren<TextMeshProUGUI>();
         responseButtonText3 = responseButton3.transform.GetComponentInChildren<TextMeshProUGUI>();
@@ -247,6 +249,10 @@ public class FrogInteraction : MonoBehaviour
         gameObject.SetActive(false);
         //GameManager.Instance.UnlockPlayer();
 
+        if (startFight)
+        {
+            worldEventManager.ActivateBossFight();
+        }
         frogScript.ToggleFrogAttack(startFight);
         inputHandler.LockPlayer(false);
     }
