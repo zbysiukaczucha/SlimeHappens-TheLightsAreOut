@@ -3,12 +3,16 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class WallDestroyTrigger : MonoBehaviour
 {
     [SerializeField]
     GameObject stoneWall;
+    Image blackoutImage;
+    float alpha = 0;
 
+    
     TextMeshProUGUI objectiveText;
 
     string prevObjective;
@@ -17,6 +21,7 @@ public class WallDestroyTrigger : MonoBehaviour
     private void Start()
     {
         objectiveText = GameObject.FindWithTag("Objective").GetComponent<TextMeshProUGUI>();
+        blackoutImage = GameObject.Find("BlackoutImage").GetComponent<Image>();
         enteredTrigger = false;
     }
 
@@ -38,7 +43,18 @@ public class WallDestroyTrigger : MonoBehaviour
 
     IEnumerator ChangeScenes()
     {
-        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            blackoutImage.color = new Color(0, 0, 0, alpha);
+            yield return new WaitForSeconds(0.05f);
+            alpha += 0.05f;
+            if(alpha >= 1)
+            {
+                blackoutImage.color = new Color(0, 0, 0, alpha);
+                break;
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("Game");
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
