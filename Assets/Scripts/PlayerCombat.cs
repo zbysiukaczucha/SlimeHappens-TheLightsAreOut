@@ -300,7 +300,7 @@ public class PlayerCombat : MonoBehaviour
     
     
     public void TakeDamage(int damage)
-    {return;
+    {
         anim.SetTrigger("Knockbacked");
 
         currentHealth -= damage;
