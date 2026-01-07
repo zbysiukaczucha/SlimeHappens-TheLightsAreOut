@@ -63,7 +63,7 @@ namespace Slimeborne
                     }
                 }
                 // If tilde/backquote key was pressed, hide the gem
-                if(lastKeyPressed == 96)
+                if(lastKeyPressed == 96 && activeGem != null)
                 {
                     activeGem.SetActive(false);
                     activeGem = null;

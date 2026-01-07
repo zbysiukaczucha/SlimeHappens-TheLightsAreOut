@@ -7,14 +7,38 @@ namespace ShineHappens
     // Script to add to any objects that cause the crosshair change
     public class Interactable : MonoBehaviour
     {
-        private void OnMouseEnter()
+        [Header("Detection")]
+        public float pickupRange = 2.5f;
+
+        [Header("References")]
+        public GameObject glowCircle;
+
+        private Transform player;
+
+        void Start()
         {
-            CursorManager.Instance.ChangeCrosshairHover();
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+
+            if (glowCircle != null)
+                glowCircle.SetActive(false);
         }
 
-        private void OnMouseExit()
+        void Update()
         {
-            CursorManager.Instance.ChangeCrosshairBasic();
+            if (player == null || glowCircle == null)
+                return;
+
+            float distance = Vector3.Distance(player.position, transform.position);
+
+            glowCircle.SetActive(distance <= pickupRange);
         }
+
+#if UNITY_EDITOR
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, pickupRange);
+        }
+#endif
     }
 }

@@ -16,21 +16,29 @@ public class StoneGenerator : MonoBehaviour
     private void Start()
     {
         targetShapes = Resources.LoadAll<GameObject>("Prefabs/TargetShapes/");
+        foreach (Transform child in transform.parent)
+        {
+            if(child.CompareTag("GemSpawnPoint"))
+            {
+                Debug.Log("making stone");
+                InstantiateRock(child);
+            }
+        }
     }
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V)) {
-            if (stone != null)
-            {
-                Destroy(stone);
-            }
-            InstantiateRock();
-        }
+        //if (Input.GetKeyDown(KeyCode.V)) {
+        //    if (stone != null)
+        //    {
+        //        Destroy(stone);
+        //    }
+        //    InstantiateRock();
+        //}
     }
 
-    void InstantiateRock()
+    void InstantiateRock(Transform targetPosition)
     {
         // Create a new GameObject to hold the mesh
         GameObject stone = new GameObject("Stone");
@@ -48,23 +56,23 @@ public class StoneGenerator : MonoBehaviour
         mr.material.color = Color.Lerp(Color.gray, Color.black, Random.value);
 
         // Position it
-        stone.transform.position = transform.position;
+        stone.transform.position = targetPosition.position;
 
-        // Add mouse rotation behaviour
-        stone.AddComponent<Sliceable>();
+        stone.AddComponent<Gem>();
+        stone.AddComponent<MeshCollider>().convex = true;
 
-        GameObject targetShape = Instantiate(targetShapes[Random.Range(0, targetShapes.Length)], new Vector3(0, 0, 0), Quaternion.identity);
-        targetShape.transform.position = stone.transform.position;
-        targetShape.name = "TargetShape";
-        GameObject parent = new GameObject("Boulder");
-        parent.transform.position = stone.transform.position;
-        stone.transform.parent = parent.transform;
-        targetShape.transform.parent = parent.transform;
-        parent.AddComponent<Rotateable>();
-        this.stone = parent;
+        //GameObject targetShape = Instantiate(targetShapes[Random.Range(0, targetShapes.Length)], new Vector3(0, 0, 0), Quaternion.identity);
+        //targetShape.transform.position = stone.transform.position;
+        //targetShape.name = "TargetShape";
+        //GameObject parent = new GameObject("Boulder");
+        //parent.transform.position = stone.transform.position;
+        //stone.transform.parent = parent.transform;
+        //targetShape.transform.parent = parent.transform;
+        //parent.AddComponent<Rotateable>();
+        //this.stone = parent;
         //rescale to match scene (first merge)
         stone.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-        targetShape.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        //targetShape.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
     }
 
     Mesh GenerateStone()

@@ -6,6 +6,12 @@ public class Rotateable : MonoBehaviour
 {
     public float rotationSpeed = 100f;
     private Vector3 lastMousePos;
+    private Transform cam;
+
+    private void Start()
+    {
+        cam = GameObject.Find("CuttingCamera").transform;
+    }
 
     // Update is called once per frame
     void Update()
@@ -22,7 +28,6 @@ public class Rotateable : MonoBehaviour
             lastMousePos = Input.mousePosition;
 
             // Camera-relative axes
-            Transform cam = Camera.main.transform;
             Vector3 camRight = cam.right;
             Vector3 camUp = cam.up;
 
@@ -35,11 +40,11 @@ public class Rotateable : MonoBehaviour
         //Rotation by keys
         if (Input.GetKey(KeyCode.Q))
         {
-            transform.Rotate(Camera.main.transform.forward, rotationSpeed * Time.deltaTime, Space.World);
+            transform.Rotate(cam.forward, rotationSpeed * Time.deltaTime, Space.World);
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            transform.Rotate(Camera.main.transform.forward, -rotationSpeed * Time.deltaTime, Space.World);
+            transform.Rotate(cam.transform.forward, -rotationSpeed * Time.deltaTime, Space.World);
         }
     }
 }
