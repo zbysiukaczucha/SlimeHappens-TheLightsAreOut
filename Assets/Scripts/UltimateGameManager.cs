@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UltimateGameManager : MonoBehaviour
 {
-    static UltimateGameManager instance;
+    public static UltimateGameManager instance;
     public static int defaultScore = 30;
     public int score = defaultScore;
     public bool enableWallBreak;
