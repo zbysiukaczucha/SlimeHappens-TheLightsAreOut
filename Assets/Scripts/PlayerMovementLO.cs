@@ -40,6 +40,10 @@ public class PlayerMovementLO : MonoBehaviour
     private float friction = 40f;
     private float acceleration = 35f;
     [ShowOnly] public bool canMove;
+    
+    [Header("## COMBAT ##")]
+    private PlayerCombat playerCombat;
+    
 
     void Awake()
     {
@@ -60,6 +64,8 @@ public class PlayerMovementLO : MonoBehaviour
 
         moveAction.Enable();
         dashAction.Enable();
+
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     void Update()
@@ -126,9 +132,9 @@ public class PlayerMovementLO : MonoBehaviour
             anim.ResetTrigger("AD_Pressed");
             anim.SetTrigger("AD_Dropped");
         }
-        else
+        else    // MOVEMENT
         {
-            if (!isIdle)
+            if (!isIdle && !playerCombat.isAttacking)
             {
                 anim.ResetTrigger("AD_Dropped");
                 anim.SetTrigger("AD_Pressed");

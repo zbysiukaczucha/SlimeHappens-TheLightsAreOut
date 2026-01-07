@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Enemy : MonoBehaviour
 {
@@ -43,6 +44,10 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rigidR_thigh;
     private GameObject r_leg;
     private Rigidbody2D rigidR_leg;
+
+    private Light2D enemyEyeLight;
+    private TrailRenderer enemyEyeTrail;
+    private float maxDistance = 8f;
 
     [Header("##  MOVEMENT  ##")]
     private bool canMove = true;
@@ -104,6 +109,10 @@ public class Enemy : MonoBehaviour
         rigidR_leg = r_leg.GetComponent<Rigidbody2D>();
         IKControls = transform.Find("IKControls").gameObject;
         enemyRenderer = GetComponent<SpriteRenderer>();
+
+        // LIGHTS AND TRAILS
+        enemyEyeLight = enemyEye.GetComponent<Light2D>();
+        enemyEyeTrail = enemyEye.GetComponent<TrailRenderer>();
         
         // KILLCOUNT TEXT
         killCount = GameObject.Find("Counter").GetComponent<TMP_Text>();
@@ -137,32 +146,35 @@ public class Enemy : MonoBehaviour
         cooldownTimer += Time.deltaTime;
         Vector3 playerPos = player.transform.position;
         Vector3 enemyPos = transform.position;
-
+        float distanceToPlayer = Vector3.Distance(playerPos, enemyPos);
         
+        if (currentHealth > 0)
+            UpdateEyeIntensity(distanceToPlayer);
+
         direction = (playerPos - enemyPos).normalized;
         direction.z = 0;
-        
+
 
         // FLIP
-        if(direction.x >= 0 && canMove)
+        if (direction.x >= 0 && canMove)
             transform.localScale = new Vector3(-System.Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
-        if(direction.x < 0)
+        if (direction.x < 0)
             onHitBleed.transform.localScale = new Vector2(1, 1);
         else
             onHitBleed.transform.localScale = new Vector2(-1, 1);
-            
-            
+
+
         // PLAYER IN SIGHT
-        if(currentHealth > 0 && PlayerInSight(direction))
+        if (currentHealth > 0 && PlayerInSight(direction))
         {
             // ENEMY STOP
-            if(!isKnocked)
+            if (!isKnocked)
                 enemyRigid.linearVelocity = Vector2.zero;
-            
-            
+
+
             // ATTACK
-            if(cooldownTimer >= attackCooldown && playerCombat.currentHealth > 0)
+            if (cooldownTimer >= attackCooldown && playerCombat.currentHealth > 0)
             {
                 cooldownTimer = 0;
                 StartCoroutine(Attack());
@@ -171,7 +183,7 @@ public class Enemy : MonoBehaviour
             }
 
         }
-        
+
 
         // RUN
         if (canMove && currentHealth > 0 && !PlayerInSight(direction) && !isAttacking)
@@ -180,19 +192,19 @@ public class Enemy : MonoBehaviour
 
             Vector3 move = new Vector3(direction.x * speed, direction.y * speed * 0.75f, 0);
             transform.position += move * Time.deltaTime;
-            
+
             Vector3 pos = transform.position;
             pos.y = Mathf.Clamp(pos.y, minY, maxY);
             transform.position = pos;
-        
+
             // SCALE BASED ON Y POSITION
             if (direction.x > 0)
                 transform.localScale = new Vector3(-0.2f + pos.y * 0.01f, 0.2f - pos.y * 0.01f, 0.2f - pos.y * 0.01f);
             else
                 transform.localScale = new Vector3(0.2f - pos.y * 0.01f, 0.2f - pos.y * 0.01f, 0.2f - pos.y * 0.01f);
         }
-        
-        
+
+
         // STOP RUNNING WHEN PLAYER IS DEAD
         if (playerCombat.currentHealth <= 0)
         {
@@ -202,7 +214,7 @@ public class Enemy : MonoBehaviour
                 detectionWidth = Random.Range(4f, 11f);
                 detectionWidthUnchanged = false;
             }
-            
+
 
             // STOP ENEMY
             if (PlayerInSight(direction))
@@ -213,9 +225,34 @@ public class Enemy : MonoBehaviour
         }
 
     }
-
     
-
+    
+    private void UpdateEyeIntensity(float distance)
+    {
+        // Normalize distance to 0-1 (1 = close, 0 = far)
+        float distPercent = Mathf.Clamp01(1f - (distance / maxDistance));
+        
+        // Update Light2D intensity
+        if (enemyEyeLight != null)
+        {
+            enemyEyeLight.intensity = Mathf.Lerp(0.08f, 3f, distPercent);
+        }
+        
+        // Update TrailRenderer alpha
+        if (enemyEyeTrail != null)
+        {
+            Gradient gradient = enemyEyeTrail.colorGradient;
+            GradientAlphaKey[] newAlphas = new GradientAlphaKey[] {
+                new GradientAlphaKey(1 - (1 - distPercent) * 1.3f, 0.0f), // Alpha at Start of trail
+                new GradientAlphaKey(1 - (1 - distPercent) * 1.3f, 1.0f)  // Alpha at End of trail
+            };
+            gradient.SetKeys(gradient.colorKeys, newAlphas);
+            enemyEyeTrail.colorGradient = gradient;
+        }
+    }
+    
+    
+    
 
 
     // COMBAT 
@@ -376,7 +413,7 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
     
-
+    
     IEnumerator Attack()
     {
         // enemyRigid.bodyType = RigidbodyType2D.Static;

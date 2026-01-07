@@ -16,7 +16,6 @@ public class HealUP : MonoBehaviour
     private float frequency = 1;
     private Vector2 startingScale;
     private Vector2 tempScale;
-    private Vector3 rotationSpeed = new Vector3(0, 100, 0);
     
     // [Header("##  GLOW ANIMATION  ##")]
     // [SerializeField] private float glowAmplitude;
@@ -60,7 +59,6 @@ public class HealUP : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(rotationSpeed * Time.deltaTime);
         if(PlayerTouch() && playerCombat.currentHealth < playerCombat.maxHealth)
         {
             playerCombat.HealPlayer(gameManager.healAmount);

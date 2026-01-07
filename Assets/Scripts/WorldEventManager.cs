@@ -9,6 +9,8 @@ namespace Slimeborne
         public List<FogWall> fogWalls;
         public UIEnemyHealthBar bossHealthBar;
         public EnemyManager boss;
+
+        public GameObject[] wallsToBeDestroyed;
         
         public bool bossFightActive = false;
         public bool bossDefeated = false;

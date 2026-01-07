@@ -13,6 +13,7 @@ TagManager:
   - Client
   - FxTemporaire
   - Gem
+  - Objective
   layers:
   - Default
   - TransparentFX

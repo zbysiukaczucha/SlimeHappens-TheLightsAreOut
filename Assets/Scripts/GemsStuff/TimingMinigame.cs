@@ -131,7 +131,7 @@ namespace ShineHappens
                         playerInventory.activeGem.GetComponent<Gem>().finishEnchanting(points);
 
                         resetMinigame();
-                        AudioManager.PlaySound(SoundType.EnchantingFinished, 1, 0.6f);
+                        AudioManager.PlaySound(SoundType.EnchantingFinished, 1, 0.3f);
                     }
                 }
 
