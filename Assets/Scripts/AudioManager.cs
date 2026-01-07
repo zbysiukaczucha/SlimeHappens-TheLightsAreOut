@@ -22,6 +22,7 @@ public enum SoundType
     SnailDodgeBack,
     SnailMove,
     SnailUltimate,
+    YouDied,
 }
 
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]

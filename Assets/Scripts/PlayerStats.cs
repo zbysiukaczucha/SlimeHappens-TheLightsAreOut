@@ -27,6 +27,7 @@ namespace Slimeborne
         AnimatorHandler animatorHandler;
         PlayerManager playerManager;
         InputHandler inputHandler;
+        UltimateGameManager ultimateGameManager;
         private void Awake()
         {
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
@@ -35,8 +36,9 @@ namespace Slimeborne
             healthBar = FindFirstObjectByType<HealthBar>();
             staminaBar = FindFirstObjectByType<StaminaBar>();
             ultimateBar = FindFirstObjectByType<UltimateBar>();
-            //PlayerPrefs.SetInt("LastScore", 45); // For testing purposes
-            damageMultiplier = PlayerPrefs.GetInt("LastScore", 30) / 30f;
+            ultimateGameManager = FindFirstObjectByType<UltimateGameManager>();
+            int score = ultimateGameManager != null ? ultimateGameManager.score : UltimateGameManager.defaultScore;
+            damageMultiplier = score / 30f;
             if (damageMultiplier < 0.5f)
                 damageMultiplier = 0.5f;
         }
@@ -79,9 +81,7 @@ namespace Slimeborne
             {
                 currentHealth = 0;
                 // Handle player death here
-                animatorHandler.PlayTargetAnimation("Death", true);
-                inputHandler.LockPlayer(true);
-                print("Player has died.");
+                playerManager.HandleDeath();
             }
             
         }
