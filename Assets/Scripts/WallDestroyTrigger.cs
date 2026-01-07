@@ -40,6 +40,8 @@ public class WallDestroyTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Game");
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,7 +49,7 @@ public class WallDestroyTrigger : MonoBehaviour
         if (other.name == "PlayerCharacter")
         {
             prevObjective = objectiveText.text;
-            objectiveText.text = "Destroy wall (with the help of gem's magic)";
+            objectiveText.text = "Destroy wall (with the help of gem's magic) *press SPACE*";
             enteredTrigger = true;
         }
     }
