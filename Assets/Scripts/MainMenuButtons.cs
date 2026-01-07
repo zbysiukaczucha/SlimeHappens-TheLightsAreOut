@@ -75,8 +75,22 @@ public class MainMenuButtons : MonoBehaviour
 
     private IEnumerator ChangeSceneToGame()
     {
+        // Fade out music
+        if(mainMenuMusic != null)
+        {
+            float startVolume = mainMenuMusic.volume;
+            float duration = 0.9f;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                mainMenuMusic.volume = Mathf.Lerp(startVolume, 0, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            mainMenuMusic.volume = 0;
+        }
         yield return new WaitForSeconds(0.9f);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("StartingScene");
     }
     
     
