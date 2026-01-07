@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private UltimateGameManager ultimateGameManager;
     [Header("##  SCREENS  ##")]
     private GameObject gameOverScreen;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        ultimateGameManager = FindFirstObjectByType<UltimateGameManager>();
         killCount = GameObject.Find("Counter").GetComponent<TMP_Text>();
         yourScore = GameObject.Find("YourScore").GetComponent<TextMeshProUGUI>();
         highScore = GameObject.Find("HighScore").GetComponent<TextMeshProUGUI>();
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
         highScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
         yourScore.text = "Your Score: " + killCount.text;
         
-        PlayerPrefs.SetInt("LastScore", int.Parse(killCount.text));
+        ultimateGameManager.score = int.Parse(killCount.text);
 
         gameOver = true;
         gameOverScreen.SetActive(true);
@@ -102,6 +104,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.9f);
         Debug.Log("przejście do realnego świata");
         SceneManager.LoadScene("Level");
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     
     public IEnumerator Lightning()

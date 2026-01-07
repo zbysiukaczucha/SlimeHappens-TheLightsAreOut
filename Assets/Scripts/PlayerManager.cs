@@ -15,6 +15,7 @@ namespace Slimeborne
         InteractableUI interactableUI;
         public GameObject interactableUIGameObject;
         public GameObject itemInteractableGameObject;
+        public DeathScreen deathScreen;
         
         public LightManager lightManager;
         
@@ -126,5 +127,14 @@ namespace Slimeborne
         //         Debug.DrawLine(pos, sphereCastMidpoint, Color.red);
         //     }
         // }
+        
+        public void HandleDeath()
+        {
+            anim.Play("Death");
+            playerMovement.rigidbody.linearVelocity = Vector3.zero;
+            playerMovement.enabled = false;
+            inputHandler.enabled = false;
+            deathScreen.ShowDeathScreen();
+        }
     }
 }

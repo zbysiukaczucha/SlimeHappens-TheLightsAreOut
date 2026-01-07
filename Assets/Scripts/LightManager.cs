@@ -8,11 +8,14 @@ public class LightManager : MonoBehaviour
 {
     Light directionalLight;
     float intensity;
+    UltimateGameManager ultimateGameManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         directionalLight = GetComponent<Light>();
-        intensity = PlayerPrefs.GetInt("LastScore", 30)/ 2f;
+        ultimateGameManager = FindFirstObjectByType<UltimateGameManager>();
+        int score = ultimateGameManager != null ? ultimateGameManager.score : UltimateGameManager.defaultScore;
+        intensity = score/ 2f;
         if (intensity < 10f)
         {
             intensity = 10f;

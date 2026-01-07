@@ -45,6 +45,10 @@ namespace Slimeborne
         public bool isAttachedToSurface = false;
         public float detachRotationSpeed = 5f;
         public float fallGravity = 40f;
+        
+        public float timeBeforeAirAction = 3.0f; 
+        private float currentAirTime = 0f;
+        private bool airActionTriggered = false;
 
         private void Start()
         {
@@ -62,53 +66,73 @@ namespace Slimeborne
         }
         
         public void HandleSurfaceDetection(float delta)
+{
+    if(playerManager.isUltimateAttacking)
+        return;
+    
+    RaycastHit hit;
+    Vector3 origin = myTransform.position + myTransform.up * 0.2f;
+
+    bool surfaceDetected = Physics.Raycast(origin, -myTransform.up, out hit, surfaceCheckDistance, surfaceMask);
+
+    if (surfaceDetected)
+    {
+        // NOWE: Resetujemy licznik i flagę, gdy dotykamy ziemi
+        currentAirTime = 0f;
+        airActionTriggered = false; 
+
+        // Jeśli właśnie złapaliśmy powierzchnię
+        if (!isAttachedToSurface)
         {
-            if(playerManager.isUltimateAttacking)
-                return;
-            
-            RaycastHit hit;
-            Vector3 origin = myTransform.position + myTransform.up * 0.2f;
-
-            bool surfaceDetected = Physics.Raycast(origin, -myTransform.up, out hit, surfaceCheckDistance, surfaceMask);
-
-            if (surfaceDetected)
-            {
-                // Jeśli właśnie złapaliśmy powierzchnię
-                if (!isAttachedToSurface)
-                {
-                    isAttachedToSurface = true;
-                    rigidbody.useGravity = false;
-                    StopAllCoroutines();
-                }
-
-                surfaceNormal = hit.normal;
-
-                // Obrót do normalnej powierzchni
-                Quaternion surfaceAlign = Quaternion.FromToRotation(myTransform.up, surfaceNormal) * myTransform.rotation;
-                myTransform.rotation = Quaternion.Slerp(myTransform.rotation, surfaceAlign, delta * rotationSmooth);
-
-                // Trzymanie się powierzchni
-                float distance = hit.distance;
-                if (distance > 0.2f)
-                {
-                    rigidbody.AddForce(-hit.normal * (surfaceStickForce * (distance / surfaceCheckDistance)), ForceMode.Acceleration);
-                }
-            }
-            else
-            {
-                // Utrata powierzchni – ślimak spada
-                if (isAttachedToSurface)
-                {
-                    StartCoroutine(DetachFromSurfaceSmooth());
-                }
-
-                // Gdy ślimak już odczepiony, używamy tylko grawitacji świata
-                if (rigidbody.useGravity)
-                {
-                    rigidbody.AddForce(Physics.gravity * (fallGravity / 9.81f), ForceMode.Acceleration);
-                }
-            }
+            isAttachedToSurface = true;
+            rigidbody.useGravity = false;
+            StopAllCoroutines();
         }
+
+        surfaceNormal = hit.normal;
+
+        // Obrót do normalnej powierzchni
+        Quaternion surfaceAlign = Quaternion.FromToRotation(myTransform.up, surfaceNormal) * myTransform.rotation;
+        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, surfaceAlign, delta * rotationSmooth);
+
+        // Trzymanie się powierzchni
+        float distance = hit.distance;
+        if (distance > 0.2f)
+        {
+            rigidbody.AddForce(-hit.normal * (surfaceStickForce * (distance / surfaceCheckDistance)), ForceMode.Acceleration);
+        }
+    }
+    else
+    {
+        // NOWE: Zliczanie czasu w powietrzu
+        currentAirTime += delta;
+
+        // Sprawdzenie warunku czasu
+        if (currentAirTime >= timeBeforeAirAction)
+        {
+            // Opcja A: Wywołaj tylko raz (np. włącz animację paniki, zabij gracza)
+            if (!airActionTriggered)
+            {
+                playerStats.TakeDamage(playerStats.maxHealth);
+                airActionTriggered = true; 
+            }
+            
+            // Opcja B: Wywołuj ciągle (np. odejmuj życie co klatkę) - usuń if(!airActionTriggered)
+        }
+
+        // Utrata powierzchni – ślimak spada
+        if (isAttachedToSurface)
+        {
+            StartCoroutine(DetachFromSurfaceSmooth());
+        }
+
+        // Gdy ślimak już odczepiony, używamy tylko grawitacji świata
+        if (rigidbody.useGravity)
+        {
+            rigidbody.AddForce(Physics.gravity * (fallGravity / 9.81f), ForceMode.Acceleration);
+        }
+    }
+}
 
 
 
