@@ -58,7 +58,7 @@ public class Upgrades : MonoBehaviour
         button_1 = FindInactiveObjectByName("Power 1 Button").GetComponent<Button>();
         button_2 = FindInactiveObjectByName("Power 2 Button").GetComponent<Button>();
         button_3 = FindInactiveObjectByName("Power 3 Button").GetComponent<Button>();
-        
+
 
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("Player");
@@ -67,7 +67,20 @@ public class Upgrades : MonoBehaviour
         luckThreshold = 60;
     }
 
-    
+
+    void Update()
+    {
+        if (!PowerUpChoiceScreen.activeSelf) return;
+
+        playerMovement.inputActions.Disable();
+
+        if (Input.GetKeyDown(KeyCode.Y) && button_1.isActiveAndEnabled)
+            button_1.onClick.Invoke();
+        else if (Input.GetKeyDown(KeyCode.U) && button_2.isActiveAndEnabled)
+            button_2.onClick.Invoke();
+        else if (Input.GetKeyDown(KeyCode.I) && button_3.isActiveAndEnabled)
+            button_3.onClick.Invoke();
+    }
 
 
 
@@ -274,6 +287,8 @@ public class Upgrades : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         Time.timeScale = 1;
         anim.enabled = false;
+
+        playerMovement.inputActions.Enable();
     }
 }
 

@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttack2Time = 0;
     private float nextAttack3Time = 0;
     private int baseAttackDamage = 50;
-    private bool isAttacking = false;
+    [ShowOnly] public bool isAttacking = false;
     
     [Header("##  PUBLIC VARIABLES  ##")]
     [ShowOnly] public int currentHealth;
@@ -322,6 +322,11 @@ public class PlayerCombat : MonoBehaviour
             healthBarFill.fillAmount = 0;
             healthBarBorder.color = new Color32(132, 36, 36, 0);
 
+            ultimateFill1.fillAmount = 0;
+            ultimateFill2.fillAmount = 0;
+            ultimateBorder1.color = new Color32(0, 102, 128, 0);
+            ultimateBorder2.color = new Color32(102, 0, 128, 0);
+
             playerRigid.bodyType = RigidbodyType2D.Static;
             
             playerEye.SetActive(false);
@@ -366,7 +371,7 @@ public class PlayerCombat : MonoBehaviour
     public void UsePower()
     {
         if (powerPoints <= 4) return;
-
+        if (powerPoints > 10 ) powerPoints = 10;
         Vector2 hitCenter;
         Vector2 hitSize;
         int damageMultiplier;
@@ -382,7 +387,7 @@ public class PlayerCombat : MonoBehaviour
             damageMultiplier = 2;
             hitCenter = attackPoint.position;
             hitSize = new Vector2(5f, 0.8f);
-            color = new Color32(0, 204, 255, 50); // Jasny Cyjan
+            color = new Color32(0, 204, 255, 50);
             duration = 0.5f;
             tier = 1;
         }
@@ -393,7 +398,7 @@ public class PlayerCombat : MonoBehaviour
             damageMultiplier = 3;
             hitCenter = player.transform.position;
             hitSize = new Vector2(8f, 0.8f);
-            color = new Color32(204, 0, 255, 50); // Intensywny Fiolet
+            color = new Color32(204, 0, 255, 50);
             duration = 0.7f;
             tier = 2;
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Boss : MonoBehaviour
 {
@@ -41,6 +42,13 @@ public class Boss : MonoBehaviour
     private Rigidbody2D rigidR_thigh;
     private GameObject r_leg;
     private Rigidbody2D rigidR_leg;
+
+    private Light2D bossEyeLight;
+    private TrailRenderer bossEyeTrail;
+    private float maxDistance = 11f;
+
+    [Range(0, 100)]
+    public int PowerUpDropChance = 50;
 
     [Header("##  MOVEMENT  ##")]
     private bool canMove = true;
@@ -103,9 +111,14 @@ public class Boss : MonoBehaviour
         IKControls = transform.Find("IKControls").gameObject;
         boss_renderer = GetComponent<SpriteRenderer>();
         bgMusic = GameObject.Find("Audio Source").GetComponent<BackgroundMusic>();
+
         // KILLCOUNT TEXT
         killCount = GameObject.Find("Counter").GetComponent<TMP_Text>();
 
+        // LIGHTS AND TRAILS
+        bossEyeLight = bossEye.GetComponent<Light2D>();
+        bossEyeTrail = bossEye.GetComponent<TrailRenderer>();
+        
         // HEALTH AND DAMAGE DEPENDING ON SCORE
             // CHANGE = KILLCOUNT / SCORE INTERVAL * HOW MUCH
         // maxHealth = 300 + int.Parse(killCount.text) / 10 * 25;
@@ -128,8 +141,8 @@ public class Boss : MonoBehaviour
         
         scoreAnim = GameObject.Find("AddedScore").GetComponent<Animator>();
     }
-    
-    
+
+
 
 
 
@@ -137,62 +150,64 @@ public class Boss : MonoBehaviour
     {
         cooldownTimer += Time.deltaTime;
         Vector3 playerPos = player.transform.position;
-        Vector3 enemyPos = transform.position;
+        Vector3 bossPos = transform.position;
+        float distanceToPlayer = Vector3.Distance(playerPos, bossPos);
 
-        
-        direction = (playerPos - enemyPos).normalized;
+        if (currentHealth > 0)
+            UpdateEyeIntensity(distanceToPlayer);
+
+        direction = (playerPos - bossPos).normalized;
         direction.z = 0;
-        
+
 
         // FLIP
-        if(direction.x >= 0 && canMove)
+        if (direction.x >= 0 && canMove)
             transform.localScale = new Vector3(-System.Math.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        
-        if(direction.x < 0)
+
+        if (direction.x < 0)
             onHitBleed.transform.localScale = new Vector2(1, 1);
         else
             onHitBleed.transform.localScale = new Vector2(-1, 1);
 
 
         // PLAYER IN SIGHT
-        if(currentHealth > 0 && PlayerInSight(direction))
+        if (currentHealth > 0 && PlayerInSight(direction))
         {
             // BOSS STOP
-            if(!isKnocked)
+            if (!isKnocked)
                 bossRigid.linearVelocity = Vector2.zero;
-            
-            
+
+
             // ATTACK
-            if(cooldownTimer >= attackCooldown && playerCombat.currentHealth > 0)
+            if (cooldownTimer >= attackCooldown && playerCombat.currentHealth > 0)
             {
                 cooldownTimer = 0;
                 StartCoroutine(Attack());
                 anim.ResetTrigger("Run");   // So enemy won't run after first punch
             }
-        
+
         }
-        
+
 
         // RUN
         if (canMove && currentHealth > 0 && !PlayerInSight(direction) && !isAttacking)
         {
             anim.SetTrigger("Run");
-            
+
             Vector3 move = new Vector3(direction.x * speed, direction.y * speed * 0.75f, 0);
             transform.position += move * Time.deltaTime;
-            
-            
+
             Vector3 pos = transform.position;
             pos.y = Mathf.Clamp(pos.y, minY, maxY);
             transform.position = pos;
-            
+
             // SCALE BASED ON Y POSITION
             if (direction.x > 0)
                 transform.localScale = new Vector3(-0.32f + pos.y * 0.01f, 0.32f - pos.y * 0.01f, 0.32f - pos.y * 0.01f);
             else
                 transform.localScale = new Vector3(0.32f - pos.y * 0.01f, 0.32f - pos.y * 0.01f, 0.32f - pos.y * 0.01f);
         }
-        
+
 
         // STOP RUNNING WHEN PLAYER IS DEAD
         if (playerCombat.currentHealth <= 0)
@@ -203,7 +218,7 @@ public class Boss : MonoBehaviour
                 detectionWidth = Random.Range(4f, 11f);
                 detectionWidthUnchanged = false;
             }
-            
+
 
             // STOP BOSS
             if (PlayerInSight(direction))
@@ -216,6 +231,29 @@ public class Boss : MonoBehaviour
     }
     
     
+    private void UpdateEyeIntensity(float distance)
+    {
+        // Normalize distance to 0-1 (1 = close, 0 = far)
+        float distPercent = Mathf.Clamp01(1f - (distance / maxDistance));
+        
+        // Update Light2D intensity
+        if (bossEyeLight != null)
+        {
+            bossEyeLight.intensity = Mathf.Lerp(0.15f, 4f, distPercent);
+        }
+        
+        // Update TrailRenderer alpha
+        if (bossEyeTrail != null)
+        {
+            Gradient gradient = bossEyeTrail.colorGradient;
+            GradientAlphaKey[] newAlphas = new GradientAlphaKey[] {
+                new GradientAlphaKey(1 - (1 - distPercent) * 1.3f, 0.0f), // Alpha at Start of trail
+                new GradientAlphaKey(1 - (1 - distPercent) * 1.3f, 1.0f)  // Alpha at End of trail
+            };
+            gradient.SetKeys(gradient.colorKeys, newAlphas);
+            bossEyeTrail.colorGradient = gradient;
+        }
+    }
     
     
 
@@ -238,11 +276,15 @@ public class Boss : MonoBehaviour
             bossRigid.linearVelocity = Vector2.zero;
             
 
-            // DROP POWERUP - MOVED TO FROG BOSS
-            // Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+            // DROP POWERUP
+            if (Random.Range(1, 101) <= PowerUpDropChance)
+                Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+
+            // GRANT POWER POINTS
             if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
-                player.GetComponent<PlayerCombat>().powerPoints += 1;
+                player.GetComponent<PlayerCombat>().powerPoints += 2;
             
+            player.GetComponent<PlayerCombat>().UpdateUltimateBar();
             anim.enabled = false;
             IKControls.SetActive(false);
             bossRigid.linearVelocity = Vector2.zero;
