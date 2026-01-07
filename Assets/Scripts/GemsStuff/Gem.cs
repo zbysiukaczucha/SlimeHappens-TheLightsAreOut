@@ -1,5 +1,6 @@
 using ShineHappens;
 using Slimeborne;
+using TMPro;
 using UnityEngine;
 
 public enum StoneLevel
@@ -23,11 +24,14 @@ public class Gem : MonoBehaviour
     PlayerInventory playerInventory;
     TimingMinigameUI timingMinigameUI;
 
+    TextMeshProUGUI objectiveText;
+
     private void Start()
     {
         isEnchanted = false;
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
         timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
+        objectiveText = GameObject.FindWithTag("Objective").GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
@@ -43,7 +47,7 @@ public class Gem : MonoBehaviour
                 else
                 {
                     timingMinigameUI.ShowTimingPanel();
-                    print("Enchanted the crystal");
+                    print("Enchanting the crystal");
                     isEnchanted = true;
                 }
             }
@@ -54,13 +58,15 @@ public class Gem : MonoBehaviour
     {
         print("finishing enchanting");
         magicLevel = points;
-        if(stoneLevel == StoneLevel.Strong)
+        /*if(stoneLevel == StoneLevel.Strong)
         {
             print("adding point light");
             //Light pointLight = gameObject.AddComponent<Light>();
             Light pointLight = GetComponent<Light>();
             pointLight.intensity = points;
-        }
+        }*/
+        objectiveText.text = "Go further";
+        UltimateGameManager.Instance.enableWallBreak = true;
     }
 
 
@@ -79,6 +85,8 @@ public class Gem : MonoBehaviour
             //Add gem to players inventory
             other.GetComponent<PlayerInventory>().gems.Add(gameObject);
             gameObject.SetActive(false);
+
+            objectiveText.text = "Cut the gemstone";
         }
     }
 }

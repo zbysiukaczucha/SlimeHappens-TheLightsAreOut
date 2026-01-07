@@ -9,6 +9,7 @@ public class UltimateGameManager : MonoBehaviour
     public static int defaultScore = 30;
     public int score;
     public int dayCount = 1;
+    public bool enableWallBreak;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -21,9 +22,25 @@ public class UltimateGameManager : MonoBehaviour
             instance = this;
         }
     }
-    
-    
-    
+    public static UltimateGameManager Instance
+    {
+        get
+        {
+            if (instance is null)
+            {
+                Debug.LogError("Ultimate Game Manager is NULL");
+            }
+            return instance;
+        }
+    }
+
+    private void Start()
+    {
+        enableWallBreak = false;
+    }
+
+
+
     public static IEnumerator RestartLevelCoroutine()
     {
         yield return new WaitForSeconds(1f);
