@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72c17585384cc2b4c9d678e18d3de2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallDestroyTrigger
-  stoneWall: {fileID: 0}
+  stoneWall: {fileID: 4867668122610251570}
 --- !u!1 &4867668122610251570
 GameObject:
   m_ObjectHideFlags: 0
