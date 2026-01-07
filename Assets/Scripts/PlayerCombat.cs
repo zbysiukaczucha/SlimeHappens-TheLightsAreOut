@@ -300,7 +300,7 @@ public class PlayerCombat : MonoBehaviour
     
     
     public void TakeDamage(int damage)
-    {
+    {return;
         anim.SetTrigger("Knockbacked");
 
         currentHealth -= damage;
@@ -371,7 +371,7 @@ public class PlayerCombat : MonoBehaviour
     public void UsePower()
     {
         if (powerPoints <= 4) return;
-
+        if (powerPoints > 10 ) powerPoints = 10;
         Vector2 hitCenter;
         Vector2 hitSize;
         int damageMultiplier;
@@ -387,7 +387,7 @@ public class PlayerCombat : MonoBehaviour
             damageMultiplier = 2;
             hitCenter = attackPoint.position;
             hitSize = new Vector2(5f, 0.8f);
-            color = new Color32(0, 204, 255, 50); // Jasny Cyjan
+            color = new Color32(0, 204, 255, 50);
             duration = 0.5f;
             tier = 1;
         }
@@ -398,7 +398,7 @@ public class PlayerCombat : MonoBehaviour
             damageMultiplier = 3;
             hitCenter = player.transform.position;
             hitSize = new Vector2(8f, 0.8f);
-            color = new Color32(204, 0, 255, 50); // Intensywny Fiolet
+            color = new Color32(204, 0, 255, 50);
             duration = 0.7f;
             tier = 2;
         }

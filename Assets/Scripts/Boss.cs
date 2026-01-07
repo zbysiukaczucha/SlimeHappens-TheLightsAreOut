@@ -47,6 +47,9 @@ public class Boss : MonoBehaviour
     private TrailRenderer bossEyeTrail;
     private float maxDistance = 11f;
 
+    [Range(0, 100)]
+    public int PowerUpDropChance = 50;
+
     [Header("##  MOVEMENT  ##")]
     private bool canMove = true;
     private Vector3 direction;
@@ -194,7 +197,6 @@ public class Boss : MonoBehaviour
             Vector3 move = new Vector3(direction.x * speed, direction.y * speed * 0.75f, 0);
             transform.position += move * Time.deltaTime;
 
-
             Vector3 pos = transform.position;
             pos.y = Mathf.Clamp(pos.y, minY, maxY);
             transform.position = pos;
@@ -274,11 +276,15 @@ public class Boss : MonoBehaviour
             bossRigid.linearVelocity = Vector2.zero;
             
 
-            // DROP POWERUP - MOVED TO FROG BOSS
-            // Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+            // DROP POWERUP
+            if (Random.Range(1, 101) <= PowerUpDropChance)
+                Instantiate(powerUpPrefab, new Vector3(transform.position.x, transform.position.y, -0.1f), Quaternion.identity);
+
+            // GRANT POWER POINTS
             if (player.GetComponent<PlayerCombat>().powerPoints < 10 && !powerUsed)
-                player.GetComponent<PlayerCombat>().powerPoints += 1;
+                player.GetComponent<PlayerCombat>().powerPoints += 2;
             
+            player.GetComponent<PlayerCombat>().UpdateUltimateBar();
             anim.enabled = false;
             IKControls.SetActive(false);
             bossRigid.linearVelocity = Vector2.zero;
