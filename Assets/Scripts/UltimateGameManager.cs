@@ -9,6 +9,9 @@ public class UltimateGameManager : MonoBehaviour
     public static int defaultScore = 30;
     public int score = defaultScore;
     public bool enableWallBreak;
+
+    public List<int> destroyedWallNumbers;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
