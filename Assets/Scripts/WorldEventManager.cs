@@ -45,12 +45,22 @@ namespace Slimeborne
             }
         }
         
+        public void ActivateEndGame()
+        {
+            StartCoroutine(EndGame());
+        }
+
         public IEnumerator EndGame()
         {
             //Disable player controls
             FindFirstObjectByType<PlayerMovement>().enabled = false;
             FindFirstObjectByType<PlayerAttacker>().enabled = false;
-            
+
+            AudioManager.PlaySound(SoundType.Yay);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;   
+
+
             while (true)
             {
                 blackoutImage.color = new Color(0, 0, 0, alpha);

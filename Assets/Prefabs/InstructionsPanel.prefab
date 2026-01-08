@@ -184,8 +184,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -296,9 +296,11 @@ MonoBehaviour:
   m_text: "<b>Move</b> - W, A, S, D\n<b>Sprint</b> - W+Left Hift (hold)\n\n<b>Attack
     1</b> - Left Mouse Button\n<b>Attack 2,3</b> - Left Mouse Button x2/3\n<b>Ultime
     Attack</b> - R\n<b>Dodge Back</b> - Left Shift\n<b>Dodge Forward</b> - W+Left
-    Shift\n\n<b>Hold gem</b> - 0-9 (corresponding to the gem slot number)\n\n<b>Enchanting</b>
-    (while holding a gem):\n   <b>Enable</b> - Left Ctrl\n   <b>Stop / Restart timer</b>
-    - Space\n     \n\n\n"
+    Shift\n\n<b>Hold gem</b> - 0-9 (corresponding to the gem slot number)\n\n<b>Cutting</b>:\n  
+    <b>Enable</b> -  Left Ctrl\n   <b>Cut</b> - Space\n   <b>Rotate gem</b> - Mouse
+    hold+move / Q / R\n   <b>Rotate line</b> - Mouse scroll (+Left Shift for quick)\n  
+    <b>Save</b> -  Left Ctrl\n\n<b>Enchanting</b>:\n   <b>Enable</b> - Left Ctrl\n  
+    <b>Stop / Restart timer</b> - Space\n     \n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -325,8 +327,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

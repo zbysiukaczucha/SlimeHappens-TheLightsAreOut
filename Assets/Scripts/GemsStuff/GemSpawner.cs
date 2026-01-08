@@ -6,7 +6,7 @@ public class GemSpawner : MonoBehaviour
     [SerializeField]
     GameObject gemPrefab;
     [SerializeField]
-    //Material boulderMaterial;
+    Material gemMaterial;
 
     /*[Header("Stone Settings")]
     public int resolution = 3;          // how many times to subdivide
@@ -30,7 +30,7 @@ public class GemSpawner : MonoBehaviour
         for(int i = 0; i < spawnPositions.Count; i++)
         {
             GameObject gem = Instantiate(gemPrefab, spawnPositions[i]);
-
+            gem.GetComponent<Gem>().gemMaterial = gemMaterial;
             //GameObject gem = InstantiateRock(spawnPositions[i].position);
         }
     }

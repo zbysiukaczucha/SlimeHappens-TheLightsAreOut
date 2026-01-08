@@ -17,6 +17,9 @@ TagManager:
   - Counter
   - PlayerHitbox
   - DestructibleWall
+  - GemSpawnPoint
+  - CuttingCamera
+  - DirectionalLight
   layers:
   - Default
   - TransparentFX

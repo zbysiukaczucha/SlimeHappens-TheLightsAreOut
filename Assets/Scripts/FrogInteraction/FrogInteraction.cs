@@ -45,10 +45,10 @@ public class FrogInteraction : MonoBehaviour
     IEnumerator waitingTextAnimationCR;
 
     List<Character> predefinedCharacters = new List<Character>() {
-        new Character("Goob", "angry", 3, true),
-        new Character("Moog", "scared", 1, true),
-        new Character("Root", "stern", 3, false),
-        new Character("Noot", "depressed", 2, false),
+        new Character("Żabson the frog", "angry", 3, true),
+        new Character("Żabson the frog", "scared", 2, true),
+        new Character("Żabson the frog", "stern", 3, false),
+        new Character("Żabson the frog", "depressed", 2, false),
     };
 
     Character currentCharacter;

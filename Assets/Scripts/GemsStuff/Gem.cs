@@ -16,8 +16,8 @@ public enum StoneLevel
 
 public class Gem : MonoBehaviour
 {
-    [SerializeField]
-    public Material[] crystalMaterials;
+    public Material gemMaterial;
+
     public Camera cuttingCamera;
 
 
@@ -93,8 +93,12 @@ public class Gem : MonoBehaviour
             Light pointLight = GetComponent<Light>();
             pointLight.intensity = points;
         }*/
-        objectiveText.text = "Go further";
+        objectiveText.text = "Go further into the cave";
         UltimateGameManager.Instance.enableWallBreak = true;
+        if (UltimateGameManager.Instance.isLastGem)
+        {
+            GameObject.Find("WorldEventManager").GetComponent<WorldEventManager>().ActivateEndGame();
+        }
     }
 
 
@@ -110,6 +114,7 @@ public class Gem : MonoBehaviour
     {
         transform.parent = other;
         transform.localPosition = new Vector3(0, 3f, 0);
+        objectiveText.text = "<b>Cut the gem</b> <color=grey>(0 KEY + LEFT CTRL)</color>";
 
         //Add gem to players inventory
         other.GetComponent<PlayerInventory>().gems.Add(gameObject);
@@ -125,10 +130,12 @@ public class Gem : MonoBehaviour
         transform.position += new Vector3(-1, 0, 0);
         this.AddComponent<Rotateable>();
         var sliceable = this.AddComponent<Sliceable>();
-        sliceable.myMaterial = Resources.Load<Material>("CrystalWhite Alt");
-        
+        //sliceable.myMaterial = Resources.Load<Material>("Materials/CrystalWhite Alt");
+        sliceable.myMaterial = gemMaterial;
+
         Cursor.lockState = CursorLockMode.Confined;
         inputHandler.LockPlayer(true);
+        objectiveText.text = "<b>Cut the gem</b> <color=grey>(Cut - SPACE,  Rotate - Mouse/Q/E,  Save - LEFT CTRL)</color>";
     }
 
     public void goBackFromCuttingMinigame()
@@ -139,5 +146,6 @@ public class Gem : MonoBehaviour
         isCut = true;
         transform.parent = playerInventory.gemParent.transform;
         inputHandler.LockPlayer(false);
+        objectiveText.text = "<b>Enchant the gem</b> <color=grey>(0 KEY + LEFT CTRL)</color>";
     }
 }

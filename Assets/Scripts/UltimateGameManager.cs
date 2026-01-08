@@ -13,6 +13,7 @@ public class UltimateGameManager : MonoBehaviour
     public bool enableWallBreak;
 
     public bool isLevel = false;
+    public bool isLastGem = false;
 
     public List<int> destroyedWallNumbers;
     public List<string> collectedPickUpItems;

@@ -6,6 +6,9 @@ public class StoneGenerator : MonoBehaviour
     [SerializeField]
     Material boulderMaterial;
 
+    [SerializeField]
+    Material gemMaterial;
+
     [Header("Stone Settings")]
     public int resolution = 3;          // how many times to subdivide
     public float noiseStrength = 1f;  // how rough the rock is
@@ -59,6 +62,7 @@ public class StoneGenerator : MonoBehaviour
         stone.transform.position = targetPosition.position;
 
         stone.AddComponent<Gem>();
+        stone.GetComponent<Gem>().gemMaterial = gemMaterial;
         stone.AddComponent<MeshCollider>().convex = true;
 
         //GameObject targetShape = Instantiate(targetShapes[Random.Range(0, targetShapes.Length)], new Vector3(0, 0, 0), Quaternion.identity);
