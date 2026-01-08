@@ -12,6 +12,8 @@ public class UltimateGameManager : MonoBehaviour
     public int score = defaultScore;
     public bool enableWallBreak;
 
+    public bool isLevel = false;
+
     public List<int> destroyedWallNumbers;
     public List<string> collectedPickUpItems;
     public Vector3 playerPosition = new Vector3(-0.792999625f,-0.29700008f,3.77599907f);
@@ -28,6 +30,7 @@ public class UltimateGameManager : MonoBehaviour
         {
             instance = this;
         }
+        isLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Level";
     }
     public static UltimateGameManager Instance
     {
