@@ -16,12 +16,12 @@ public class SpawnEnemy : MonoBehaviour
     [Header("##  GAME MANAGER  ##")]
     private GameManager gameManager;
     [SerializeField] private AudioSource[] audioSource;
-
+    
     [Header("##  PUBLIC VARIABLES  ##")]
     private TMP_Text killCount;
-    [ShowOnly] public float spawnInterval;
-    [ShowOnly] public float spawnIntervalOffset;
-    [ShowOnly] public float spawnIntervalInit;
+    public float spawnInterval;
+    public float spawnIntervalOffset;
+    public float spawnIntervalInit;
 
     private WaveNumberController waveController;
 

@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
     private float speed = 4.5f;
     
     [Header("##  COMBAT  ##")]
-    [ShowOnly] public ParticleSystem onHitBleed;
+    public ParticleSystem onHitBleed;
     private float attackCooldown = 1.5f;
     private float attackRange = -1.05f;
     private int chosenAttack;

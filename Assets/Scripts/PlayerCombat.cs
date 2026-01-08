@@ -65,13 +65,13 @@ public class PlayerCombat : MonoBehaviour
     private float nextAttack2Time = 0;
     private float nextAttack3Time = 0;
     private int baseAttackDamage = 50;
-    [ShowOnly] public bool isAttacking = false;
+    public bool isAttacking = false;
     
     [Header("##  PUBLIC VARIABLES  ##")]
-    [ShowOnly] public int currentHealth;
-    [ShowOnly] public int maxHealth;
-    [ShowOnly] public int attackDamage;
-    [ShowOnly] public float attackRate;
+    public int currentHealth;
+    public int maxHealth;
+    public int attackDamage;
+    public float attackRate;
 
     [Header("## MOVEMENT ##")]
     public InputActionAsset inputActions;

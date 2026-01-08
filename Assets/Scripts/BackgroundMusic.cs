@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
 {
-    [ShowOnly] public AudioSource[] backgroundMusics;
-    [ShowOnly] public AudioSource noHitPunch;
-    [ShowOnly] public AudioSource[] enemyHitPunches;
-    [ShowOnly] public AudioSource[] bossHitPunches;
-    [ShowOnly] public AudioSource multiHitPunch;
-    [ShowOnly] public AudioSource[] ambientSounds;
-    [ShowOnly] public AudioSource[] playerHurtSounds;
-    [ShowOnly] public AudioSource[] enemyDeathSounds;
-    [ShowOnly] public AudioSource[] bossDeathSounds;
-    [ShowOnly] public AudioSource playerDeathSound;
-    [ShowOnly] public AudioSource dashSound;
+    public AudioSource[] backgroundMusics;
+    public AudioSource noHitPunch;
+    public AudioSource[] enemyHitPunches;
+    public AudioSource[] bossHitPunches;
+    public AudioSource multiHitPunch;
+    public AudioSource[] ambientSounds;
+    public AudioSource[] playerHurtSounds;
+    public AudioSource[] enemyDeathSounds;
+    public AudioSource[] bossDeathSounds;
+    public AudioSource playerDeathSound;
+    public AudioSource dashSound;
     private int selectedAudio;
     private int previousAudio;
     private bool isPlaying;

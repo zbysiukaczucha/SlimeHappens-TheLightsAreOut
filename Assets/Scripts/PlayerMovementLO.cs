@@ -25,11 +25,11 @@ public class PlayerMovementLO : MonoBehaviour
 
 
     [Header("##  PUBLIC VARIABLES  ##")]
-    [ShowOnly] public Animator anim;
-    [ShowOnly] public float baseSpeed = 9;
-    [ShowOnly] public float speed;
-    [ShowOnly] public bool isDashing = false;
-    [ShowOnly] public float dashCooldown = 1;
+    public Animator anim;
+    public float baseSpeed = 9;
+    public float speed;
+    public bool isDashing = false;
+    public float dashCooldown = 1;
 
     [Header("## MOVEMENT ##")]
     public InputActionAsset inputActions;
@@ -39,7 +39,7 @@ public class PlayerMovementLO : MonoBehaviour
     public float velocityY;
     private float friction = 40f;
     private float acceleration = 35f;
-    [ShowOnly] public bool canMove;
+    public bool canMove;
     
     [Header("## COMBAT ##")]
     private PlayerCombat playerCombat;

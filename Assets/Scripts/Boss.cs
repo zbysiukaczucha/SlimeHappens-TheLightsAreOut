@@ -57,7 +57,7 @@ public class Boss : MonoBehaviour
     private float speed = 3f;
     
     [Header("##  COMBAT  ##")]
-    [ShowOnly] public ParticleSystem onHitBleed;
+    public ParticleSystem onHitBleed;
     private float attackCooldown = 1.8f;
     private float attackRange = -2;
     private int chosenAttack;

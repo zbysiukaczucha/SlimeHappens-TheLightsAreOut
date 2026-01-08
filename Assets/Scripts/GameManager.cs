@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviour
     private GameObject gameOverScreen;
 
     [Header("##  HEAL  ##")]
-    [ShowOnly] public int healAmount;
-    [ShowOnly] public int healUpChance;
+    public int healAmount;
+    public int healUpChance;
 
-    [ShowOnly] public bool gameOver = false;
+    public bool gameOver = false;
     private CanvasGroup gameOverCanvas;
     private bool gameOverFadeIn = false;
     private Button continueButton;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private TMP_Text killCount;
     private Animator fadeAnim;
     
-    [ShowOnly] public AudioSource[] thunderSounds;
+    public AudioSource[] thunderSounds;
     private Light2D globalLight;
     
 
