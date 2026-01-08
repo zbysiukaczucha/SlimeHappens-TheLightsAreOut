@@ -1627,15 +1627,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -45.353
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.027
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 295.276
+      value: 4.67
       objectReference: {fileID: 0}
     - target: {fileID: 5661100963145333980, guid: cb09e5b108426e94582e276c2b834de7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4243,7 +4243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2396400124826342630, guid: caa470ffcf717164997f018471a1825e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.552
+      value: -0.53
       objectReference: {fileID: 0}
     - target: {fileID: 2396400124826342630, guid: caa470ffcf717164997f018471a1825e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4319,11 +4319,11 @@ RectTransform:
   - {fileID: 1826228941}
   m_Father: {fileID: 2059650330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -600}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 600, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &711039394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6453,6 +6453,7 @@ MonoBehaviour:
   enableWallBreak: 0
   isLevel: 0
   isLastGem: 0
+  experience: 0
   destroyedWallNumbers: 
   collectedPickUpItems: []
   playerPosition: {x: -0.7929996, y: -0.29700008, z: 3.775999}
@@ -6634,6 +6635,10 @@ PrefabInstance:
     - target: {fileID: 1237187840766707073, guid: 1a2fc5f6aac0f9e4694c6a1636ba4051, type: 3}
       propertyPath: m_Name
       value: Gem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062553249422215174, guid: 1a2fc5f6aac0f9e4694c6a1636ba4051, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6838,7 +6843,7 @@ Transform:
   m_GameObject: {fileID: 1104574268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.48, y: -4.83, z: 291.89}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9249,11 +9254,11 @@ RectTransform:
   - {fileID: 1312289561}
   m_Father: {fileID: 1732156835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -500}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 1200, y: 80}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1576422694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15554,9 +15559,9 @@ RectTransform:
   - {fileID: 154257510}
   m_Father: {fileID: 711039393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 650, y: 475}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 700, y: 450}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1826228942

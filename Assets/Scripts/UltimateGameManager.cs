@@ -15,6 +15,8 @@ public class UltimateGameManager : MonoBehaviour
     public bool isLevel = false;
     public bool isLastGem = false;
 
+    public int experience = 0;
+
     public List<int> destroyedWallNumbers;
     public List<string> collectedPickUpItems;
     public Vector3 playerPosition = new Vector3(-0.792999625f,-0.29700008f,3.77599907f);

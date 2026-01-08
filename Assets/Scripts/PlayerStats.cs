@@ -38,7 +38,7 @@ namespace Slimeborne
             ultimateBar = FindFirstObjectByType<UltimateBar>();
             ultimateGameManager = FindFirstObjectByType<UltimateGameManager>();
             int score = ultimateGameManager != null ? ultimateGameManager.score : UltimateGameManager.defaultScore;
-            damageMultiplier = score / 30f;
+            damageMultiplier = score / 30f + UltimateGameManager.instance.experience / 60f;
             if (damageMultiplier < 0.5f)
                 damageMultiplier = 0.5f;
         }

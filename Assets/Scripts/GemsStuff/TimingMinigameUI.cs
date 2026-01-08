@@ -29,6 +29,8 @@ namespace ShineHappens
 
         private void Start()
         {
+            expPoints = UltimateGameManager.Instance.experience;
+            experienceText.text = expPoints.ToString();
             addedPointsObject = addedPointsText.gameObject;
             addedPointsObject.SetActive(false);
             addedPointsAnimator = addedPointsObject.GetComponent<Animator>();
@@ -59,8 +61,11 @@ namespace ShineHappens
             addedPointsText.text = $"+" + addedPoints;
 
             // Add experience points based on enchanting score * the level of stone quality (1-5)
-            expPoints = expPoints + addedPoints * (1+(int)playerInventory.activeGem.GetComponent<Gem>().stoneLevel);
+            //expPoints = expPoints + addedPoints * (1+(int)playerInventory.activeGem.GetComponent<Gem>().stoneLevel);
+            expPoints = expPoints + addedPoints;
+
             experienceText.text = expPoints.ToString();
+            UltimateGameManager.Instance.experience = expPoints;
             //print("Playing animation");
             addedPointsAnimator.Play("Base Layer.AddedPoints");
             StartCoroutine(waitForAnimEnd(addedPointsAnimator));
