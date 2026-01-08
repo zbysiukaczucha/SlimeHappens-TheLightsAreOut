@@ -56,6 +56,7 @@ public class Sliceable : MonoBehaviour
 
                 this.GetComponent<MeshRenderer>().sharedMaterials = bigger.GetComponent<MeshRenderer>().sharedMaterials;
                 Destroy(bigger);
+                AudioManager.PlaySound(SoundType.GemCut, Random.Range(0.9f, 1.1f), 1);
             }
         }
     }

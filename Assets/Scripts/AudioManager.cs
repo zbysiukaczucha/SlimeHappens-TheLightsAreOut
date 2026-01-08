@@ -24,6 +24,7 @@ public enum SoundType
     SnailUltimate,
     YouDied,
     Yay,
+    GemCut
 }
 
 [RequireComponent(typeof(AudioSource)), ExecuteInEditMode]
