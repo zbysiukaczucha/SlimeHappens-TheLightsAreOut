@@ -90,6 +90,7 @@ public class MainMenuButtons : MonoBehaviour
             mainMenuMusic.volume = 0;
         }
         yield return new WaitForSeconds(0.9f);
+        UltimateGameManager.Instance.isLevel = false;
         SceneManager.LoadScene("StartingScene");
     }
     
