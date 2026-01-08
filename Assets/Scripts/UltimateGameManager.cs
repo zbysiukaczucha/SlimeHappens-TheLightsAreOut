@@ -30,7 +30,6 @@ public class UltimateGameManager : MonoBehaviour
         {
             instance = this;
         }
-        isLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Level";
     }
     public static UltimateGameManager Instance
     {

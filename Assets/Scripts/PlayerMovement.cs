@@ -55,10 +55,15 @@ namespace Slimeborne
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
             rigidbody = GetComponent<Rigidbody>();
-            if (UltimateGameManager.Instance != null && UltimateGameManager.Instance.isLevel)
+            if (UltimateGameManager.Instance.isLevel)
             {
+                Debug.Log("Setting player position and rotation from UltimateGameManager");
                 transform.position = UltimateGameManager.Instance.playerPosition;
                 transform.rotation = UltimateGameManager.Instance.playerRotation;
+            }
+            else
+            {
+                Debug.Log("UltimateGameManager instance is null or not in level scene");
             }
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();

@@ -33,6 +33,7 @@ public class EnterCaveTrigger : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.5f);
+        UltimateGameManager.Instance.isLevel = true;
         SceneManager.LoadScene("Level");
     }
 }
