@@ -2379,6 +2379,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2396400124826342630, guid: caa470ffcf717164997f018471a1825e, type: 3}
   m_PrefabInstance: {fileID: 717964389}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &313390614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1206086332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &315220524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2794,6 +2799,11 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2152984754670863345, guid: fcfa5177581a5934ab2b4caa32e627d5, type: 3}
   m_PrefabInstance: {fileID: 938271804}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &395646287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1413134881013628319}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &411533190
 GameObject:
@@ -5605,6 +5615,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UltimateGameManager
   score: 0
   enableWallBreak: 0
+  destroyedWallNumbers: 
+  collectedPickUpItems: []
 --- !u!4 &1045158142
 Transform:
   m_ObjectHideFlags: 0
@@ -7746,6 +7758,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2396400124826342630, guid: caa470ffcf717164997f018471a1825e, type: 3}
   m_PrefabInstance: {fileID: 1427003264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1434991395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1164212090}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1443588545 stripped
 Transform:
@@ -19825,6 +19842,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1964269679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1197708387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1979145932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20544,6 +20566,11 @@ MonoBehaviour:
   - {fileID: 1951466998}
   bossHealthBar: {fileID: 0}
   boss: {fileID: 0}
+  wallsToBeDestroyed:
+  - {fileID: 1434991395}
+  - {fileID: 395646287}
+  - {fileID: 313390614}
+  - {fileID: 1964269679}
   bossFightActive: 0
   bossDefeated: 0
 --- !u!4 &2111699814

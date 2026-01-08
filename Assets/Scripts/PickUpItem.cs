@@ -8,6 +8,14 @@ namespace Slimeborne
     {
         public Item item;
 
+        private void Awake()
+        {
+            playerManager = FindFirstObjectByType<PlayerManager>();
+            if(UltimateGameManager.Instance.collectedPickUpItems.Contains(name))
+            {
+                Destroy(gameObject);
+            }
+        }
         public override void Interact()
         {
             base.Interact();
@@ -36,6 +44,7 @@ namespace Slimeborne
             {
                 c.enabled = false;
             }
+            UltimateGameManager.Instance.collectedPickUpItems.Add(name);
             StartCoroutine(HideItemTextAfterDelay(3.5f));
         }
         

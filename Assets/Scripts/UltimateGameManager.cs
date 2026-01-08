@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Slimeborne;
 using UnityEngine;
 
 public class UltimateGameManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class UltimateGameManager : MonoBehaviour
     public bool enableWallBreak;
 
     public List<int> destroyedWallNumbers;
+    public List<string> collectedPickUpItems;
 
     private void Awake()
     {
