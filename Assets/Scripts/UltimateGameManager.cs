@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Slimeborne;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UltimateGameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UltimateGameManager : MonoBehaviour
 
     public List<int> destroyedWallNumbers;
     public List<string> collectedPickUpItems;
+    public Vector3 playerPosition = new Vector3(-0.792999625f,-0.29700008f,3.77599907f);
+    public Quaternion playerRotation;
 
     private void Awake()
     {

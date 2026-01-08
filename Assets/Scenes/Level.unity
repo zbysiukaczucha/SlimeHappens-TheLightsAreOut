@@ -5613,10 +5613,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d2b8bee03f60846907bbf4fefc3877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UltimateGameManager
-  score: 0
+  score: 30
   enableWallBreak: 0
   destroyedWallNumbers: 
   collectedPickUpItems: []
+  playerPosition: {x: -0.7929996, y: -0.29700008, z: 3.775999}
+  playerRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1045158142
 Transform:
   m_ObjectHideFlags: 0
