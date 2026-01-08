@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         highScore.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
         yourScore.text = "Your Score: " + killCount.text;
         
-        ultimateGameManager.score = int.Parse(killCount.text);
+        ultimateGameManager.score = (ultimateGameManager.score + int.Parse(killCount.text)) / 2;
 
         gameOver = true;
         gameOverScreen.SetActive(true);
