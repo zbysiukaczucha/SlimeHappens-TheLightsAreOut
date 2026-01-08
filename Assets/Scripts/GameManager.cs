@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level");
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        UltimateGameManager.Instance.enableWallBreak = false;
     }
     
     public IEnumerator Lightning()
