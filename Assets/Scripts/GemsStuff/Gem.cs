@@ -28,6 +28,7 @@ public class Gem : MonoBehaviour
     public bool isCurrentlyCutting;
 
     PlayerInventory playerInventory;
+    InputHandler inputHandler;
     TimingMinigameUI timingMinigameUI;
 
     TextMeshProUGUI objectiveText;
@@ -39,6 +40,7 @@ public class Gem : MonoBehaviour
 
         cuttingCamera = GameObject.Find("CuttingCamera").GetComponent<Camera>();
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
+        inputHandler = GameObject.Find("PlayerCharacter").GetComponent<InputHandler>();
         timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
         objectiveText = GameObject.FindWithTag("Objective").GetComponent<TextMeshProUGUI>();
 
@@ -124,6 +126,7 @@ public class Gem : MonoBehaviour
         this.AddComponent<Rotateable>();
         this.AddComponent<Sliceable>();
         Cursor.lockState = CursorLockMode.Confined;
+        inputHandler.LockPlayer(true);
     }
 
     public void goBackFromCuttingMinigame()
@@ -133,5 +136,6 @@ public class Gem : MonoBehaviour
         toInventory(playerInventory.transform);
         isCut = true;
         transform.parent = playerInventory.gemParent.transform;
+        inputHandler.LockPlayer(false);
     }
 }

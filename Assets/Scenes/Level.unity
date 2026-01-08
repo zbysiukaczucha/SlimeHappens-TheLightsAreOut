@@ -2884,7 +2884,7 @@ Transform:
   - {fileID: 1765656975}
   - {fileID: 1793460333}
   - {fileID: 766047871}
-  - {fileID: 1692960802}
+  - {fileID: 1691084806}
   - {fileID: 1176422871}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5888,6 +5888,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834869014}
   m_CullTransparentMesh: 1
+--- !u!1 &853081399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1413134881013628319}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &854130959
 GameObject:
   m_ObjectHideFlags: 0
@@ -7142,6 +7147,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1046373424 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1206086332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1061680021
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,6 +9837,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa470ffcf717164997f018471a1825e, type: 3}
+--- !u!1 &1396689125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1164212090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1407855150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2396400124826342630, guid: caa470ffcf717164997f018471a1825e, type: 3}
@@ -10230,6 +10245,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caa470ffcf717164997f018471a1825e, type: 3}
+--- !u!1 &1550412869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1022145152650379794, guid: d8dc7070bce9e8143b7437cce9f1f1be, type: 3}
+  m_PrefabInstance: {fileID: 1197708387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1576422692
 GameObject:
   m_ObjectHideFlags: 0
@@ -10635,7 +10655,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679469591}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1692960801
+--- !u!1 &1691084805
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10643,24 +10663,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1692960802}
+  - component: {fileID: 1691084806}
   m_Layer: 6
-  m_Name: GemSpawn (3)
+  m_Name: GemSpawn (4)
   m_TagString: GemSpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1692960802
+--- !u!4 &1691084806
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692960801}
+  m_GameObject: {fileID: 1691084805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.08, y: 0.91, z: 18.73}
+  m_LocalPosition: {x: -44.71, y: -4.453, z: 314.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23724,7 +23744,11 @@ MonoBehaviour:
   - {fileID: 1951466998}
   bossHealthBar: {fileID: 0}
   boss: {fileID: 0}
-  wallsToBeDestroyed: []
+  wallsToBeDestroyed:
+  - {fileID: 853081399}
+  - {fileID: 1396689125}
+  - {fileID: 1046373424}
+  - {fileID: 1550412869}
   bossFightActive: 0
   bossDefeated: 0
 --- !u!4 &2111699814
