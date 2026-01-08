@@ -52,6 +52,8 @@ public class WallDestroyTrigger : MonoBehaviour
                     // Break the wall
                     stoneWall.SetActive(false);
                     UltimateGameManager.Instance.destroyedWallNumbers.Add(wallNumber);
+                    UltimateGameManager.Instance.playerPosition = new Vector3(FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.position.x, FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.position.y, FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.position.z);
+                    UltimateGameManager.Instance.playerRotation = new Quaternion(FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.rotation.x, FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.rotation.y, FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.rotation.z, FindFirstObjectByType<Slimeborne.PlayerMovement>().transform.rotation.w);
                     print("Adding " + gameObject.name + " to destroyed walls");
                     StartCoroutine(ChangeScenes());
                 }
