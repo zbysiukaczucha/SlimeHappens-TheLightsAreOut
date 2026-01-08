@@ -124,7 +124,9 @@ public class Gem : MonoBehaviour
         transform.position = cuttingCamera.transform.position;
         transform.position += new Vector3(-1, 0, 0);
         this.AddComponent<Rotateable>();
-        this.AddComponent<Sliceable>();
+        var sliceable = this.AddComponent<Sliceable>();
+        sliceable.myMaterial = Resources.Load<Material>("CrystalWhite Alt");
+        
         Cursor.lockState = CursorLockMode.Confined;
         inputHandler.LockPlayer(true);
     }
