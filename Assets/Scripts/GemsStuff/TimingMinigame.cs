@@ -66,7 +66,8 @@ namespace ShineHappens
 
         public void connectToActiveGem()
         {
-            gemAnimationScript = playerInventory.activeGem.GetComponentInChildren<GemAnimationScript>();
+            gemAnimationScript = playerInventory.activeGem.transform.parent.GetComponent<GemAnimationScript>();
+            //gemAnimationScript = playerInventory.activeGem.GetComponentInChildren<GemAnimationScript>();
         }
 
         void Update()
