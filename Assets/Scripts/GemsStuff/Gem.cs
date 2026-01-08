@@ -36,6 +36,7 @@ public class Gem : MonoBehaviour
     {
         isCut = false;
         isEnchanted = false;
+
         cuttingCamera = GameObject.Find("CuttingCamera").GetComponent<Camera>();
         playerInventory = GameObject.Find("PlayerCharacter").GetComponent<PlayerInventory>();
         timingMinigameUI = GameObject.Find("PlayerUI").GetComponent<TimingMinigameUI>();
@@ -131,5 +132,6 @@ public class Gem : MonoBehaviour
         GameObject.Find("Main Camera").GetComponent<Camera>().enabled = true;
         toInventory(playerInventory.transform);
         isCut = true;
+        transform.parent = playerInventory.gemParent.transform;
     }
 }

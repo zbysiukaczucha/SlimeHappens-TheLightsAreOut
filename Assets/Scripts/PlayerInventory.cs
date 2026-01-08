@@ -23,9 +23,18 @@ namespace Slimeborne
         public int currentTailWeaponIndex = -1;
 
         [Header("Gems")]
-        public List<GameObject> gems;
-        public GameObject activeGem;
+        public List<GameObject> gems;   // stone objects
+        public GameObject activeGem;    // stone object
+        public GameObject gemParent;
         private int lastKeyPressed = 0;
+
+        /*[SerializeField]
+        GameObject gemPrefab;*/
+
+        /*public void InstantiateGemPrefab()
+        {
+            gemParent = Instantiate(gemPrefab, transform);
+        }*/
 
         private void Awake()
         {
